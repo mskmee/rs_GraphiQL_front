@@ -8,10 +8,10 @@ import {
 } from './index';
 
 export const DB_CONTROLLER: IDbController = {
-  setLoginWithEmailAndPassword: (email, password) => logInWithEmailAndPassword(email, password),
-  setLogout: () => logout,
-  setPasswordReset: (email) => sendPasswordReset(email),
-  setSignInWithGoogle: () => signInWithGoogle(),
-  setRegisterWithEmailAndPassword: (name, email, password) =>
-    registerWithEmailAndPassword(name, email, password),
+  setLoginWithEmailAndPassword: (data) => logInWithEmailAndPassword(data!.email!, data!.password!),
+  setLogout: logout,
+  setPasswordReset: (data) => sendPasswordReset(data!.email!),
+  setSignInWithGoogle: signInWithGoogle,
+  setRegisterWithEmailAndPassword: (data) =>
+    registerWithEmailAndPassword(data!.email!, data!.password!, data!.name!),
 };

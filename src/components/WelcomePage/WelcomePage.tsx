@@ -6,10 +6,17 @@ import rsLogo from '@/assets/images/rs-logo.png';
 import { Authors } from './Authors';
 import { useState } from 'react';
 import { LoginPage } from '../LoginPage/LoginPage';
-import { NotificationBar } from '../NotificationBar';
+
+import { useUserAuth } from '@/hook/useAuth';
 
 export const WelcomePage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState('');
+  const { isLoading, error, userName, isSuccess } = useUserAuth('setRegisterWithEmailAndPassword', {
+    email: 'myEmail@gmail.com',
+    name: 'awesome name',
+    password: '1232kddw!@',
+  });
+  console.log(isLoading, error, userName, isSuccess);
 
   const openSignIn = () => {
     setIsLoginOpen('sign-in');
@@ -25,7 +32,6 @@ export const WelcomePage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <NotificationBar error={new Error('Error', { cause: 'Error' })} timeAlive={3} type="error" />
       <Header openSignIn={openSignIn} openSignUp={openSignUp} />
       <LoginPage status={isLoginOpen} closeLoginPage={closeLoginPage} />
       <img className={styles.bgImage} src={bgImage} alt="Image" draggable="false" />
