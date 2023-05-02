@@ -9,11 +9,6 @@ import { LoginPage } from '../LoginPage/LoginPage';
 
 export const WelcomePage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState('');
-  // const { isLoading, error, userName, isSuccess } = useUserAuth('setRegisterWithEmailAndPassword', {
-  //   email: 'myEmail@gmail.com',
-  //   name: 'awesome name',
-  //   password: '1232kddw!@',
-  // });
 
   const openSignIn = () => {
     setIsLoginOpen('sign-in');
