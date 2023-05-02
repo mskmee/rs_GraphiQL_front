@@ -7,16 +7,13 @@ import { Authors } from './Authors';
 import { useState } from 'react';
 import { LoginPage } from '../LoginPage/LoginPage';
 
-import { useUserAuth } from '@/hook/useAuth';
-
 export const WelcomePage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState('');
-  const { isLoading, error, userName, isSuccess } = useUserAuth('setRegisterWithEmailAndPassword', {
-    email: 'myEmail@gmail.com',
-    name: 'awesome name',
-    password: '1232kddw!@',
-  });
-  console.log(isLoading, error, userName, isSuccess);
+  // const { isLoading, error, userName, isSuccess } = useUserAuth('setRegisterWithEmailAndPassword', {
+  //   email: 'myEmail@gmail.com',
+  //   name: 'awesome name',
+  //   password: '1232kddw!@',
+  // });
 
   const openSignIn = () => {
     setIsLoginOpen('sign-in');

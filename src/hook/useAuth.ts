@@ -23,11 +23,10 @@ export const useUserAuth = (method: keyof IDbController, data?: IUserFormSubmit)
       setError(response.err ?? null);
       setUserName(response.name ?? '');
       if (response.name) {
-        console.log('redirect v main');
         return navigate('/');
       }
     };
     getData();
-  }, [user, loading, method, navigate]);
+  }, [user, loading, method, navigate, data]);
   return { isLoading: loading, userName, error, isSuccess };
 };
