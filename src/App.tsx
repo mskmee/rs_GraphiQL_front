@@ -1,8 +1,8 @@
-import { Loader } from '@/components/Loader';
 import './App.css';
+import { WelcomePage } from '@/components/WelcomePage/WelcomePage';
 
 function App() {
-  return <Loader />;
+  return <WelcomePage />;
 }
 
 export default App;
