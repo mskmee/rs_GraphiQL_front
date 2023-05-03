@@ -16,7 +16,7 @@ export const WelcomePage = () => {
   };
 
   const openSignUp = () => {
-    setIsLoginOpen('sign-Up');
+    setIsLoginOpen('sign-up');
   };
 
   const closeLoginPage = () => {
