@@ -1,14 +1,44 @@
 import styles from './WelcomePage.module.css';
+import classNames from 'classnames';
 import { Header } from '@/components/Header/Header';
 import bgImage from '@/assets/images/graphiQL-bg.jpg';
+import arrowImage from '@/assets/images/arrow.png';
 import rsLogo from '@/assets/images/rs-logo.png';
 import { Authors } from './Authors';
+import { useState } from 'react';
+import { LoginPage } from '../LoginPage/LoginPage';
 
 export const WelcomePage = () => {
+  const [isLoginOpen, setIsLoginOpen] = useState('');
+
+  const openSignIn = () => {
+    setIsLoginOpen('sign-in');
+  };
+
+  const openSignUp = () => {
+    setIsLoginOpen('sign-Up');
+  };
+
+  const closeLoginPage = () => {
+    setIsLoginOpen('');
+  };
+
   return (
     <div className={styles.wrapper}>
-      <Header />
-      <img className={styles.bgImage} src={bgImage} alt="Image" />
+      <Header openSignIn={openSignIn} openSignUp={openSignUp} />
+      <LoginPage status={isLoginOpen} closeLoginPage={closeLoginPage} />
+      <img
+        className={styles.bgImage}
+        src={bgImage}
+        alt="Image"
+        draggable="false"
+      />
+      <img
+        className={styles.arrowImage}
+        src={arrowImage}
+        alt="Arrow"
+        draggable="false"
+      />
       <div className={styles.info}>
         <div className={styles.about}>
           GraphiQL is Lorem ipsum dolor sit amet, consectetur adipiscing elit,
@@ -19,7 +49,7 @@ export const WelcomePage = () => {
         <Authors />
         <div className={styles.sponsors}>
           <p>Sponsored by</p>
-          <a href="" target="_blank">
+          <a href="https://rs.school/" target="_blank">
             <img
               className={styles.rsImage}
               src={rsLogo}

@@ -4,15 +4,30 @@ export const Authors = () => {
   return (
     <div className={styles.authors}>
       <div>Created by</div>
-      <a href="" className={styles.authorLink}>
+      <a
+        href="https://github.com/mooncitizenX/"
+        target="_blank"
+        rel="noreferrer"
+        className={styles.authorLink}
+      >
         <div className={styles.underline} />
         Pavel Pristupa
       </a>
-      <a href="" className={styles.authorLink}>
+      <a
+        href="https://github.com/mskmee/"
+        target="_blank"
+        rel="noreferrer"
+        className={styles.authorLink}
+      >
         <div className={styles.underline} />
         Maksim Maksimenko
       </a>
-      <a href="" className={styles.authorLink}>
+      <a
+        href="https://github.com/mkoroleva5/"
+        target="_blank"
+        rel="noreferrer"
+        className={styles.authorLink}
+      >
         <div className={styles.underline} />
         Maria Koroleva
       </a>
