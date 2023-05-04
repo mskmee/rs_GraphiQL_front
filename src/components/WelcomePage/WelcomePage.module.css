@@ -8,11 +8,12 @@
     rgba(255, 243, 249, 1) 10%,
     rgba(239, 231, 255, 1) 27%
   );
+  overflow: hidden;
 }
 
 .bgImage {
   position: absolute;
-  bottom: 0;
+  bottom: -4rem;
   right: 0;
   width: 60%;
 }
