@@ -4,13 +4,14 @@ import classNames from 'classnames';
 interface ButtonProps {
   buttonClass?: string;
   text: string;
+  type: 'button' | 'submit' | 'reset';
   onClick: () => void;
 }
 
-export const Button = ({ buttonClass, text, onClick }: ButtonProps) => {
+export const Button = ({ buttonClass, text, type, onClick }: ButtonProps) => {
   return (
     <button
-      type="button"
+      type={type}
       className={classNames(styles.button, buttonClass)}
       onClick={() => {
         onClick();

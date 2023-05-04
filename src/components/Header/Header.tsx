@@ -17,6 +17,7 @@ export const Header = ({ openSignIn, openSignUp }: HeaderProps) => {
       <div className={styles.buttonsWrapper}>
         <Button
           text="Sign In"
+          type="button"
           onClick={() => {
             openSignIn();
           }}
@@ -24,6 +25,7 @@ export const Header = ({ openSignIn, openSignUp }: HeaderProps) => {
         <Button
           buttonClass={styles.signUpButton}
           text="Sign Up"
+          type="button"
           onClick={() => {
             openSignUp();
           }}

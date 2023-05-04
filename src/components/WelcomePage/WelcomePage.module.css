@@ -12,7 +12,7 @@
 
 .bgImage {
   position: absolute;
-  bottom: 3rem;
+  bottom: 0;
   right: 0;
   width: 60%;
 }
