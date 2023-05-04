@@ -5,7 +5,7 @@ import arrowImage from '@/assets/images/arrow.png';
 import rsLogo from '@/assets/images/rs-logo.png';
 import { Authors } from './Authors';
 import { useCallback, useState } from 'react';
-import { LoginPage } from '../LoginPage/LoginPage';
+import { Login } from './Login';
 
 export const WelcomePage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState('');
@@ -24,10 +24,10 @@ export const WelcomePage = () => {
 
   return (
     <div className={styles.wrapper}>
-      <Header openSignIn={openSignIn} openSignUp={openSignUp} />
-      <LoginPage status={isLoginOpen} closeLoginPage={closeLoginPage} />
       <img className={styles.bgImage} src={bgImage} alt="Image" draggable="false" />
       <img className={styles.arrowImage} src={arrowImage} alt="Arrow" draggable="false" />
+      <Header openSignIn={openSignIn} openSignUp={openSignUp} />
+      <Login status={isLoginOpen} closeLoginPage={closeLoginPage} />
       <div className={styles.info}>
         <div className={styles.about}>
           GraphiQL is Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor

@@ -1,4 +1,4 @@
-import styles from './LoginPage.module.css';
+import styles from './Login.module.css';
 import classNames from 'classnames';
 
 interface LoginPageProps {
@@ -6,7 +6,7 @@ interface LoginPageProps {
   closeLoginPage: () => void;
 }
 
-export const LoginPage = ({ status, closeLoginPage }: LoginPageProps) => {
+export const Login = ({ status, closeLoginPage }: LoginPageProps) => {
   return (
     <button
       type="button"
