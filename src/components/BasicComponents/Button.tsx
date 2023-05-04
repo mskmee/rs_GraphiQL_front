@@ -10,11 +10,7 @@ interface ButtonProps {
 
 export const Button = ({ buttonClass, text, type, onClick }: ButtonProps) => {
   return (
-    <button
-      type={type}
-      className={classNames(styles.button, buttonClass)}
-      onClick={onClick}
-    >
+    <button type={type} className={classNames(styles.button, buttonClass)} onClick={onClick}>
       {text}
       <span className={styles.span}></span>
       <span className={styles.span}></span>
