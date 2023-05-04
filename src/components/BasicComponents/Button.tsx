@@ -13,9 +13,7 @@ export const Button = ({ buttonClass, text, type, onClick }: ButtonProps) => {
     <button
       type={type}
       className={classNames(styles.button, buttonClass)}
-      onClick={() => {
-        onClick();
-      }}
+      onClick={onClick}
     >
       {text}
       <span className={styles.span}></span>

@@ -14,13 +14,11 @@ export const LoginPage = ({ status, closeLoginPage }: LoginPageProps) => {
         [styles.signInOpen]: status === 'sign-in',
         [styles.signUpOpen]: status === 'sign-up',
       })}
-      onClick={(e) => {
-        if (e.target === e.currentTarget) {
-          closeLoginPage();
-        }
-      }}
+      onClick={closeLoginPage}
     >
-      <div className={styles.loginWrapper}>Welcome</div>
+      <div className={styles.loginWrapper} onClick={(e) => e.stopPropagation()}>
+        Welcome
+      </div>
     </button>
   );
 };

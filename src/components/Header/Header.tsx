@@ -15,20 +15,12 @@ export const Header = ({ openSignIn, openSignUp }: HeaderProps) => {
         <img className={styles.logoImage} src={logo} alt="GraphiQL logo" />
       </NavLink>
       <div className={styles.buttonsWrapper}>
-        <Button
-          text="Sign In"
-          type="button"
-          onClick={() => {
-            openSignIn();
-          }}
-        />
+        <Button text="Sign In" type="button" onClick={openSignIn} />
         <Button
           buttonClass={styles.signUpButton}
           text="Sign Up"
           type="button"
-          onClick={() => {
-            openSignUp();
-          }}
+          onClick={openSignUp}
         />
       </div>
     </header>
