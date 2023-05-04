@@ -1,0 +1,27 @@
+.wrapper {
+  position: relative;
+  width: 100vw;
+  height: 100vh;
+  background: linear-gradient(
+    145deg,
+    rgba(255, 248, 245, 1) 0%,
+    rgba(255, 243, 249, 1) 10%,
+    rgba(239, 231, 255, 1) 27%
+  );
+  overflow: hidden;
+}
+
+.bgImage {
+  position: absolute;
+  bottom: -4rem;
+  right: 0;
+  width: 60%;
+}
+
+.arrowImage {
+  position: absolute;
+  top: 2rem;
+  right: 31rem;
+  width: 17%;
+  transform: rotate(210deg);
+}
