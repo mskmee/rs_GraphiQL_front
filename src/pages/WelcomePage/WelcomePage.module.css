@@ -25,21 +25,3 @@
   width: 17%;
   transform: rotate(210deg);
 }
-
-.info {
-  max-width: 45%;
-  position: absolute;
-  top: 23%;
-  left: 8%;
-  display: flex;
-  flex-direction: column;
-  gap: 3rem;
-}
-
-.about {
-  width: 28rem;
-}
-
-.rsImage {
-  height: 3rem;
-}
