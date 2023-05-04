@@ -1,5 +1,4 @@
 import styles from './WelcomePage.module.css';
-import classNames from 'classnames';
 import { Header } from '@/components/Header/Header';
 import bgImage from '@/assets/images/graphiQL-bg.jpg';
 import arrowImage from '@/assets/images/arrow.png';
