@@ -4,23 +4,23 @@ import bgImage from '@/assets/images/graphiQL-bg.jpg';
 import arrowImage from '@/assets/images/arrow.png';
 import rsLogo from '@/assets/images/rs-logo.png';
 import { Authors } from './Authors';
-import { useState } from 'react';
+import { useCallback, useState } from 'react';
 import { LoginPage } from '../LoginPage/LoginPage';
 
 export const WelcomePage = () => {
   const [isLoginOpen, setIsLoginOpen] = useState('');
 
-  const openSignIn = () => {
+  const openSignIn = useCallback(() => {
     setIsLoginOpen('sign-in');
-  };
+  }, []);
 
-  const openSignUp = () => {
+  const openSignUp = useCallback(() => {
     setIsLoginOpen('sign-up');
-  };
+  }, []);
 
-  const closeLoginPage = () => {
+  const closeLoginPage = useCallback(() => {
     setIsLoginOpen('');
-  };
+  }, []);
 
   return (
     <div className={styles.wrapper}>
