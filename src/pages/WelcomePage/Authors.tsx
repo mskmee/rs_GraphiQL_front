@@ -11,7 +11,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        Pavel Pristupa
+        <p className={styles.author}>Pavel Pristupa</p>
       </a>
       <a
         href="https://github.com/mskmee/"
@@ -20,7 +20,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        Maksim Maksimenko
+        <p className={styles.author}>Maksim Maksimenko</p>
       </a>
       <a
         href="https://github.com/mkoroleva5/"
@@ -29,7 +29,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        Maria Koroleva
+        <p className={styles.author}>Maria Koroleva</p>
       </a>
     </div>
   );
