@@ -3,25 +3,32 @@ import styles from './Header.module.css';
 import logo from '@/assets/icons/graphiQL-logo.png';
 import { NavLink } from 'react-router-dom';
 import { memo } from 'react';
+import { useAppDispatch } from '@/hooks/useRedux';
+import { changeLoginStatus } from '@/store/stateSlice';
 
-interface HeaderProps {
-  openSignIn: () => void;
-  openSignUp: () => void;
-}
+export const Header = memo(function Header() {
+  const dispatch = useAppDispatch();
 
-export const Header = memo(function Header({ openSignIn, openSignUp }: HeaderProps) {
   return (
     <header className={styles.wrapper}>
       <NavLink className={styles.logo} to="/">
         <img className={styles.logoImage} src={logo} alt="GraphiQL logo" />
       </NavLink>
       <div className={styles.buttonsWrapper}>
-        <Button text="Sign In" type="button" onClick={openSignIn} />
+        <Button
+          text="Sign in"
+          type="button"
+          onClick={() => {
+            dispatch(changeLoginStatus({ status: 'sign-in' }));
+          }}
+        />
         <Button
           buttonClass={styles.signUpButton}
-          text="Sign Up"
+          text="Sign up"
           type="button"
-          onClick={openSignUp}
+          onClick={() => {
+            dispatch(changeLoginStatus({ status: 'sign-up' }));
+          }}
         />
       </div>
     </header>
