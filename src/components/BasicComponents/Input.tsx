@@ -6,9 +6,11 @@ interface InputProps {
   type: string;
   label: string;
   pattern: string;
+  className?: string;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-export const Input = ({ type, label, pattern }: InputProps) => {
+export const Input = ({ type, label, pattern, className, onChange }: InputProps) => {
   const [isEmpty, setIsEmpty] = useState(true);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -25,12 +27,13 @@ export const Input = ({ type, label, pattern }: InputProps) => {
       <input
         type={type}
         id={label}
-        className={classNames(styles.input, {
+        className={classNames(styles.input, className, {
           [styles.empty]: isEmpty,
         })}
         pattern={pattern}
         onChange={(e) => {
           handleChange(e);
+          onChange(e);
         }}
       />
       <label

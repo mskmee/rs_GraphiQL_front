@@ -54,3 +54,7 @@
   transform: none;
   background-color: transparent;
 }
+
+.input:not(.empty):invalid {
+  border: 1px solid red;
+}

@@ -69,3 +69,11 @@
   outline: none;
   color: white;
 }
+
+.input:focus:not(.empty).valid:valid {
+  border: 1px solid green;
+}
+/*
+.input:focus:not(.valid) {
+  border: 1px solid red;
+}*/
