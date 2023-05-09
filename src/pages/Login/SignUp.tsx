@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/hooks/useRedux';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
 import styles from './Login.module.css';
 import classNames from 'classnames';
 import { Input } from '@/components/BasicComponents/Input';
@@ -21,13 +21,24 @@ export const SignUp = () => {
   const [updateProfile, isUpdateLoading, updateError] = useUpdateProfile(auth);
 
   useEffect(() => {
+    const updateUserInBD = async (name: string) => {
+      const isUpdate = await updateProfile({ displayName: name });
+      if (isUpdate) {
+        dispatch(changeIsUserLogged(true));
+        dispatch(changeUserName(name));
+        dispatch(changeLoginStatus(''));
+      }
+    };
     if (error) {
       toast(error.message, { type: 'error' });
     }
     if (updateError) {
       toast(updateError.message, { type: 'error' });
     }
-  }, [error, updateError]);
+    if (user) {
+      updateUserInBD(name).catch((err) => toast(err.message, { type: 'error' }));
+    }
+  }, [error, updateError, updateProfile, dispatch, name, user]);
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -58,9 +69,6 @@ export const SignUp = () => {
     e.preventDefault();
     if (isPasswordValid) {
       await createUser(email, firstPassword);
-      if (user) {
-        await updateProfile({ displayName: name });
-      }
     }
   };
 

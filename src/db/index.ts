@@ -1,5 +1,5 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth, UserCredential, signOut } from 'firebase/auth';
+import { getAuth, UserCredential } from 'firebase/auth';
 import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
 
 const firebaseConfig = {
@@ -16,17 +16,6 @@ const firebaseConfig = {
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-
-const getUserName = async (user: UserCredential) => {
-  try {
-    const userQuery = query(collection(db, 'users'), where('uid', '==', user.user.uid));
-    const userDocs = await getDocs(userQuery);
-    const name = (userDocs.docs[0].data().name as string) || 'no name';
-    return name;
-  } catch (err) {
-    return 'no name';
-  }
-};
 
 const createUserInDb = async (user: UserCredential, name: string, email: string) => {
   try {
@@ -47,13 +36,4 @@ const createUserInDb = async (user: UserCredential, name: string, email: string)
   }
 };
 
-const logout = async () => {
-  try {
-    await signOut(auth);
-    return { isSuccess: true, name: '' };
-  } catch (err) {
-    return { isSuccess: false, err: err as Error };
-  }
-};
-
-export { auth, db, getUserName, logout, createUserInDb };
+export { auth, createUserInDb };

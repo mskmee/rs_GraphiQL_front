@@ -1,13 +1,13 @@
-import { Button } from '@/components/BasicComponents/Button';
 import styles from './Header.module.css';
-import logo from '@/assets/icons/graphiQL-logo.png';
 import { NavLink } from 'react-router-dom';
 import { memo } from 'react';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { useAppSelector } from '@/hooks/useRedux';
+import logo from '@/assets/icons/graphiQL-logo.png';
+import { SingComponent } from './singModules/SingComponent';
+import { LoggedComponent } from './singModules/LoggedComponent';
 
 export const Header = memo(function Header() {
-  const dispatch = useAppDispatch();
+  const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
 
   return (
     <header className={styles.wrapper}>
@@ -15,23 +15,7 @@ export const Header = memo(function Header() {
         <img className={styles.logoImage} src={logo} alt="GraphiQL logo" />
       </NavLink>
       <div className={styles.buttonsWrapper}>
-        <Button
-          type="button"
-          onClick={() => {
-            dispatch(changeLoginStatus('sign-in'));
-          }}
-        >
-          Sign in
-        </Button>
-        <Button
-          className={styles.signUpButton}
-          type="button"
-          onClick={() => {
-            dispatch(changeLoginStatus('sign-up'));
-          }}
-        >
-          Sign up
-        </Button>
+        {isUserLogged ? <LoggedComponent /> : <SingComponent />}
       </div>
     </header>
   );

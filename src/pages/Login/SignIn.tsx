@@ -6,10 +6,9 @@ import { Link } from '@/components/BasicComponents/Link';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
-import { auth, getUserName } from '@/db';
+import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { SingInWithGoogle } from './SingInWithGoogle';
-import { UserCredential } from 'firebase/auth';
 import { toast } from 'react-toastify';
 
 export const SignIn = () => {
@@ -19,16 +18,10 @@ export const SignIn = () => {
   const [password, setPassword] = useState('');
 
   useEffect(() => {
-    const setUserData = async (user: UserCredential) => {
-      const userName = await getUserName(user);
-      dispatch(changeUserName(userName));
+    if (user) {
+      dispatch(changeUserName(user.user.displayName ?? 'no name'));
       dispatch(changeIsUserLogged(true));
       dispatch(changeLoginStatus(''));
-    };
-    if (user) {
-      setUserData(user).catch((err) => {
-        toast(err.message, { type: 'error' });
-      });
     }
     if (error) {
       toast(error.message, { type: 'error' });
