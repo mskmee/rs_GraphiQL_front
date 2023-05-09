@@ -13,6 +13,7 @@ export const LoggedComponent = () => {
   const dispatch = useDispatch();
   const [singOut, isLoading, err] = useSignOut(auth);
   const userName = useAppSelector((state) => state.userState.userName);
+
   const onSingOut = async () => {
     const isSingOut = await singOut();
     if (isSingOut) {
@@ -21,6 +22,7 @@ export const LoggedComponent = () => {
       dispatch(changeLoginStatus(''));
     }
   };
+
   useEffect(() => {
     if (err) {
       toast(err.message, { type: 'error' });

@@ -1,8 +1,6 @@
 import { useAppDispatch } from '@/hooks/useRedux';
-import styles from './Login.module.css';
-import { Input } from '@/components/BasicComponents/Input';
-import { Button } from '@/components/BasicComponents/Button';
-import { Link } from '@/components/BasicComponents/Link';
+import styles from '../Login.module.css';
+import { Input, Button, Link } from '@/components/BasicComponents';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
@@ -45,8 +43,8 @@ export const SignIn = () => {
 
   return (
     <>
+      {isLoading && <Loader />}
       <form className={styles.form} onSubmit={onFormSubmit}>
-        {isLoading && <Loader />}
         <Input
           required
           type="email"

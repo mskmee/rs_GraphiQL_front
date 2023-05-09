@@ -2,9 +2,8 @@ import styles from './Header.module.css';
 import { NavLink } from 'react-router-dom';
 import { memo } from 'react';
 import { useAppSelector } from '@/hooks/useRedux';
+import { SingComponent, LoggedComponent } from './singModules';
 import logo from '@/assets/icons/graphiQL-logo.png';
-import { SingComponent } from './singModules/SingComponent';
-import { LoggedComponent } from './singModules/LoggedComponent';
 
 export const Header = memo(function Header() {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);

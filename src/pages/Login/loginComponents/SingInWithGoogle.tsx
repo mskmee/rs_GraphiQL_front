@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
-import { Button } from '@/components/BasicComponents/Button';
-import styles from './Login.module.css';
+import { Button } from '@/components/BasicComponents';
+import styles from '../Login.module.css';
 import googleLogo from '@/assets/icons/google.png';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';

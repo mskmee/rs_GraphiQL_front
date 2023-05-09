@@ -1,11 +1,9 @@
-import { useAppDispatch } from '@/hooks/useRedux';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
-import styles from './Login.module.css';
-import classNames from 'classnames';
-import { Input } from '@/components/BasicComponents/Input';
-import { Link } from '@/components/BasicComponents/Link';
-import { Button } from '@/components/BasicComponents/Button';
 import React, { ChangeEvent, useEffect, useState } from 'react';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { useAppDispatch } from '@/hooks/useRedux';
+import styles from '../Login.module.css';
+import classNames from 'classnames';
+import { Input, Link, Button } from '@/components/BasicComponents';
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';

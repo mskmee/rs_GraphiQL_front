@@ -2,7 +2,7 @@ import styles from './WelcomePage.module.css';
 import { Header } from '@/components/Header/Header';
 import bgImage from '@/assets/images/graphiQL-bg.jpg';
 import arrowImage from '@/assets/images/arrow.png';
-import { Login } from '@/pages//Login/Login';
+import { Login } from '@/pages/Login/Login';
 import { Info } from './Info';
 
 export const WelcomePage = () => {

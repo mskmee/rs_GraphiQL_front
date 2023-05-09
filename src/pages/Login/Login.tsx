@@ -2,9 +2,7 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import styles from './Login.module.css';
 import classNames from 'classnames';
 import { changeLoginStatus } from '@/store/stateSlice';
-import { SignIn } from './SignIn';
-import { SignUp } from './SignUp';
-import { ResetPassword } from './ResetPassword';
+import { ResetPassword, SignIn, SignUp } from './loginComponents';
 
 export const Login = () => {
   const status = useAppSelector((state) => state.userState.loginStatus);
