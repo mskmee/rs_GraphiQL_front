@@ -1,5 +1,5 @@
 import { useAppDispatch } from '@/hooks/useRedux';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeError, changeLoginStatus } from '@/store/stateSlice';
 import styles from './Login.module.css';
 import classNames from 'classnames';
 import { Input } from '@/components/BasicComponents/Input';
@@ -41,9 +41,16 @@ export const SignUp = () => {
     }
   };
 
+  const registerNewUser = async () => {
+    const data = await registerWithEmailAndPassword(email, firstPassword, name);
+    console.log(data);
+  };
+
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <Input
+        minLength={1}
+        className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
         type="text"
         label="Name"
         pattern="\w+"
@@ -62,7 +69,7 @@ export const SignUp = () => {
       <Input
         type="password"
         label="Password"
-        pattern="^(?=.*[A-Z]).{6,}$"
+        pattern="^(?=.*[A-Z]).{8,}$"
         onChange={(e) => {
           onFirstPasswordChange(e);
         }}
@@ -70,29 +77,22 @@ export const SignUp = () => {
       <Input
         type="password"
         label="Repeat password"
-        pattern="^(?=.*[A-Z]).{6,}$"
+        pattern="^(?=.*[A-Z]).{8,}$"
         className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
         onChange={(e) => {
           onSecondPasswordChange(e);
         }}
       />
-      <Button
-        type="submit"
-        buttonClass={styles.submitButton}
-        text="Sign up"
-        onClick={() => {
-          if (isPasswordValid) {
-            registerWithEmailAndPassword(email, firstPassword, name);
-          }
-        }}
-      />
+      <Button type="submit" className={styles.submitButton} onClick={registerNewUser}>
+        Sign up
+      </Button>
       <div className={styles.select}>
         {'Already have an account?'}
         <Link
           linkStyle="bold"
           text="Sign in"
           onClick={() => {
-            dispatch(changeLoginStatus({ status: 'sign-in' }));
+            dispatch(changeLoginStatus('sign-in'));
           }}
         />
       </div>

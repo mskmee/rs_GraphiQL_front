@@ -16,20 +16,22 @@ export const Header = memo(function Header() {
       </NavLink>
       <div className={styles.buttonsWrapper}>
         <Button
-          text="Sign in"
           type="button"
           onClick={() => {
-            dispatch(changeLoginStatus({ status: 'sign-in' }));
+            dispatch(changeLoginStatus('sign-in'));
           }}
-        />
+        >
+          Sign in
+        </Button>
         <Button
-          buttonClass={styles.signUpButton}
-          text="Sign up"
+          className={styles.signUpButton}
           type="button"
           onClick={() => {
-            dispatch(changeLoginStatus({ status: 'sign-up' }));
+            dispatch(changeLoginStatus('sign-up'));
           }}
-        />
+        >
+          Sign up
+        </Button>
       </div>
     </header>
   );

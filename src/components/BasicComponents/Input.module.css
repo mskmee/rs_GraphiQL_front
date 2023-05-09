@@ -40,7 +40,7 @@
 
 .input:focus ~ .label,
 .input:valid ~ .label,
-.input:not(:focus):invalid ~ .label {
+.input:required:not(:focus) ~ .label {
   transform: translateY(-60%) scale(0.9);
   margin: 0rem;
   margin-left: 1.3rem;
@@ -48,7 +48,7 @@
   background-color: var(--white-color);
 }
 
-.input:not(:focus) ~ .empty {
+.input:required:not(:focus) ~ .empty {
   padding: 0.7rem 0.6rem;
   margin-left: 0.5rem;
   transform: none;

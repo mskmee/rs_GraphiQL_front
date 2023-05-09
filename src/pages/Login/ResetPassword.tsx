@@ -20,6 +20,7 @@ export const ResetPassword = () => {
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <Input
+        required
         type="email"
         label="Email"
         pattern={emailRegex.source}
@@ -29,15 +30,16 @@ export const ResetPassword = () => {
       />
       <Button
         type="submit"
-        buttonClass={styles.submitButton}
-        text="Send me a password"
+        className={styles.submitButton}
         onClick={() => sendPasswordReset(email)}
-      />
+      >
+        Send me a password
+      </Button>
       <Link
         linkStyle="bold"
         text="Return"
         onClick={() => {
-          dispatch(changeLoginStatus({ status: 'sign-in' }));
+          dispatch(changeLoginStatus('sign-in'));
         }}
       />
     </form>

@@ -3,7 +3,7 @@ import styles from './Login.module.css';
 import { Input } from '@/components/BasicComponents/Input';
 import { Button } from '@/components/BasicComponents/Button';
 import { Link } from '@/components/BasicComponents/Link';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
 import googleLogo from '@/assets/icons/google.png';
 import { logInWithEmailAndPassword, signInWithGoogle } from '@/db';
 import { ChangeEvent, useState } from 'react';
@@ -24,9 +24,28 @@ export const SignIn = () => {
     setPassword(value);
   };
 
+  const authWithGoogle = async () => {
+    const data = await signInWithGoogle();
+    if (data.isSuccess) {
+      dispatch(changeUserName(data.name!));
+      dispatch(changeIsUserLogged(true));
+      console.log(data.name);
+    }
+  };
+
+  const authWithEmail = async () => {
+    const data = await logInWithEmailAndPassword(email, password);
+    if (data.isSuccess) {
+      dispatch(changeUserName(data.name!));
+      dispatch(changeIsUserLogged(true));
+      console.log(data.name);
+    }
+  };
+
   return (
     <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
       <Input
+        required
         type="email"
         label="Email"
         pattern={emailRegex.source}
@@ -35,9 +54,10 @@ export const SignIn = () => {
         }}
       />
       <Input
+        required
         type="password"
         label="Password"
-        pattern="^(?=.*[A-Z]).{6,}$"
+        pattern="^(?=.*[A-Z]).{8,}$"
         onChange={(e) => {
           onPasswordChange(e);
         }}
@@ -46,22 +66,15 @@ export const SignIn = () => {
         text="Forgot password?"
         linkClass={styles.resetButton}
         onClick={() => {
-          dispatch(changeLoginStatus({ status: 'reset-password' }));
+          dispatch(changeLoginStatus('reset-password'));
         }}
       />
-      <Button
-        type="submit"
-        buttonClass={styles.submitButton}
-        text="Sign in"
-        onClick={() => logInWithEmailAndPassword(email, password)}
-      />
-      <Button
-        type="button"
-        buttonClass={styles.googleButton}
-        text="Sign in with Google"
-        onClick={signInWithGoogle}
-      >
+      <Button type="submit" className={styles.submitButton} onClick={authWithEmail}>
+        Sign in
+      </Button>
+      <Button type="button" className={styles.googleButton} onClick={authWithGoogle}>
         <img width="20px" src={googleLogo} alt="Google" />
+        Sign in with Google
       </Button>
       <div className={styles.select}>
         {"Don't have an account?"}
@@ -69,7 +82,7 @@ export const SignIn = () => {
           linkStyle="bold"
           text="Sign up"
           onClick={() => {
-            dispatch(changeLoginStatus({ status: 'sign-up' }));
+            dispatch(changeLoginStatus('sign-up'));
           }}
         />
       </div>

@@ -4,11 +4,11 @@ import { BrowserRouter } from 'react-router-dom';
 import App from './App';
 import './index.css';
 import { Provider } from 'react-redux';
-import { createStore } from '@/store';
+import { store } from '@/store';
 
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Provider store={createStore()}>
+    <Provider store={store}>
       <BrowserRouter>
         <App />
       </BrowserRouter>

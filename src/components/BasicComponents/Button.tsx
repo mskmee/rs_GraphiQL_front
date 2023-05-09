@@ -1,23 +1,20 @@
+import { ButtonHTMLAttributes } from 'react';
 import styles from './Button.module.css';
 import classNames from 'classnames';
 
-interface ButtonProps {
-  buttonClass?: string;
-  text: string;
-  children?: React.ReactNode;
-  type: 'button' | 'submit' | 'reset';
-  onClick: () => void;
-}
-
-export const Button = ({ buttonClass, text, children, type, onClick }: ButtonProps) => {
+export const Button = ({
+  className,
+  children,
+  type,
+  onClick,
+}: ButtonHTMLAttributes<HTMLButtonElement>) => {
   return (
-    <button type={type} className={classNames(styles.button, buttonClass)} onClick={onClick}>
+    <button type={type} className={classNames(styles.button, className)} onClick={onClick}>
       <span className={styles.span}></span>
       <span className={styles.span}></span>
       <span className={styles.span}></span>
       <span className={styles.span}></span>
       {children}
-      {text}
     </button>
   );
 };

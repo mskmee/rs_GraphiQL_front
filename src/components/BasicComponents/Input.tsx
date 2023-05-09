@@ -1,44 +1,31 @@
-import { ChangeEvent, useState } from 'react';
+import { InputHTMLAttributes, useRef } from 'react';
 import styles from './Input.module.css';
 import classNames from 'classnames';
 
-interface InputProps {
-  type: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: string;
-  pattern: string;
-  className?: string;
-  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 export const Input = ({ type, label, pattern, className, onChange }: InputProps) => {
-  const [isEmpty, setIsEmpty] = useState(true);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    if (value) {
-      setIsEmpty(false);
-    } else {
-      setIsEmpty(true);
-    }
-  };
-
+  const inputRef = useRef<HTMLInputElement | null>(null);
   return (
     <div className={styles.inputWrapper}>
       <input
+        required
+        ref={inputRef}
         type={type}
         id={label}
         className={classNames(styles.input, className, {
-          [styles.empty]: isEmpty,
+          [styles.empty]: !inputRef.current?.value.length,
         })}
         pattern={pattern}
         onChange={(e) => {
-          handleChange(e);
-          onChange(e);
+          onChange ? onChange(e) : null;
         }}
       />
       <label
         className={classNames(styles.label, {
-          [styles.empty]: isEmpty,
+          [styles.empty]: !inputRef.current?.value.length,
         })}
         htmlFor={label}
       >

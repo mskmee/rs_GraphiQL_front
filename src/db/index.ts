@@ -48,7 +48,7 @@ const logInWithEmailAndPassword = async (
     const user = await signInWithEmailAndPassword(auth, email, password);
     const q = query(collection(db, 'users'), where('uid', '==', user.user.uid));
     const doc = await getDocs(q);
-    const name = doc.docs[0].data().name as string;
+    const name = (doc.docs[0].data().name as string) || 'unnamed';
     return { isSuccess: true, name };
   } catch (err) {
     return { isSuccess: false, err: err as Error };
