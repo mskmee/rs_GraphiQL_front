@@ -4,15 +4,36 @@ import { Input } from '@/components/BasicComponents/Input';
 import { Button } from '@/components/BasicComponents/Button';
 import { Link } from '@/components/BasicComponents/Link';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
-import googleLogo from '@/assets/icons/google.png';
-import { logInWithEmailAndPassword, signInWithGoogle } from '@/db';
-import { ChangeEvent, useState } from 'react';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth, getUserName } from '@/db';
+import { Loader } from '@/components/Loader';
+import { SingInWithGoogle } from './SingInWithGoogle';
+import { UserCredential } from 'firebase/auth';
+import { toast } from 'react-toastify';
 
 export const SignIn = () => {
+  const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
   const dispatch = useAppDispatch();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const emailRegex = /^\S+@\S+\.\S+$/;
+
+  useEffect(() => {
+    const setUserData = async (user: UserCredential) => {
+      const userName = await getUserName(user);
+      dispatch(changeUserName(userName));
+      dispatch(changeIsUserLogged(true));
+      dispatch(changeLoginStatus(''));
+    };
+    if (user) {
+      setUserData(user).catch((err) => {
+        toast(err.message, { type: 'error' });
+      });
+    }
+    if (error) {
+      toast(error.message, { type: 'error' });
+    }
+  }, [user, dispatch, error]);
 
   const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -24,58 +45,45 @@ export const SignIn = () => {
     setPassword(value);
   };
 
-  const authWithGoogle = async () => {
-    const data = await signInWithGoogle();
-    if (data.isSuccess) {
-      dispatch(changeUserName(data.name!));
-      dispatch(changeIsUserLogged(true));
-      console.log(data.name);
-    }
-  };
-
-  const authWithEmail = async () => {
-    const data = await logInWithEmailAndPassword(email, password);
-    if (data.isSuccess) {
-      dispatch(changeUserName(data.name!));
-      dispatch(changeIsUserLogged(true));
-      console.log(data.name);
-    }
+  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    signInWithEmailAndPassword(email, password);
   };
 
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-      <Input
-        required
-        type="email"
-        label="Email"
-        pattern={emailRegex.source}
-        onChange={(e) => {
-          onEmailChange(e);
-        }}
-      />
-      <Input
-        required
-        type="password"
-        label="Password"
-        pattern="^(?=.*[A-Z]).{8,}$"
-        onChange={(e) => {
-          onPasswordChange(e);
-        }}
-      />
-      <Link
-        text="Forgot password?"
-        linkClass={styles.resetButton}
-        onClick={() => {
-          dispatch(changeLoginStatus('reset-password'));
-        }}
-      />
-      <Button type="submit" className={styles.submitButton} onClick={authWithEmail}>
-        Sign in
-      </Button>
-      <Button type="button" className={styles.googleButton} onClick={authWithGoogle}>
-        <img width="20px" src={googleLogo} alt="Google" />
-        Sign in with Google
-      </Button>
+    <>
+      <form className={styles.form} onSubmit={onFormSubmit}>
+        {isLoading && <Loader />}
+        <Input
+          required
+          type="email"
+          label="Email"
+          title="Please enter a valid email"
+          onChange={(e) => {
+            onEmailChange(e);
+          }}
+        />
+        <Input
+          required
+          type="password"
+          label="Password"
+          pattern="^(?=.*[A-Z]).{8,}$"
+          onChange={(e) => {
+            onPasswordChange(e);
+          }}
+        />
+        <Link
+          text="Forgot password?"
+          linkClass={styles.resetButton}
+          onClick={() => {
+            dispatch(changeLoginStatus('reset-password'));
+          }}
+        />
+        <Button type="submit" className={styles.submitButton}>
+          Sign in
+        </Button>
+      </form>
+      <SingInWithGoogle />
       <div className={styles.select}>
         {"Don't have an account?"}
         <Link
@@ -86,6 +94,6 @@ export const SignIn = () => {
           }}
         />
       </div>
-    </form>
+    </>
   );
 };

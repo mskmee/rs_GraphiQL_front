@@ -5,10 +5,8 @@ import { changeLoginStatus } from '@/store/stateSlice';
 import { SignIn } from './SignIn';
 import { SignUp } from './SignUp';
 import { ResetPassword } from './ResetPassword';
-import { useAuthState } from 'react-firebase-hooks/auth';
-import { auth, logout } from '@/db';
-import { Loader } from '@/components/Loader';
 import { Button } from '@/components/BasicComponents/Button';
+import { logout } from '@/db';
 
 export const Login = () => {
   const status = useAppSelector((state) => state.userState.loginStatus);
@@ -27,7 +25,7 @@ export const Login = () => {
         {status === 'sign-in' && <SignIn />}
         {status === 'sign-up' && <SignUp />}
         {status === 'reset-password' && <ResetPassword />}
-        <Button onClick={logout}>Log out</Button>
+        <Button onClick={() => logout()}>Log out</Button>
       </div>
     </div>
   );

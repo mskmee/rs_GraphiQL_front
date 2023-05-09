@@ -1,12 +1,15 @@
 import { useAppDispatch } from '@/hooks/useRedux';
-import { changeError, changeLoginStatus } from '@/store/stateSlice';
+import { changeLoginStatus } from '@/store/stateSlice';
 import styles from './Login.module.css';
 import classNames from 'classnames';
 import { Input } from '@/components/BasicComponents/Input';
 import { Link } from '@/components/BasicComponents/Link';
 import { Button } from '@/components/BasicComponents/Button';
-import { ChangeEvent, useState } from 'react';
-import { registerWithEmailAndPassword } from '@/db';
+import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
+import { auth } from '@/db';
+import { Loader } from '@/components/Loader';
+import { toast } from 'react-toastify';
 
 export const SignUp = () => {
   const dispatch = useAppDispatch();
@@ -14,7 +17,17 @@ export const SignUp = () => {
   const [email, setEmail] = useState('');
   const [firstPassword, setFirstPassword] = useState('');
   const [isPasswordValid, setIsPasswordValid] = useState(false);
-  const emailRegex = /^\S+@\S+\.\S+$/;
+  const [createUser, user, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
+  const [updateProfile, isUpdateLoading, updateError] = useUpdateProfile(auth);
+
+  useEffect(() => {
+    if (error) {
+      toast(error.message, { type: 'error' });
+    }
+    if (updateError) {
+      toast(updateError.message, { type: 'error' });
+    }
+  }, [error, updateError]);
 
   const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -41,51 +54,57 @@ export const SignUp = () => {
     }
   };
 
-  const registerNewUser = async () => {
-    const data = await registerWithEmailAndPassword(email, firstPassword, name);
-    console.log(data);
+  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    if (isPasswordValid) {
+      await createUser(email, firstPassword);
+      if (user) {
+        await updateProfile({ displayName: name });
+      }
+    }
   };
 
   return (
-    <form className={styles.form} onSubmit={(e) => e.preventDefault()}>
-      <Input
-        minLength={1}
-        className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
-        type="text"
-        label="Name"
-        pattern="\w+"
-        onChange={(e) => {
-          onNameChange(e);
-        }}
-      />
-      <Input
-        type="email"
-        label="Email"
-        pattern={emailRegex.source}
-        onChange={(e) => {
-          onEmailChange(e);
-        }}
-      />
-      <Input
-        type="password"
-        label="Password"
-        pattern="^(?=.*[A-Z]).{8,}$"
-        onChange={(e) => {
-          onFirstPasswordChange(e);
-        }}
-      />
-      <Input
-        type="password"
-        label="Repeat password"
-        pattern="^(?=.*[A-Z]).{8,}$"
-        className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
-        onChange={(e) => {
-          onSecondPasswordChange(e);
-        }}
-      />
-      <Button type="submit" className={styles.submitButton} onClick={registerNewUser}>
-        Sign up
-      </Button>
+    <>
+      {(isLoading || isUpdateLoading) && <Loader />}
+      <form className={styles.form} onSubmit={onFormSubmit}>
+        <Input
+          className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
+          type="text"
+          label="Name"
+          pattern="\w+"
+          onChange={(e) => {
+            onNameChange(e);
+          }}
+        />
+        <Input
+          type="email"
+          label="Email"
+          onChange={(e) => {
+            onEmailChange(e);
+          }}
+        />
+        <Input
+          type="password"
+          label="Password"
+          pattern="^(?=.*[A-Z]).{8,}$"
+          onChange={(e) => {
+            onFirstPasswordChange(e);
+          }}
+        />
+        <Input
+          type="password"
+          label="Repeat password"
+          pattern="^(?=.*[A-Z]).{8,}$"
+          className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
+          onChange={(e) => {
+            onSecondPasswordChange(e);
+          }}
+        />
+        <Button type="submit" className={styles.submitButton}>
+          Sign up
+        </Button>
+      </form>
       <div className={styles.select}>
         {'Already have an account?'}
         <Link
@@ -96,6 +115,6 @@ export const SignUp = () => {
           }}
         />
       </div>
-    </form>
+    </>
   );
 };

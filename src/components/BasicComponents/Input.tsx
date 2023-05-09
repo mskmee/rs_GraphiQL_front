@@ -8,6 +8,9 @@ interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
 
 export const Input = ({ type, label, pattern, className, onChange }: InputProps) => {
   const inputRef = useRef<HTMLInputElement | null>(null);
+  const passwordTitle = 'Minlength is 8 chars. At least one char should be upper case.';
+  const title = type === 'password' ? passwordTitle : undefined;
+
   return (
     <div className={styles.inputWrapper}>
       <input
@@ -15,6 +18,7 @@ export const Input = ({ type, label, pattern, className, onChange }: InputProps)
         ref={inputRef}
         type={type}
         id={label}
+        title={title}
         className={classNames(styles.input, className, {
           [styles.empty]: !inputRef.current?.value.length,
         })}

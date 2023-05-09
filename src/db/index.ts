@@ -1,90 +1,53 @@
 import { initializeApp } from 'firebase/app';
-import {
-  GoogleAuthProvider,
-  getAuth,
-  signInWithPopup,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  sendPasswordResetEmail,
-  signOut,
-} from 'firebase/auth';
-import { query, collection, getDocs, where, getFirestore, addDoc } from 'firebase/firestore';
-import { firebaseConfig } from './config';
-import { IDbControllerResponse } from '@/types/interfaces/IDbControllerResponse';
+import { getAuth, UserCredential, signOut } from 'firebase/auth';
+import { addDoc, collection, getDocs, getFirestore, query, where } from 'firebase/firestore';
+
+const firebaseConfig = {
+  apiKey: 'AIzaSyB1DdGJNwMqUhNw1LZqMEq97l07kV_SRvY',
+  authDomain: 'rs-graphql.firebaseapp.com',
+  databaseURL: 'https://rs-graphql-default-rtdb.europe-west1.firebasedatabase.app',
+  projectId: 'rs-graphql',
+  storageBucket: 'rs-graphql.appspot.com',
+  messagingSenderId: '129962341436',
+  appId: '1:129962341436:web:9daa83f95790680b393f39',
+  measurementId: 'G-LS7EYX098J',
+};
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
-const googleProvider = new GoogleAuthProvider();
 
-const signInWithGoogle = async (): Promise<IDbControllerResponse> => {
+const getUserName = async (user: UserCredential) => {
   try {
-    const res = await signInWithPopup(auth, googleProvider);
-    const user = res.user;
-    const q = query(collection(db, 'users'), where('uid', '==', user.uid));
-    const docs = await getDocs(q);
-    if (docs.docs.length === 0) {
-      await addDoc(collection(db, 'users'), {
-        uid: user.uid,
-        name: user.displayName,
-        authProvider: 'google',
-        email: user.email,
-      });
+    const userQuery = query(collection(db, 'users'), where('uid', '==', user.user.uid));
+    const userDocs = await getDocs(userQuery);
+    const name = (userDocs.docs[0].data().name as string) || 'no name';
+    return name;
+  } catch (err) {
+    return 'no name';
+  }
+};
+
+const createUserInDb = async (user: UserCredential, name: string, email: string) => {
+  try {
+    const userQuery = query(collection(db, 'users'), where('email', '==', email));
+    const userDocs = await getDocs(userQuery);
+    if (!userDocs.empty) {
+      return { isSuccess: false, err: new Error('User with the same email already exists') };
     }
-    return {
-      isSuccess: true,
-      name: user.displayName ?? 'No name',
-    };
-  } catch (err) {
-    return { isSuccess: false, err: err as Error };
-  }
-};
-
-const logInWithEmailAndPassword = async (
-  email: string,
-  password: string
-): Promise<IDbControllerResponse> => {
-  try {
-    const user = await signInWithEmailAndPassword(auth, email, password);
-    const q = query(collection(db, 'users'), where('uid', '==', user.user.uid));
-    const doc = await getDocs(q);
-    const name = (doc.docs[0].data().name as string) || 'unnamed';
-    return { isSuccess: true, name };
-  } catch (err) {
-    return { isSuccess: false, err: err as Error };
-  }
-};
-
-const registerWithEmailAndPassword = async (
-  email: string,
-  password: string,
-  name: string
-): Promise<IDbControllerResponse> => {
-  try {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
-    const user = res.user;
     await addDoc(collection(db, 'users'), {
-      uid: user.uid,
+      uid: user.user.uid,
       name,
       authProvider: 'local',
       email,
     });
-    return { isSuccess: true, name };
-  } catch (err) {
-    return { isSuccess: false, err: err as Error };
-  }
-};
-
-const sendPasswordReset = async (email: string): Promise<IDbControllerResponse> => {
-  try {
-    await sendPasswordResetEmail(auth, email);
     return { isSuccess: true };
   } catch (err) {
-    return { isSuccess: false, err: err as Error };
+    return { success: false, error: err as Error };
   }
 };
 
-const logout = async (): Promise<IDbControllerResponse> => {
+const logout = async () => {
   try {
     await signOut(auth);
     return { isSuccess: true, name: '' };
@@ -93,12 +56,4 @@ const logout = async (): Promise<IDbControllerResponse> => {
   }
 };
 
-export {
-  auth,
-  db,
-  signInWithGoogle,
-  logInWithEmailAndPassword,
-  registerWithEmailAndPassword,
-  sendPasswordReset,
-  logout,
-};
+export { auth, db, getUserName, logout, createUserInDb };
