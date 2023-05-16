@@ -15,11 +15,9 @@ export const NotFoundPage = () => {
     <div className={styles.wrapper}>
       <h1 className={styles.title}>404</h1>
       <div className={styles.message}>Something went wrong</div>
-      <Button
-        text="Return to main page"
-        type="button"
-        onClick={() => setRedirectToMain(true)}
-      ></Button>
+      <Button type="button" onClick={() => setRedirectToMain(true)}>
+        Return to main page
+      </Button>
       <img
         className={styles.notFoundImage}
         src={notFoundImage}

@@ -1,14 +1,16 @@
 .button {
-  all: unset;
   display: flex;
   justify-content: center;
   align-items: center;
+  gap: 0.5rem;
   color: var(--white-color);
   background-color: var(--violet-color);
+  font-family: 'Nunito', sans-serif;
+  font-weight: 400;
   font-size: 1.2rem;
   border: none;
   border-radius: 0.7rem;
-  min-width: 10rem;
+  min-width: 12rem;
   padding: 0 1rem;
   height: 3rem;
   position: relative;
