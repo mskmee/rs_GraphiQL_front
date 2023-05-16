@@ -22,7 +22,9 @@ export const Info = () => {
           <p>Use GraphiQL to interactively build your page and static queries. </p>
           <p>Get started!</p>
           <NavLink to={'/editor'}>
-            <Button type="button">Go to editor</Button>
+            <Button type="button" className={styles.editorButton}>
+              Go to editor
+            </Button>
           </NavLink>
         </div>
       )}
