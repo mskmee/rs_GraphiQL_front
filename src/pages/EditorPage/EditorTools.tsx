@@ -2,6 +2,21 @@ import { useState } from 'react';
 import styles from './EditorTools.module.css';
 import classNames from 'classnames';
 import { QueryIDE } from './QueryIDE';
+import { jsonLanguage } from '@codemirror/lang-json';
+import { Prec } from '@codemirror/state';
+import { keymap } from '@codemirror/view';
+
+const extensions = [
+  jsonLanguage,
+  Prec.high(
+    keymap.of([
+      {
+        key: 'Mod-Enter',
+        run: () => true,
+      },
+    ])
+  ),
+];
 
 interface EditorToolsProps {
   onVariablesChange: (value: string) => void;
@@ -34,10 +49,10 @@ export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsP
         </button>
       </div>
       <div className={classNames(styles.toolsIDE, { [styles.opacity]: toolsView === 'variables' })}>
-        <QueryIDE value="" onChange={onVariablesChange} />
+        <QueryIDE value="" onChange={onVariablesChange} extensions={extensions} />
       </div>
       <div className={classNames(styles.toolsIDE, { [styles.opacity]: toolsView === 'headers' })}>
-        <QueryIDE value="" onChange={onHeadersChange} />
+        <QueryIDE value="" onChange={onHeadersChange} extensions={extensions} />
       </div>
     </div>
   );

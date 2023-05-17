@@ -1,8 +1,7 @@
 import CodeMirror from '@uiw/react-codemirror';
-import { jsonLanguage } from '@codemirror/lang-json';
 import createTheme from '@uiw/codemirror-themes';
 import { tags as t } from '@lezer/highlight';
-// import { graphql } from 'cm6-graphql';
+import { Extension } from '@codemirror/state';
 
 const editorTheme = createTheme({
   theme: 'light',
@@ -42,17 +41,18 @@ interface QueryIDEProps {
   value: string;
   placeholder?: string;
   opacity?: string;
+  extensions: Extension[];
   onChange: (value: string) => void;
 }
 
-export const QueryIDE = ({ value, placeholder, opacity, onChange }: QueryIDEProps) => {
+export const QueryIDE = ({ value, placeholder, opacity, extensions, onChange }: QueryIDEProps) => {
   return (
     <CodeMirror
       style={{ opacity }}
       value={value}
       placeholder={placeholder}
       height="100%"
-      extensions={[jsonLanguage /* graphql(myGraphQLSchema) */]}
+      extensions={extensions}
       theme={editorTheme}
       onChange={onChange}
     />

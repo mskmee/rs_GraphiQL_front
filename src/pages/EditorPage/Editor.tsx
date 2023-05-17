@@ -5,10 +5,39 @@ import { EditorTools } from './EditorTools';
 import { ResponseIDE } from './ResponseIDE';
 import playIcon from '@/assets/icons/play.png';
 import stopIcon from '@/assets/icons/stop.png';
+import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
+import { Prec } from '@codemirror/state';
+import { keymap } from '@codemirror/view';
+import { graphql } from 'cm6-graphql';
+import { GraphQLSchema } from 'graphql';
+import { useAppSelector } from '@/hooks/useRedux';
+
+const extensions = (schema?: GraphQLSchema) => [
+  graphql(schema),
+  autocompletion({
+    activateOnTyping: true,
+    icons: true,
+  }),
+  Prec.high(
+    keymap.of([
+      {
+        key: 'Tab',
+        run: acceptCompletion,
+      },
+      {
+        key: 'Mod-Enter',
+        run: () => true,
+      },
+    ])
+  ),
+];
 
 export const Editor = () => {
+  const schema = useAppSelector((state) => state.schemaState.schema);
+
   const [isLoading, setIsLoading] = useState(false);
 
+  // TODO change to refs
   const onQueryChange = useCallback((value: string) => {
     console.log('query:', value);
   }, []);
@@ -21,32 +50,26 @@ export const Editor = () => {
     console.log('headers:', value);
   }, []);
 
-  // TODO execute query function
-
-  const executeQuery = async (/* graphQLParams */) => {
-    const response = await fetch('', {
-      method: 'POST',
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-      },
-      credentials: 'same-origin',
-      // body: JSON.stringify(graphQLParams),
-    });
-
-    const result = await response.json();
-    return result;
-  };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.editor}>
         <div className={styles.editorWrapper}>
           <div className={styles.editorField}>
-            <QueryIDE value="" placeholder="Enter your query here" onChange={onQueryChange} />
+            <QueryIDE
+              value=""
+              placeholder="Enter your query here"
+              onChange={onQueryChange}
+              extensions={extensions(schema)}
+            />
           </div>
           <div className={styles.editorButtons}>
-            <button type="button" className={styles.runButton} onClick={() => {}}>
+            <button
+              type="button"
+              className={styles.runButton}
+              onClick={() => {
+                // TODO fetch query
+              }}
+            >
               {!isLoading && <img className={styles.buttonIcon} src={playIcon} alt="Run" />}
               {isLoading && <img className={styles.buttonIcon} src={stopIcon} alt="Stop" />}
             </button>
