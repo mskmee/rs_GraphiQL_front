@@ -1,11 +1,11 @@
 import React from 'react';
 import { Button } from '@/components/BasicComponents/Button';
 import { changeLoginStatus } from '@/store/userSlice';
-import { useDispatch } from 'react-redux';
 import styles from '../Header.module.css';
+import { useAppDispatch } from '@/hooks/useRedux';
 
 export const SingComponent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   return (
     <>
       <Button

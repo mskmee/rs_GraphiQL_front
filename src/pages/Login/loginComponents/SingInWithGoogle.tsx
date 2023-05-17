@@ -5,12 +5,12 @@ import googleLogo from '@/assets/icons/google.png';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
-import { useDispatch } from 'react-redux';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { toast } from 'react-toastify';
+import { useAppDispatch } from '@/hooks/useRedux';
 
 export const SingInWithGoogle = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [signInWithGoogle, user, isLoading, error] = useSignInWithGoogle(auth);
 
   useEffect(() => {

@@ -4,13 +4,12 @@ import { auth } from '@/db';
 import { useSignOut } from 'react-firebase-hooks/auth';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
-import { useDispatch } from 'react-redux';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
-import { useAppSelector } from '@/hooks/useRedux';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import styles from '../Header.module.css';
 
 export const LoggedComponent = () => {
-  const dispatch = useDispatch();
+  const dispatch = useAppDispatch();
   const [singOut, isLoading, err] = useSignOut(auth);
   const userName = useAppSelector((state) => state.userState.userName);
 
