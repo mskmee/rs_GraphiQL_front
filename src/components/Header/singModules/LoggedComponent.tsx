@@ -5,7 +5,7 @@ import { useSignOut } from 'react-firebase-hooks/auth';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
 import { useDispatch } from 'react-redux';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { useAppSelector } from '@/hooks/useRedux';
 import styles from '../Header.module.css';
 

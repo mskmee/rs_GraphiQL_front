@@ -6,7 +6,7 @@ import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { useDispatch } from 'react-redux';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { toast } from 'react-toastify';
 
 export const SingInWithGoogle = () => {

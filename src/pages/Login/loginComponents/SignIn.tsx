@@ -1,7 +1,7 @@
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
 import { Input, Button, Link } from '@/components/BasicComponents';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';

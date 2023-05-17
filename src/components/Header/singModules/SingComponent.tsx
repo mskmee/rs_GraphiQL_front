@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/BasicComponents/Button';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeLoginStatus } from '@/store/userSlice';
 import { useDispatch } from 'react-redux';
 import styles from '../Header.module.css';
 
