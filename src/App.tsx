@@ -5,9 +5,24 @@ import { NotFoundPage } from '@/pages/NotFoundPage/NotFoundPage';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import { useAppSelector } from './hooks/useRedux';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { useEffect } from 'react';
+import { useDispatch } from 'react-redux';
+import { changeIsUserLogged, changeUserName } from './store/userSlice';
 
 function App() {
   const isLogged = useAppSelector((state) => state.userState.isUserLogged);
+
+  const dispatch = useDispatch();
+  useEffect(() => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        dispatch(changeIsUserLogged(true));
+        dispatch(changeUserName(user.displayName ?? 'Unknown'));
+      }
+    });
+  }, [dispatch]);
 
   return (
     <Routes>
