@@ -5,26 +5,21 @@ import axios from 'axios';
 interface schemaState {
   schema: GraphQLSchema | undefined;
   isLoading: boolean;
-  error: string | null;
+  error: Error | undefined;
 }
 
 const rickAndMortyApi = 'https://rickandmortyapi.com/graphql';
 
-export const getGraphQLSchema = createAsyncThunk(
+export const getGraphQLSchema = createAsyncThunk<GraphQLSchema, void, { rejectValue: Error }>(
   'schema/getGraphQLSchema',
-  async (undefined, { rejectWithValue }) => {
+  async (_, { rejectWithValue }) => {
     try {
       const response = await axios.post<GraphQLSchema>(rickAndMortyApi, {
         query: getIntrospectionQuery(),
       });
-
       return response?.data;
     } catch (error) {
-      if (error instanceof Error) {
-        return rejectWithValue(error.message);
-      }
-
-      return rejectWithValue(error);
+      return rejectWithValue(error as Error);
     }
   }
 );
@@ -32,7 +27,7 @@ export const getGraphQLSchema = createAsyncThunk(
 const initialState: schemaState = {
   schema: undefined,
   isLoading: false,
-  error: null,
+  error: undefined,
 };
 
 const schemaStateSlice = createSlice({
@@ -43,17 +38,16 @@ const schemaStateSlice = createSlice({
     builder
       .addCase(getGraphQLSchema.pending, (state) => {
         state.isLoading = true;
-        state.error = null;
+        state.error = undefined;
       })
       .addCase(getGraphQLSchema.fulfilled, (state, action) => {
-        state.schema = action.payload; // TODO insert right type
+        state.schema = action.payload;
         state.isLoading = false;
-        state.error = null;
+        state.error = undefined;
       })
       .addCase(getGraphQLSchema.rejected, (state, action) => {
         state.isLoading = false;
-        state.error = typeof action.payload === 'string' ? action.payload : 'unknown error';
-        // TODO edit error type
+        state.error = action.payload;
       });
   },
 });

@@ -34,21 +34,27 @@ const extensions = (schema?: GraphQLSchema) => [
 
 export const Editor = () => {
   const schema = useAppSelector((state) => state.schemaState.schema);
-
   const [isLoading, setIsLoading] = useState(false);
+  const [query, setQuery] = useState('');
+  const [variables, setVariables] = useState('');
+  const [headers, setHeaders] = useState('');
 
-  // TODO change to refs
   const onQueryChange = useCallback((value: string) => {
-    console.log('query:', value);
+    setQuery(value);
   }, []);
 
   const onVariablesChange = useCallback((value: string) => {
-    console.log('variables:', value);
+    setVariables(value);
   }, []);
 
   const onHeadersChange = useCallback((value: string) => {
-    console.log('headers:', value);
+    setHeaders(value);
   }, []);
+
+  const handleSubmit = () => {
+    const mock = { query, variables, headers, setIsLoading };
+    return mock;
+  };
 
   return (
     <div className={styles.wrapper}>
@@ -63,13 +69,7 @@ export const Editor = () => {
             />
           </div>
           <div className={styles.editorButtons}>
-            <button
-              type="button"
-              className={styles.runButton}
-              onClick={() => {
-                // TODO fetch query
-              }}
-            >
+            <button type="button" className={styles.runButton} onClick={handleSubmit}>
               {!isLoading && <img className={styles.buttonIcon} src={playIcon} alt="Run" />}
               {isLoading && <img className={styles.buttonIcon} src={stopIcon} alt="Stop" />}
             </button>
