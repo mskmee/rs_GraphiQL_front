@@ -41,6 +41,7 @@ const schemaStateSlice = createSlice({
         state.error = undefined;
       })
       .addCase(getGraphQLSchema.fulfilled, (state, action) => {
+        // todo Schema type
         state.schema = action.payload;
         state.isLoading = false;
         state.error = undefined;
