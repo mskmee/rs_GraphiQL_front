@@ -1,20 +1,29 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect, useRef } from 'react';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
-import classNames from 'classnames';
 import { Input, Link, Button } from '@/components/BasicComponents';
 import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signUpSchema, SignUpData } from './FormValidation';
 
 export const SignUp = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<SignUpData>({
+    resolver: yupResolver(signUpSchema),
+  });
+
   const dispatch = useAppDispatch();
-  const [name, setName] = useState('');
-  const [email, setEmail] = useState('');
-  const [firstPassword, setFirstPassword] = useState('');
-  const [isPasswordValid, setIsPasswordValid] = useState(false);
+  const nameRef = useRef<string | null>(null);
+  const name = nameRef.current;
   const [createUser, user, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
   const [updateProfile, isUpdateLoading, updateError] = useUpdateProfile(auth);
 
@@ -33,82 +42,27 @@ export const SignUp = () => {
     if (updateError) {
       toast(updateError.message, { type: 'error' });
     }
-    if (user) {
+    if (user && name) {
       updateUserInBD(name).catch((err) => toast(err.message, { type: 'error' }));
     }
   }, [error, updateError, updateProfile, dispatch, name, user]);
 
-  const onNameChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setName(value);
-  };
-
-  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setEmail(value);
-  };
-
-  const onFirstPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setFirstPassword(value);
-  };
-
-  const onSecondPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-
-    if (firstPassword && firstPassword === value) {
-      setIsPasswordValid(true);
-    } else {
-      setIsPasswordValid(false);
-    }
-  };
-
-  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    if (isPasswordValid) {
-      await createUser(email, firstPassword);
-    }
+  const onSubmit = async (data: SignUpData) => {
+    nameRef.current = data.name;
+    await createUser(data.email, data.password);
+    reset();
   };
 
   return (
     <>
       {(isLoading || isUpdateLoading) && <Loader />}
-      <form className={styles.form} onSubmit={onFormSubmit}>
-        <Input
-          className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
-          type="text"
-          label="Name"
-          pattern="\w+"
-          onChange={(e) => {
-            onNameChange(e);
-          }}
-        />
-        <Input
-          type="email"
-          label="Email"
-          onChange={(e) => {
-            onEmailChange(e);
-          }}
-        />
-        <Input
-          type="password"
-          label="Password"
-          pattern="^(?=.*[A-Z]).{8,}$"
-          onChange={(e) => {
-            onFirstPasswordChange(e);
-          }}
-        />
-        <Input
-          type="password"
-          label="Repeat password"
-          pattern="^(?=.*[A-Z]).{8,}$"
-          className={classNames(styles.input, { [styles.valid]: isPasswordValid })}
-          onChange={(e) => {
-            onSecondPasswordChange(e);
-          }}
-        />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Input label="name" register={register} errors={errors} />
+        <Input label="email" register={register} errors={errors} />
+        <Input label="password" register={register} errors={errors} />
+        <Input label="repeatPassword" register={register} errors={errors} />
         <Button type="submit" className={styles.submitButton}>
-          Sign up
+          <input type="submit" value="Sign up" className={styles.submitInput} />
         </Button>
       </form>
       <div className={styles.select}>

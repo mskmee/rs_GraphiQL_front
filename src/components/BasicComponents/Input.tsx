@@ -1,38 +1,37 @@
-import { ChangeEvent, InputHTMLAttributes, useEffect, useState } from 'react';
+import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
 import styles from './Input.module.css';
 import classNames from 'classnames';
 import { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form';
 
-interface IFormValues {
-  name: string;
+interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
+  label: Path<SignInData> | Path<SignUpData> | Path<ResetData>;
+  register: CombinedRegister<SignInData, SignUpData, ResetData>;
+  errors: FieldErrors<FieldValues>;
+}
+
+type CombinedRegister<T extends FieldValues, U extends FieldValues, V extends FieldValues> =
+  | UseFormRegister<T>
+  | UseFormRegister<U>
+  | UseFormRegister<V>;
+
+interface SignInData extends FieldValues {
   email: string;
   password: string;
 }
-interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
-  label: Path<IFormValues>;
-  register: UseFormRegister<FieldValues>;
-  errors: FieldErrors<FieldValues>;
-  onSubmitSuccess: boolean;
+
+interface SignUpData extends FieldValues {
+  email: string;
+  password: string;
+  name: string;
+  repeatPassword: string;
 }
 
-export const Input = ({
-  label,
-  register,
-  errors,
-  onSubmitSuccess,
-  className,
-  onChange,
-}: InputProps) => {
-  //const inputRef = useRef<HTMLInputElement | null>(null);
-  // const passwordTitle = 'Minlength is 8 chars. At least one char should be upper case.';
+interface ResetData extends FieldValues {
+  email: string;
+}
 
+export const Input = ({ label, register, errors, className, onChange }: InputProps) => {
   const [isEmpty, setIsEmpty] = useState(true);
-
-  useEffect(() => {
-    if (onSubmitSuccess) {
-      setIsEmpty(true);
-    }
-  }, [onSubmitSuccess]);
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -46,7 +45,7 @@ export const Input = ({
   return (
     <div className={styles.inputWrapper}>
       <input
-        type={label === 'password' ? 'password' : 'text'}
+        type={label === 'password' || label === 'repeatPassword' ? 'password' : 'text'}
         id={label}
         className={classNames(styles.input, className, {
           [styles.empty]: isEmpty,
@@ -63,7 +62,9 @@ export const Input = ({
         })}
         htmlFor={label}
       >
-        {label.charAt(0).toUpperCase() + label.slice(1)}
+        {label === 'repeatPassword'
+          ? 'Repeat password'
+          : label.charAt(0).toUpperCase() + label.slice(1)}
       </label>
       {label === 'name' && errors?.name && (
         <div className={styles.error}>{`${errors?.name?.message}` || `Invalid ${label}`}</div>
@@ -73,6 +74,11 @@ export const Input = ({
       )}
       {label === 'password' && errors?.password && (
         <div className={styles.error}>{`${errors?.password?.message}` || `Invalid ${label}`}</div>
+      )}
+      {label === 'repeatPassword' && errors?.repeatPassword && (
+        <div className={styles.error}>
+          {`${errors?.repeatPassword?.message}` || `Invalid ${label}`}
+        </div>
       )}
     </div>
   );

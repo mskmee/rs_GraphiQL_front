@@ -8,18 +8,18 @@ import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { SingInWithGoogle } from './SingInWithGoogle';
 import { toast } from 'react-toastify';
-import { FieldValues, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
-import { schema } from './FormValidation';
+import { signInSchema, SignInData } from './FormValidation';
 
 export const SignIn = () => {
   const {
     register,
-    formState: { errors, isSubmitSuccessful },
+    formState: { errors },
     handleSubmit,
     reset,
-  } = useForm<FieldValues>({
-    resolver: yupResolver(schema),
+  } = useForm<SignInData>({
+    resolver: yupResolver(signInSchema),
   });
 
   const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
@@ -36,9 +36,7 @@ export const SignIn = () => {
     }
   }, [user, dispatch, error]);
 
-  const onSubmit = (data: FieldValues) => {
-    console.log(data);
-
+  const onSubmit = (data: SignInData) => {
     signInWithEmailAndPassword(data.email, data.password);
     reset();
   };
@@ -47,18 +45,8 @@ export const SignIn = () => {
     <>
       {isLoading && <Loader />}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
-        <Input
-          label="email"
-          register={register}
-          errors={errors}
-          onSubmitSuccess={isSubmitSuccessful}
-        />
-        <Input
-          label="password"
-          register={register}
-          errors={errors}
-          onSubmitSuccess={isSubmitSuccessful}
-        />
+        <Input label="email" register={register} errors={errors} />
+        <Input label="password" register={register} errors={errors} />
         <Link
           text="Forgot password?"
           linkClass={styles.resetButton}
@@ -66,7 +54,7 @@ export const SignIn = () => {
             dispatch(changeLoginStatus('reset-password'));
           }}
         />
-        <Button type="submit" className={styles.submitButton}>
+        <Button type="button" className={styles.submitButton}>
           <input type="submit" value="Sign in" className={styles.submitInput} />
         </Button>
       </form>

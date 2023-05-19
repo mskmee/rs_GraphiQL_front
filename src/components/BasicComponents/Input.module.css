@@ -50,7 +50,7 @@
   background-color: var(--white-color);
 }
 
-.input:required:not(:focus) ~ .empty {
+.input:not(:focus) ~ .empty {
   padding: 0.7rem 0.6rem;
   margin-left: 0.5rem;
   transform: none;
