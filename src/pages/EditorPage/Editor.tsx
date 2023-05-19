@@ -10,7 +10,8 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
-import { useAppSelector } from '@/hooks/useRedux';
+import { useQuery } from '@tanstack/react-query';
+import { callApi } from '@/api/callApi';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -33,12 +34,10 @@ const extensions = (schema?: GraphQLSchema) => [
 ];
 
 export const Editor = () => {
-  const schema = useAppSelector((state) => state.schemaState.schema);
-  const [isLoading, setIsLoading] = useState(false);
+  const { data, error, isLoading } = useQuery(['getSchema'], callApi.getSchema);
   const [query, setQuery] = useState('');
   const [variables, setVariables] = useState('');
   const [headers, setHeaders] = useState('');
-
   const onQueryChange = useCallback((value: string) => {
     setQuery(value);
   }, []);
@@ -52,10 +51,9 @@ export const Editor = () => {
   }, []);
 
   const handleSubmit = () => {
-    const mock = { query, variables, headers, setIsLoading };
+    const mock = { query, variables, headers, error };
     return mock;
   };
-
   return (
     <div className={styles.wrapper}>
       <div className={styles.editor}>
@@ -65,7 +63,7 @@ export const Editor = () => {
               value=""
               placeholder="Enter your query here"
               onChange={onQueryChange}
-              extensions={extensions(schema)}
+              extensions={extensions(data)}
             />
           </div>
           <div className={styles.editorButtons}>
