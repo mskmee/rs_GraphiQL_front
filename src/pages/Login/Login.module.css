@@ -46,6 +46,17 @@
   margin: 1rem 0;
 }
 
+.submitInput {
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
 .resetButton {
   margin-left: auto;
 }
