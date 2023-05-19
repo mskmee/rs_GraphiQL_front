@@ -10,8 +10,11 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
-import { useQuery } from '@tanstack/react-query';
-import { callApi } from '@/api/callApi';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { apiController } from '@/api/apiController';
+import { AxiosError } from 'axios';
+import { IApiResponseError } from '@/types/interfaces/IApiResponseError';
+import { IApiResponse } from '@/types/interfaces/IApiRespose';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -34,7 +37,21 @@ const extensions = (schema?: GraphQLSchema) => [
 ];
 
 export const Editor = () => {
-  const { data, error, isLoading } = useQuery(['getSchema'], callApi.getSchema);
+  const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
+  const { mutate, isLoading, error } = useMutation<
+    IApiResponse,
+    AxiosError<IApiResponseError>,
+    string
+  >((data) => apiController.getGraphQLResponse(data), {
+    onSuccess: (response) => {
+      setQueryResponse(JSON.stringify(response));
+    },
+    onError: (err) => {
+      setQueryResponse(err.response?.data.errors[0].message ?? 'error');
+    },
+  });
+
+  const [queryResponse, setQueryResponse] = useState('');
   const [query, setQuery] = useState('');
   const [variables, setVariables] = useState('');
   const [headers, setHeaders] = useState('');
@@ -52,6 +69,7 @@ export const Editor = () => {
 
   const handleSubmit = () => {
     const mock = { query, variables, headers, error };
+    mutate(query.trim());
     return mock;
   };
   return (
@@ -63,7 +81,7 @@ export const Editor = () => {
               value=""
               placeholder="Enter your query here"
               onChange={onQueryChange}
-              extensions={extensions(data)}
+              extensions={extensions(schemaResponse.data)}
             />
           </div>
           <div className={styles.editorButtons}>
@@ -76,7 +94,7 @@ export const Editor = () => {
         <EditorTools onVariablesChange={onVariablesChange} onHeadersChange={onHeadersChange} />
       </div>
       <div className={styles.resronse}>
-        <ResponseIDE value="" />
+        <ResponseIDE value={queryResponse} />
       </div>
     </div>
   );
