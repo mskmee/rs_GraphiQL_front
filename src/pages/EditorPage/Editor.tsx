@@ -42,7 +42,7 @@ export const Editor = () => {
     (data) => apiController.getGraphQLResponse(data, variables, headers),
     {
       onSuccess: (response) => {
-        setQueryResponse(JSON.stringify(response));
+        setQueryResponse(JSON.stringify(response, null, ' '));
       },
       onError: (err) => {
         setQueryResponse(err.response?.data.errors[0].message ?? 'error');
