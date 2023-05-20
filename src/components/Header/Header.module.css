@@ -6,6 +6,7 @@
   justify-content: space-between;
   align-items: center;
   z-index: 2;
+  transition: all 0.2s ease-in-out;
 }
 
 .logo {
@@ -32,4 +33,14 @@
   display: flex;
   align-items: center;
   gap: 2rem;
+}
+
+.headerScroll {
+  background-color: rgba(255, 255, 255, 0.5);
+}
+
+@media (max-width: 730px) {
+  .signUpButton {
+    display: none;
+  }
 }
