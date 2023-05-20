@@ -1,6 +1,6 @@
 .wrapper {
   position: relative;
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   background: linear-gradient(
     145deg,
@@ -13,7 +13,7 @@
 
 .bgImage {
   position: absolute;
-  bottom: -4rem;
+  bottom: -4.3rem;
   right: 0;
   width: 60%;
 }
@@ -24,4 +24,17 @@
   right: 31rem;
   width: 17%;
   transform: rotate(210deg);
+}
+
+@media (max-width: 1000px) {
+  .arrowImage {
+    top: 4rem;
+    right: 45%;
+  }
+}
+
+@media (max-width: 600px) {
+  .bgImage {
+    bottom: -2.3rem;
+  }
 }
