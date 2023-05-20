@@ -1,4 +1,4 @@
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { useEffect } from 'react';
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
 import { changeLoginStatus } from '@/store/userSlice';
@@ -9,10 +9,21 @@ import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { resetSchema, ResetData } from './FormValidation';
 
 export const ResetPassword = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<ResetData>({
+    resolver: yupResolver(resetSchema),
+  });
+
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
   const [resetPassword, isLoading, error] = useSendPasswordResetEmail(auth);
 
   useEffect(() => {
@@ -21,33 +32,21 @@ export const ResetPassword = () => {
     }
   }, [error]);
 
-  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setEmail(value);
-  };
-
-  const onFormSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const isResetSuccess = await resetPassword(email);
+  const onSubmit = async (data: ResetData) => {
+    const isResetSuccess = await resetPassword(data.email);
     if (isResetSuccess) {
       toast('Check instructions in you email.', { type: 'success' });
       dispatch(changeLoginStatus(''));
     }
+    reset();
   };
 
   return (
-    <form className={styles.form} onSubmit={onFormSubmit}>
+    <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
       {isLoading && <Loader />}
-      <Input
-        required
-        type="email"
-        label="Email"
-        onChange={(e) => {
-          onEmailChange(e);
-        }}
-      />
+      <Input required label="email" register={register} errors={errors} />
       <Button type="submit" className={styles.submitButton}>
-        Send me a password
+        <input type="submit" value="Send me a password" className={styles.submitInput} />
       </Button>
       <Link
         linkStyle="bold"

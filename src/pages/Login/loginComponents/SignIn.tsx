@@ -1,19 +1,29 @@
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
 import { Input, Button, Link } from '@/components/BasicComponents';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
-import React, { ChangeEvent, useEffect, useState } from 'react';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { useEffect } from 'react';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { SingInWithGoogle } from './SingInWithGoogle';
 import { toast } from 'react-toastify';
+import { useForm } from 'react-hook-form';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { signInSchema, SignInData } from './FormValidation';
 
 export const SignIn = () => {
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<SignInData>({
+    resolver: yupResolver(signInSchema),
+  });
+
   const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
   const dispatch = useAppDispatch();
-  const [email, setEmail] = useState('');
-  const [password, setPassword] = useState('');
 
   useEffect(() => {
     if (user) {
@@ -26,43 +36,17 @@ export const SignIn = () => {
     }
   }, [user, dispatch, error]);
 
-  const onEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setEmail(value);
-  };
-
-  const onPasswordChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const { value } = e.target;
-    setPassword(value);
-  };
-
-  const onFormSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    signInWithEmailAndPassword(email, password);
+  const onSubmit = (data: SignInData) => {
+    signInWithEmailAndPassword(data.email, data.password);
+    reset();
   };
 
   return (
     <>
       {isLoading && <Loader />}
-      <form className={styles.form} onSubmit={onFormSubmit}>
-        <Input
-          required
-          type="email"
-          label="Email"
-          title="Please enter a valid email"
-          onChange={(e) => {
-            onEmailChange(e);
-          }}
-        />
-        <Input
-          required
-          type="password"
-          label="Password"
-          pattern="^(?=.*[A-Z]).{8,}$"
-          onChange={(e) => {
-            onPasswordChange(e);
-          }}
-        />
+      <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+        <Input label="email" register={register} errors={errors} />
+        <Input label="password" register={register} errors={errors} />
         <Link
           text="Forgot password?"
           linkClass={styles.resetButton}
@@ -70,8 +54,8 @@ export const SignIn = () => {
             dispatch(changeLoginStatus('reset-password'));
           }}
         />
-        <Button type="submit" className={styles.submitButton}>
-          Sign in
+        <Button type="button" className={styles.submitButton}>
+          <input type="submit" value="Sign in" className={styles.submitInput} />
         </Button>
       </form>
       <SingInWithGoogle />
