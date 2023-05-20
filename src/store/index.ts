@@ -1,9 +1,11 @@
 import { configureStore } from '@reduxjs/toolkit';
-import userStateReducer from './stateSlice';
+import userStateReducer from './userSlice';
+import schemaStateReducer from './schemaSlice';
 
 export const store = configureStore({
   reducer: {
     userState: userStateReducer,
+    schemaState: schemaStateReducer,
   },
 });
 

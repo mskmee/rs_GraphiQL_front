@@ -15,3 +15,9 @@
 .rsImage {
   height: 3rem;
 }
+
+.editorButton {
+  width: 20rem;
+  height: 3rem;
+  font-size: 1.4rem;
+}

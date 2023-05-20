@@ -1,7 +1,7 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeLoginStatus } from '@/store/userSlice';
 import { Input } from '@/components/BasicComponents/Input';
 import { Link } from '@/components/BasicComponents/Link';
 import { Button } from '@/components/BasicComponents/Button';

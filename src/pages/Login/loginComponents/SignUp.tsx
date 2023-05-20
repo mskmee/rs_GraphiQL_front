@@ -1,5 +1,5 @@
 import React, { ChangeEvent, useEffect, useState } from 'react';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/stateSlice';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from '../Login.module.css';
 import classNames from 'classnames';

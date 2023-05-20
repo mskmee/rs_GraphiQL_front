@@ -1,12 +1,13 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import styles from './Login.module.css';
 import classNames from 'classnames';
-import { changeLoginStatus } from '@/store/stateSlice';
+import { changeLoginStatus } from '@/store/userSlice';
 import { ResetPassword, SignIn, SignUp } from './loginComponents';
 
 export const Login = () => {
   const status = useAppSelector((state) => state.userState.loginStatus);
   const dispatch = useAppDispatch();
+
   return (
     <div
       className={classNames(styles.wrapper, {
