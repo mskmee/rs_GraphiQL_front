@@ -32,7 +32,7 @@
   position: absolute;
   top: 0;
   left: 0;
-  padding: 0.7rem 0.6rem;
+  padding: 0.6rem;
   margin-left: 0.5rem;
   pointer-events: none;
   transition: all 0.3s ease;
@@ -51,7 +51,7 @@
 }
 
 .input:not(:focus) ~ .empty {
-  padding: 0.7rem 0.6rem;
+  padding: 0.6rem;
   margin-left: 0.5rem;
   transform: none;
   background-color: transparent;

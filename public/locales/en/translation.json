@@ -1,0 +1,35 @@
+{
+  "lang": {
+    "en": "EN",
+    "ru": "RU"
+  },
+  "about": {
+    "info": "GraphiQL is the GraphQL integrated development environment (IDE).It’s a powerful (and all-around awesome) tool you’ll use often while building websites. It offers syntax highlighting, automatic documentation, and much more.",
+    "loggedInfo": "Use GraphiQL to interactively build your page and static queries.",
+    "start": "Get started!",
+    "button": "Go to editor"
+  },
+  "authors": {
+    "created": "Created by",
+    "Maksim": "Maksim Maksimenkо",
+    "Pavel": "Pavel Pristupa",
+    "Maria": "Maria Koroleva"
+  },
+  "sponsored": "Sponsored by",
+  "login": {
+    "signIn": "Sign in",
+    "signUp": "Sign up",
+    "logout": "Log out",
+    "welcome": "Welcome!",
+    "account": "Don't have an account?",
+    "forgot": "Forgot password?",
+    "send": "Send me a password",
+    "google": "Sign in with Google",
+    "return": "Return"
+  },
+  "editor": {
+    "pattern": "Enter your query here",
+    "variables": "Variables",
+    "headers": "Headers"
+  }
+}

@@ -12,6 +12,7 @@ import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
 import { useQuery } from '@tanstack/react-query';
 import { callApi } from '@/api/callApi';
+import { useTranslation } from 'react-i18next';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -38,6 +39,9 @@ export const Editor = () => {
   const [query, setQuery] = useState('');
   const [variables, setVariables] = useState('');
   const [headers, setHeaders] = useState('');
+  const { t } = useTranslation();
+  const placeholderValue = t('editor.pattern');
+
   const onQueryChange = useCallback((value: string) => {
     setQuery(value);
   }, []);
@@ -61,7 +65,7 @@ export const Editor = () => {
           <div className={styles.editorField}>
             <QueryIDE
               value=""
-              placeholder="Enter your query here"
+              placeholder={placeholderValue}
               onChange={onQueryChange}
               extensions={extensions(data)}
             />

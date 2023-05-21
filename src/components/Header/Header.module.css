@@ -39,6 +39,44 @@
   background-color: rgba(255, 255, 255, 0.5);
 }
 
+.langWrapper {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: 3rem;
+  height: 3rem;
+}
+
+.langButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  height: 50%;
+  border: none;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  background-color: var(--purple-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.langButton:hover {
+  opacity: 0.8;
+}
+
+.langButton.active:hover {
+  opacity: 1;
+}
+
+.active {
+  background-color: #7c6cd4;
+}
+
 @media (max-width: 730px) {
   .signUpButton {
     display: none;
