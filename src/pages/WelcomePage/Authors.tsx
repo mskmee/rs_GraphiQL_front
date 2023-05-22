@@ -1,9 +1,12 @@
+import { useTranslation } from 'react-i18next';
 import styles from './Authors.module.css';
 
 export const Authors = () => {
+  const { t } = useTranslation();
+
   return (
     <div className={styles.authors}>
-      <div>Created by</div>
+      <div>{t('authors.created')}</div>
       <a
         href="https://github.com/mooncitizenX/"
         target="_blank"
@@ -11,7 +14,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        <p className={styles.author}>Pavel Pristupa</p>
+        <p className={styles.author}>{t('authors.Pavel')}</p>
       </a>
       <a
         href="https://github.com/mskmee/"
@@ -20,7 +23,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        <p className={styles.author}>Maksim Maksimenko</p>
+        <p className={styles.author}>{t('authors.Maksim')}</p>
       </a>
       <a
         href="https://github.com/mkoroleva5/"
@@ -29,7 +32,7 @@ export const Authors = () => {
         className={styles.authorLink}
       >
         <div className={styles.underline} />
-        <p className={styles.author}>Maria Koroleva</p>
+        <p className={styles.author}>{t('authors.Maria')}</p>
       </a>
     </div>
   );

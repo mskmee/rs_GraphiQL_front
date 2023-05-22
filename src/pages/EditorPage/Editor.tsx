@@ -10,6 +10,8 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
+import { callApi } from '@/api/callApi';
+import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
@@ -54,6 +56,9 @@ export const Editor = () => {
   const [query, setQuery] = useState('');
   const [variables, setVariables] = useState('');
   const [headers, setHeaders] = useState('');
+  const { t } = useTranslation();
+  const placeholderValue = t('editor.pattern');
+
   const onQueryChange = useCallback((value: string) => {
     setQuery(value);
   }, []);
@@ -77,7 +82,7 @@ export const Editor = () => {
           <div className={styles.editorField}>
             <QueryIDE
               value=""
-              placeholder="Enter your query here"
+              placeholder={placeholderValue}
               onChange={onQueryChange}
               extensions={extensions(schemaResponse.data)}
             />

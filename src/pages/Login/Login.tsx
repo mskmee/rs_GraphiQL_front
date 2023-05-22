@@ -3,10 +3,12 @@ import styles from './Login.module.css';
 import classNames from 'classnames';
 import { changeLoginStatus } from '@/store/userSlice';
 import { ResetPassword, SignIn, SignUp } from './loginComponents';
+import { useTranslation } from 'react-i18next';
 
 export const Login = () => {
   const status = useAppSelector((state) => state.userState.loginStatus);
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
 
   return (
     <div
@@ -18,7 +20,7 @@ export const Login = () => {
       }}
     >
       <div className={styles.loginWrapper} onClick={(e) => e.stopPropagation()}>
-        <div className={styles.title}>Welcome!</div>
+        <div className={styles.title}>{t('login.welcome')}</div>
         {status === 'sign-in' && <SignIn />}
         {status === 'sign-up' && <SignUp />}
         {status === 'reset-password' && <ResetPassword />}

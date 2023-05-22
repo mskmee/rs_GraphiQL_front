@@ -1,5 +1,5 @@
 .wrapper {
-  width: 100vw;
+  width: 100%;
   height: 100vh;
   display: flex;
   align-items: center;
@@ -22,6 +22,7 @@
   border-radius: 1rem;
   overflow: hidden;
   box-shadow: 1px 1px 31px -14px rgb(200, 200, 200);
+  transition: all 0.3s ease-in-out;
 }
 
 .response {
@@ -89,4 +90,19 @@
   background-color: rgb(200, 200, 200);
   border-radius: 20px;
   border: 3px solid var(--purple-color);
+}
+
+@media (max-width: 850px) {
+  .wrapper {
+    flex-direction: column;
+  }
+
+  .editor {
+    width: 95%;
+    height: 60%;
+  }
+  .resronse {
+    width: 95%;
+    height: 40%;
+  }
 }

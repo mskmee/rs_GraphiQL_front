@@ -8,9 +8,11 @@ import { Loader } from '@/components/Loader';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { toast } from 'react-toastify';
 import { useAppDispatch } from '@/hooks/useRedux';
+import { useTranslation } from 'react-i18next';
 
 export const SingInWithGoogle = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [signInWithGoogle, user, isLoading, error] = useSignInWithGoogle(auth);
 
   useEffect(() => {
@@ -29,7 +31,7 @@ export const SingInWithGoogle = () => {
       {isLoading && <Loader />}
       <Button type="button" className={styles.googleButton} onClick={() => signInWithGoogle()}>
         <img width="20px" src={googleLogo} alt="Google" />
-        Sign in with Google
+        {t('login.google')}
       </Button>
     </>
   );

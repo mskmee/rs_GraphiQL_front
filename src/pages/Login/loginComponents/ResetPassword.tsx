@@ -12,8 +12,12 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { resetSchema, ResetData } from './FormValidation';
+import { useTranslation } from 'react-i18next';
 
 export const ResetPassword = () => {
+  const { t } = useTranslation();
+  const sendButtonValue = t('login.send');
+
   const {
     register,
     formState: { errors },
@@ -46,11 +50,11 @@ export const ResetPassword = () => {
       {isLoading && <Loader />}
       <Input required label="email" register={register} errors={errors} />
       <Button type="submit" className={styles.submitButton}>
-        <input type="submit" value="Send me a password" className={styles.submitInput} />
+        <input type="submit" value={sendButtonValue} className={styles.submitInput} />
       </Button>
       <Link
         linkStyle="bold"
-        text="Return"
+        text={t('login.return')}
         onClick={() => {
           dispatch(changeLoginStatus('sign-in'));
         }}

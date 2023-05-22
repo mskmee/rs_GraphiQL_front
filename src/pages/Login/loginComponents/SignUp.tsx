@@ -10,8 +10,12 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { signUpSchema, SignUpData } from './FormValidation';
+import { useTranslation } from 'react-i18next';
 
 export const SignUp = () => {
+  const { t } = useTranslation();
+  const signUpButtonValue = t('login.signUp');
+
   const {
     register,
     formState: { errors },
@@ -62,14 +66,14 @@ export const SignUp = () => {
         <Input label="password" register={register} errors={errors} />
         <Input label="repeatPassword" register={register} errors={errors} />
         <Button type="submit" className={styles.submitButton}>
-          <input type="submit" value="Sign up" className={styles.submitInput} />
+          <input type="submit" value={signUpButtonValue} className={styles.submitInput} />
         </Button>
       </form>
       <div className={styles.select}>
-        {'Already have an account?'}
+        {t('login.haveAccount')}
         <Link
           linkStyle="bold"
-          text="Sign in"
+          text={t('login.signIn')}
           onClick={() => {
             dispatch(changeLoginStatus('sign-in'));
           }}

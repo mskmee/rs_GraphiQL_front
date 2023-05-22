@@ -7,9 +7,11 @@ import { toast } from 'react-toastify';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import styles from '../Header.module.css';
+import { useTranslation } from 'react-i18next';
 
 export const LoggedComponent = () => {
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [singOut, isLoading, err] = useSignOut(auth);
   const userName = useAppSelector((state) => state.userState.userName);
 
@@ -34,7 +36,7 @@ export const LoggedComponent = () => {
       <div className={styles.nav}>
         <div>{userName}</div>
         <Button type="button" onClick={onSingOut}>
-          Log out
+          {t('login.logout')}
         </Button>
       </div>
     </>
