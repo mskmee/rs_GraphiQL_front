@@ -8,7 +8,6 @@ const editorTheme = createTheme({
   settings: {
     gutterBorder: 'transparent',
     background: 'transparent',
-    foreground: 'transparent',
     caret: '#5d00ff',
     selection: '#036dd626',
     selectionMatch: '#036dd626',
