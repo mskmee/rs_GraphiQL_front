@@ -9,7 +9,13 @@ import './i18n';
 
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
-const queryClient = new QueryClient();
+const queryClient = new QueryClient({
+  defaultOptions: {
+    queries: {
+      suspense: true,
+    },
+  },
+});
 
 // todo add loader into Suspense
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(

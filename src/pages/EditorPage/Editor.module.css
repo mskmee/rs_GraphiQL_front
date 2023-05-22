@@ -25,10 +25,11 @@
   transition: all 0.3s ease-in-out;
 }
 
-.resronse {
+.response {
   width: 50%;
   height: 100%;
   padding: 1rem;
+  overflow: auto;
 }
 
 .editorWrapper {
