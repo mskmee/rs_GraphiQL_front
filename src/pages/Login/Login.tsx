@@ -11,7 +11,7 @@ export const Login = () => {
   return (
     <div
       className={classNames(styles.wrapper, {
-        [styles.open]: status === 'sign-in' || status === 'sign-up' || status === 'reset-password',
+        [styles.open]: status,
       })}
       onClick={() => {
         dispatch(changeLoginStatus(''));

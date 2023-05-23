@@ -14,16 +14,12 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
 import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces';
+import { getAuth, onAuthStateChanged } from 'firebase/auth';
+import { changeIsUserLogged, changeUserName } from '@/store/userSlice';
+import { useDispatch } from 'react-redux';
 
 const extensions = (schema?: GraphQLSchema) => [
-  graphql(schema, {
-    // onShowInDocs(field, type, parentType) {
-    //   alert(`Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`);
-    // },
-    // onFillAllFields(_query, token) {
-    //   alert(`Filling all fields. Token: ${token}`);
-    // },
-  }),
+  graphql(schema),
   autocompletion({
     activateOnTyping: true,
     icons: true,
@@ -43,6 +39,7 @@ const extensions = (schema?: GraphQLSchema) => [
 ];
 
 export const Editor = () => {
+  const dispatch = useDispatch();
   const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
   const { mutate, isLoading } = useMutation<
     IApiResponse,
@@ -78,6 +75,14 @@ export const Editor = () => {
   }, []);
 
   const handleSubmit = () => {
+    const auth = getAuth();
+    onAuthStateChanged(auth, (user) => {
+      if (!user) {
+        dispatch(changeIsUserLogged(false));
+        dispatch(changeUserName(''));
+        throw new Error('Please sing in');
+      }
+    });
     mutate(query);
   };
 
