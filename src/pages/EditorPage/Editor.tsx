@@ -10,7 +10,6 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
-import { callApi } from '@/api/callApi';
 import { useTranslation } from 'react-i18next';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
