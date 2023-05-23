@@ -5,8 +5,13 @@ import { QueryIDE } from './QueryIDE';
 import { jsonLanguage } from '@codemirror/lang-json';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
+import { autocompletion } from '@codemirror/autocomplete';
 
 const extensions = [
+  autocompletion({
+    activateOnTyping: true,
+    icons: true,
+  }),
   jsonLanguage,
   Prec.high(
     keymap.of([

@@ -13,11 +13,17 @@ import { GraphQLSchema } from 'graphql';
 import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
-import { IApiResponseError } from '@/types/interfaces/IApiResponseError';
-import { IApiResponse } from '@/types/interfaces/IApiResponse';
+import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces';
 
 const extensions = (schema?: GraphQLSchema) => [
-  graphql(schema),
+  graphql(schema, {
+    // onShowInDocs(field, type, parentType) {
+    //   alert(`Showing in docs.: Field: ${field}, Type: ${type}, ParentType: ${parentType}`);
+    // },
+    // onFillAllFields(_query, token) {
+    //   alert(`Filling all fields. Token: ${token}`);
+    // },
+  }),
   autocompletion({
     activateOnTyping: true,
     icons: true,
@@ -38,36 +44,41 @@ const extensions = (schema?: GraphQLSchema) => [
 
 export const Editor = () => {
   const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
-  const { mutate, isLoading } = useMutation<IApiResponse, AxiosError<IApiResponseError>, string>(
-    (data) => apiController.getGraphQLResponse(data, variables, headers),
-    {
-      onSuccess: (response) => {
-        setQueryResponse(JSON.stringify(response, null, ' '));
-      },
-      onError: (err) => {
-        setQueryResponse(err.response?.data.errors[0].message ?? 'error');
-      },
-    }
-  );
+  const { mutate, isLoading } = useMutation<
+    IApiResponse,
+    AxiosError<IApiResponseError>,
+    IApiRequest
+  >((data) => apiController.getGraphQLResponse(data), {
+    onSuccess: (response) => {
+      setQueryResponse(JSON.stringify(response, null, ' '));
+    },
+    onError: (err) => {
+      setQueryResponse(err.response?.data.errors[0].message ?? err.toString());
+    },
+  });
 
   const [queryResponse, setQueryResponse] = useState('');
-  const [query, setQuery] = useState('');
-  const [variables, setVariables] = useState('');
-  const [headers, setHeaders] = useState('');
+  const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
   const onQueryChange = useCallback((value: string) => {
-    setQuery(value);
+    setQuery((prev) => {
+      return { ...prev, query: value };
+    });
   }, []);
 
   const onVariablesChange = useCallback((value: string) => {
-    setVariables(value);
+    setQuery((prev) => {
+      return { ...prev, variables: value };
+    });
   }, []);
 
   const onHeadersChange = useCallback((value: string) => {
-    setHeaders(value);
+    setQuery((prev) => {
+      return { ...prev, headers: value };
+    });
   }, []);
 
   const handleSubmit = () => {
-    mutate(query.trim());
+    mutate(query);
   };
 
   return (
