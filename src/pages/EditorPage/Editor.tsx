@@ -17,6 +17,7 @@ import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { changeIsUserLogged, changeUserName } from '@/store/userSlice';
 import { useDispatch } from 'react-redux';
+import { toast } from 'react-toastify';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -80,7 +81,7 @@ export const Editor = () => {
       if (!user) {
         dispatch(changeIsUserLogged(false));
         dispatch(changeUserName(''));
-        throw new Error('Please sing in');
+        toast('Please sing in', { type: 'info' });
       }
     });
     mutate(query);
