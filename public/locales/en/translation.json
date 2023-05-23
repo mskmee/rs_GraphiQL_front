@@ -28,7 +28,7 @@
     "return": "Return"
   },
   "editor": {
-    "pattern": "Enter your query here",
+    "pattern": "Enter your query",
     "variables": "Variables",
     "headers": "Headers"
   }
