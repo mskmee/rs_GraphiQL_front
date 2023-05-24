@@ -1,10 +1,10 @@
-import React from 'react';
-import { Button } from '@/components/BasicComponents/Button';
-import { changeLoginStatus } from '@/store/userSlice';
-import styles from '../Header.module.css';
+import { Link } from 'react-router-dom';
 import { useAppDispatch } from '@/hooks/useRedux';
 import { useTranslation } from 'react-i18next';
-import { Link } from 'react-router-dom';
+import { Button } from '@/components/BasicComponents/Button';
+import { changeLoginStatus } from '@/store/userSlice';
+
+import styles from '../Header.module.css';
 
 export const SingComponent = () => {
   const dispatch = useAppDispatch();

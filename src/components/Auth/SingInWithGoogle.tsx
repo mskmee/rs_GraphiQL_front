@@ -1,14 +1,15 @@
-import React, { useEffect } from 'react';
-import { Button } from '@/components/BasicComponents';
-import styles from './Styles.module.css';
-import googleLogo from '@/assets/icons/google.png';
+import { useEffect } from 'react';
+import { useAppDispatch } from '@/hooks/useRedux';
+import { useTranslation } from 'react-i18next';
 import { useSignInWithGoogle } from 'react-firebase-hooks/auth';
+import { Button } from '@/components/BasicComponents';
 import { auth } from '@/db';
 import { Loader } from '@/components/Loader';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { toast } from 'react-toastify';
-import { useAppDispatch } from '@/hooks/useRedux';
-import { useTranslation } from 'react-i18next';
+
+import styles from './Styles.module.css';
+import googleLogo from '@/assets/icons/google.png';
 
 export const SingInWithGoogle = () => {
   const dispatch = useAppDispatch();

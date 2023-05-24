@@ -1,18 +1,19 @@
-import React, { useEffect } from 'react';
-import styles from './Styles.module.css';
+import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useAppDispatch } from '@/hooks/useRedux';
-import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
-import { toast } from 'react-toastify';
 import { Loader } from '@/components/Loader';
 import { Button, Input, Link } from '@/components/BasicComponents';
-import { auth } from '@/db';
-import loginImg from '@/assets/images/login-img.jpg';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
+import { toast } from 'react-toastify';
 import { SingInWithGoogle } from './SingInWithGoogle';
 import { SignInData, signInSchema } from '@/utils/authFormSchema';
+import { auth } from '@/db';
+
+import loginImg from '@/assets/images/login-img.jpg';
+import styles from './Styles.module.css';
 
 export const Login = () => {
   const { t } = useTranslation();

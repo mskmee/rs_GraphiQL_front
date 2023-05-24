@@ -1,9 +1,10 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import classNames from 'classnames';
-import styles from './AuthPage.module.css';
 import { changeLoginStatus } from '@/store/userSlice';
 import { getComponentFromStatus } from '@/utils/getComponentFromStatus';
 import { useTranslation } from 'react-i18next';
+
+import styles from './AuthPage.module.css';
+import classNames from 'classnames';
 
 export const AuthPage = () => {
   const status = useAppSelector((state) => state.userState.loginStatus);

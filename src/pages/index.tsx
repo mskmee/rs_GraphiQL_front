@@ -1,8 +1,6 @@
-import { EditorPage } from './EditorPage/EditorPage';
-import { AuthPage } from './AuthPage/AuthPage';
-import { NotFoundPage } from './NotFoundPage/NotFoundPage';
-import { RegistrationPage } from './RegistrationPage/RegistrationPage';
-import { ResetPasswordPage } from './ResetPasswordPage/ResetPasswordPage';
-import { WelcomePage } from './WelcomePage/WelcomePage';
-
-export { RegistrationPage, AuthPage, WelcomePage, ResetPasswordPage, EditorPage, NotFoundPage };
+export { AuthPage } from './AuthPage/AuthPage';
+export { NotFoundPage } from './NotFoundPage/NotFoundPage';
+export { RegistrationPage } from './RegistrationPage/RegistrationPage';
+export { ResetPasswordPage } from './ResetPasswordPage/ResetPasswordPage';
+export { WelcomePage } from './WelcomePage/WelcomePage';
+export { EditorPage } from './EditorPage/EditorPage';
