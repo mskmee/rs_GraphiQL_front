@@ -4,11 +4,11 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { autocompletion } from '@codemirror/autocomplete';
 import { useTranslation } from 'react-i18next';
+import { Arrow } from '@/components/BasicComponents/Arrow';
 import { QueryIDE } from './QueryIDE';
 
 import styles from './EditorTools.module.css';
 import classNames from 'classnames';
-import { Arrow } from '@/components/BasicComponents/Arrow';
 
 const extensions = [
   autocompletion({
