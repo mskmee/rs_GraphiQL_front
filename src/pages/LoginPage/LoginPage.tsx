@@ -1,6 +1,83 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import styles from './LoginPage.module.css';
+import { useTranslation } from 'react-i18next';
+import { useForm } from 'react-hook-form';
+import { SignInData, signInSchema } from '../Login/loginComponents/FormValidation';
+import { yupResolver } from '@hookform/resolvers/yup';
+import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { useAppDispatch } from '@/hooks/useRedux';
+import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
+import { toast } from 'react-toastify';
+import { Loader } from '@/components/Loader';
+import { Button, Input, Link } from '@/components/BasicComponents';
+import { SingInWithGoogle } from '../Login/loginComponents/SingInWithGoogle';
+import { auth } from '@/db';
+import loginImg from '@/assets/images/loginImg.jpg';
 
 export const LoginPage = () => {
-  return <div className={styles.wrapper}></div>;
+  const { t } = useTranslation();
+  const signInButtonValue = t('login.signIn');
+
+  const {
+    register,
+    formState: { errors },
+    handleSubmit,
+    reset,
+  } = useForm<SignInData>({
+    resolver: yupResolver(signInSchema),
+  });
+
+  const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    if (user) {
+      dispatch(changeUserName(user.user.displayName ?? 'no name'));
+      dispatch(changeIsUserLogged(true));
+    }
+    if (error) {
+      toast(error.message, { type: 'error' });
+    }
+  }, [user, dispatch, error]);
+
+  const onSubmit = (data: SignInData) => {
+    signInWithEmailAndPassword(data.email, data.password);
+    reset();
+  };
+
+  return (
+    <div className={styles.wrapper}>
+      {isLoading && <Loader />}
+      <div className={styles.container}>
+        <img className={styles.img} src={loginImg} alt="login image" />
+        <div className={styles.formContainer}>
+          <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
+            <Input label="email" register={register} errors={errors} />
+            <Input label="password" register={register} errors={errors} />
+            <Link
+              text={t('login.forgot')}
+              linkClass={styles.resetButton}
+              onClick={() => {
+                dispatch(changeLoginStatus('reset-password'));
+              }}
+            />
+            <Button type="button" className={styles.submitButton}>
+              <input type="submit" value={signInButtonValue} className={styles.submitInput} />
+            </Button>
+          </form>
+          <SingInWithGoogle />
+          <div className={styles.select}>
+            {t('login.account')}
+            <Link
+              linkStyle="bold"
+              text={t('login.signUp')}
+              onClick={() => {
+                dispatch(changeLoginStatus('sign-up'));
+              }}
+            />
+          </div>
+        </div>
+      </div>
+    </div>
+  );
 };
