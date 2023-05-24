@@ -20,7 +20,10 @@ function App() {
       if (user) {
         dispatch(changeIsUserLogged(true));
         dispatch(changeUserName(user.displayName ?? 'Unknown'));
+        return;
       }
+      dispatch(changeIsUserLogged(false));
+      dispatch(changeUserName(''));
     });
   }, [dispatch]);
 

@@ -14,10 +14,6 @@ import { useMutation, useQuery } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
 import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { changeIsUserLogged, changeUserName } from '@/store/userSlice';
-import { useDispatch } from 'react-redux';
-import { toast } from 'react-toastify';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -40,7 +36,6 @@ const extensions = (schema?: GraphQLSchema) => [
 ];
 
 export const Editor = () => {
-  const dispatch = useDispatch();
   const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
   const { mutate, isLoading } = useMutation<
     IApiResponse,
@@ -76,14 +71,6 @@ export const Editor = () => {
   }, []);
 
   const handleSubmit = () => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (!user) {
-        dispatch(changeIsUserLogged(false));
-        dispatch(changeUserName(''));
-        toast('Please sing in', { type: 'info' });
-      }
-    });
     mutate(query);
   };
 
