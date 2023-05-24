@@ -1,15 +1,7 @@
-.wrapper {
-  position: fixed;
-  width: 100vw;
-  height: 100vh;
+.container {
+  padding: 3rem;
   display: flex;
-  justify-content: center;
-  align-items: center;
-  background-color: transparent;
-  border: none;
-  transform: translateY(-100%);
-  transition: all 0.3s ease-in-out;
-  z-index: 2;
+  gap: 5rem;
 }
 
 .loginWrapper {
@@ -23,8 +15,9 @@
   border-radius: 2rem;
 }
 
-.open {
-  transform: translateY(0);
+.img {
+  width: 50%;
+  border-radius: 5px;
 }
 
 .title {
@@ -83,4 +76,27 @@
 
 .input:focus:not(.empty).valid:valid {
   border: 1px solid green;
+}
+
+@media (max-width: 940px) {
+  .img {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 500px) {
+  .select {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .googleButton {
+    width: 16rem;
+  }
+
+  .submitButton {
+    width: 16rem;
+  }
 }

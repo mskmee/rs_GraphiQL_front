@@ -1,19 +1,21 @@
 import { useCallback, useState } from 'react';
-import styles from './Editor.module.css';
+import { useTranslation } from 'react-i18next';
+import { useMutation, useQuery } from '@tanstack/react-query';
+import { Prec } from '@codemirror/state';
+import { keymap } from '@codemirror/view';
+import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
+import { graphql } from 'cm6-graphql';
+import { GraphQLSchema } from 'graphql';
+import { apiController } from '@/api/apiController';
 import { QueryIDE } from './QueryIDE';
 import { EditorTools } from './EditorTools';
 import { ResponseIDE } from './ResponseIDE';
-import playIcon from '@/assets/icons/play.png';
-import stopIcon from '@/assets/icons/stop.png';
-import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
-import { Prec } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
-import { graphql } from 'cm6-graphql';
-import { GraphQLSchema } from 'graphql';
-import { useMutation, useQuery } from '@tanstack/react-query';
-import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
 import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces';
+
+import playIcon from '@/assets/icons/play.png';
+import stopIcon from '@/assets/icons/stop.png';
+import styles from './Editor.module.css';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -52,6 +54,9 @@ export const Editor = () => {
 
   const [queryResponse, setQueryResponse] = useState('');
   const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
+  const { t } = useTranslation();
+  const placeholderValue = t('editor.pattern');
+
   const onQueryChange = useCallback((value: string) => {
     setQuery((prev) => {
       return { ...prev, query: value };
@@ -81,7 +86,7 @@ export const Editor = () => {
           <div className={styles.editorField}>
             <QueryIDE
               value=""
-              placeholder="Enter your query here"
+              placeholder={placeholderValue}
               onChange={onQueryChange}
               extensions={extensions(schemaResponse.data)}
             />

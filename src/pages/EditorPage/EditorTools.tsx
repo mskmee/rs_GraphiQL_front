@@ -1,11 +1,13 @@
 import { useState } from 'react';
-import styles from './EditorTools.module.css';
-import classNames from 'classnames';
-import { QueryIDE } from './QueryIDE';
 import { jsonLanguage } from '@codemirror/lang-json';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { autocompletion } from '@codemirror/autocomplete';
+import { useTranslation } from 'react-i18next';
+import { QueryIDE } from './QueryIDE';
+
+import styles from './EditorTools.module.css';
+import classNames from 'classnames';
 
 const extensions = [
   autocompletion({
@@ -30,6 +32,7 @@ interface EditorToolsProps {
 
 export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsProps) => {
   const [toolsView, setToolsView] = useState('variables');
+  const { t } = useTranslation();
 
   return (
     <div className={styles.editorTools}>
@@ -41,7 +44,7 @@ export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsP
           })}
           onClick={() => setToolsView('variables')}
         >
-          Variables
+          {t('editor.variables')}
         </button>
         <button
           type="button"
@@ -50,7 +53,7 @@ export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsP
           })}
           onClick={() => setToolsView('headers')}
         >
-          Headers
+          {t('editor.headers')}
         </button>
       </div>
       <div className={classNames(styles.toolsIDE, { [styles.opacity]: toolsView === 'variables' })}>

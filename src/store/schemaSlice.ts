@@ -1,5 +1,6 @@
 import { createAsyncThunk, createSlice } from '@reduxjs/toolkit';
 import { GraphQLSchema, getIntrospectionQuery } from 'graphql';
+
 import axios from 'axios';
 
 interface schemaState {

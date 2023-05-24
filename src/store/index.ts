@@ -1,4 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit';
+
 import userStateReducer from './userSlice';
 import schemaStateReducer from './schemaSlice';
 

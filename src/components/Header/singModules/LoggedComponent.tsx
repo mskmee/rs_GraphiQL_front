@@ -1,15 +1,20 @@
-import React, { useEffect } from 'react';
+import { useEffect } from 'react';
+import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
+import { useSignOut } from 'react-firebase-hooks/auth';
 import { Button } from '@/components/BasicComponents/Button';
 import { auth } from '@/db';
-import { useSignOut } from 'react-firebase-hooks/auth';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+
 import styles from '../Header.module.css';
 
 export const LoggedComponent = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const { t } = useTranslation();
   const [singOut, isLoading, err] = useSignOut(auth);
   const userName = useAppSelector((state) => state.userState.userName);
 
@@ -19,6 +24,7 @@ export const LoggedComponent = () => {
       dispatch(changeUserName(''));
       dispatch(changeIsUserLogged(false));
       dispatch(changeLoginStatus(''));
+      navigate('/');
     }
   };
 
@@ -34,7 +40,7 @@ export const LoggedComponent = () => {
       <div className={styles.nav}>
         <div>{userName}</div>
         <Button type="button" onClick={onSingOut}>
-          Log out
+          {t('login.logout')}
         </Button>
       </div>
     </>

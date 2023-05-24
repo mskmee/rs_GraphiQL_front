@@ -1,5 +1,3 @@
-import { Link } from './Link';
-import { Button } from './Button';
-import { Input } from './Input';
-
-export { Link, Button, Input };
+export { Link } from './Link';
+export { Button } from './Button';
+export { Input } from './Input';
