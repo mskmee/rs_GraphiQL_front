@@ -10,8 +10,8 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import { SignUpData, signUpSchema } from '@/pages/Login/loginComponents/FormValidation';
 import registrationImg from '@/assets/images/registration-img.jpg';
+import { SignUpData, signUpSchema } from '@/utils/authFormSchema';
 
 export const Registration = () => {
   const { t } = useTranslation();

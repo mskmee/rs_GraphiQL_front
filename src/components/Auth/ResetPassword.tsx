@@ -1,7 +1,6 @@
 import { auth } from '@/db';
 import styles from './Styles.module.css';
 import { useAppDispatch } from '@/hooks/useRedux';
-import { ResetData, resetSchema } from '@/pages/Login/loginComponents/FormValidation';
 import { changeLoginStatus } from '@/store/userSlice';
 import { useEffect } from 'react';
 import { useSendPasswordResetEmail } from 'react-firebase-hooks/auth';
@@ -12,6 +11,7 @@ import { Button, Input, Link } from '../BasicComponents';
 import { useTranslation } from 'react-i18next';
 import { yupResolver } from '@hookform/resolvers/yup';
 import emailImg from '@/assets/images/forgot-password-img.jpg';
+import { ResetData, resetSchema } from '@/utils/authFormSchema';
 
 export const ResetPassword = () => {
   const { t } = useTranslation();

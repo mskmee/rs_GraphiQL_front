@@ -11,8 +11,8 @@ import { Loader } from '@/components/Loader';
 import { Button, Input, Link } from '@/components/BasicComponents';
 import { auth } from '@/db';
 import loginImg from '@/assets/images/login-img.jpg';
-import { SignInData, signInSchema } from '@/pages/Login/loginComponents/FormValidation';
 import { SingInWithGoogle } from './SingInWithGoogle';
+import { SignInData, signInSchema } from '@/utils/authFormSchema';
 
 export const Login = () => {
   const { t } = useTranslation();
