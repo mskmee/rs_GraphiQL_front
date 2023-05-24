@@ -8,8 +8,10 @@ import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/u
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import styles from '../Header.module.css';
 import { useTranslation } from 'react-i18next';
+import { useNavigate } from 'react-router-dom';
 
 export const LoggedComponent = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const [singOut, isLoading, err] = useSignOut(auth);
@@ -21,6 +23,7 @@ export const LoggedComponent = () => {
       dispatch(changeUserName(''));
       dispatch(changeIsUserLogged(false));
       dispatch(changeLoginStatus(''));
+      navigate('/');
     }
   };
 

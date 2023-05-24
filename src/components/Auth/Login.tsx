@@ -1,8 +1,7 @@
 import React, { useEffect } from 'react';
-import styles from './LoginPage.module.css';
+import styles from './Styles.module.css';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
-import { SignInData, signInSchema } from '../Login/loginComponents/FormValidation';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useAppDispatch } from '@/hooks/useRedux';
@@ -10,11 +9,12 @@ import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/u
 import { toast } from 'react-toastify';
 import { Loader } from '@/components/Loader';
 import { Button, Input, Link } from '@/components/BasicComponents';
-import { SingInWithGoogle } from '../Login/loginComponents/SingInWithGoogle';
 import { auth } from '@/db';
 import loginImg from '@/assets/images/loginImg.jpg';
+import { SignInData, signInSchema } from '@/pages/Login/loginComponents/FormValidation';
+import { SingInWithGoogle } from './SingInWithGoogle';
 
-export const LoginPage = () => {
+export const Login = () => {
   const { t } = useTranslation();
   const signInButtonValue = t('login.signIn');
 
@@ -46,7 +46,7 @@ export const LoginPage = () => {
   };
 
   return (
-    <div className={styles.wrapper}>
+    <>
       {isLoading && <Loader />}
       <div className={styles.container}>
         <img className={styles.img} src={loginImg} alt="login image" />
@@ -78,6 +78,6 @@ export const LoginPage = () => {
           </div>
         </div>
       </div>
-    </div>
+    </>
   );
 };

@@ -1,7 +1,6 @@
 import styles from './WelcomePage.module.css';
 import bgImage from '@/assets/images/graphiQL-bg.jpg';
 import arrowImage from '@/assets/images/arrow.png';
-import { Login } from '@/pages/Login/Login';
 import { Info } from './Info';
 import { useAppSelector } from '@/hooks/useRedux';
 
@@ -18,7 +17,6 @@ export const WelcomePage = () => {
         draggable="false"
         style={isLogged ? { transform: 'rotate(30deg)' } : { transform: 'rotate(210deg)' }}
       />
-      <Login />
       <Info />
     </div>
   );

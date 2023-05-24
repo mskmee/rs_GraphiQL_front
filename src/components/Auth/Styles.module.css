@@ -1,0 +1,102 @@
+.container {
+  padding: 3rem;
+  display: flex;
+  gap: 5rem;
+}
+
+.loginWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 3rem;
+  width: 50%;
+  height: 80%;
+  background-color: rgb(255, 255, 255);
+  border-radius: 2rem;
+}
+
+.img {
+  width: 50%;
+  border-radius: 5px;
+}
+
+.title {
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.8rem;
+  font-weight: 700;
+  margin-bottom: 2rem;
+  color: var(--violet-color);
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.submitButton {
+  width: 20rem;
+  margin: 1rem 0;
+}
+
+.submitInput {
+  width: 100%;
+  height: 100%;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+}
+
+.resetButton {
+  margin-left: auto;
+}
+
+.select {
+  display: flex;
+  align-items: center;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+}
+
+.googleButton {
+  width: 20rem;
+  margin-bottom: 1rem;
+  background-color: transparent;
+  border: 1px solid var(--violet-color);
+  color: var(--violet-color);
+}
+
+.googleButton:hover {
+  outline: none;
+  color: white;
+}
+
+.input:focus:not(.empty).valid:valid {
+  border: 1px solid green;
+}
+
+@media (max-width: 940px) {
+  .img {
+    display: none;
+    visibility: hidden;
+  }
+}
+
+@media (max-width: 500px) {
+  .select {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 370px) {
+  .googleButton {
+    width: 16rem;
+  }
+
+  .submitButton {
+    width: 16rem;
+  }
+}
