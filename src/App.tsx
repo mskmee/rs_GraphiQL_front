@@ -1,12 +1,11 @@
+import { useAuthListener } from './hooks/useAuthListener';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { WelcomePage, EditorPage, NotFoundPage, AuthPage } from '@/pages';
 import { Layout } from '@/components/Layout/Layout';
 
 import './App.css';
-import { useAuthListener } from './hooks/useAuthListener';
 
 function App() {
-  console.count('app loaded');
   const isLogged = useAuthListener();
   return (
     <Routes>

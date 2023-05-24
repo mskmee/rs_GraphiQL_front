@@ -2,10 +2,9 @@ import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppSelector } from './useRedux';
 import { useDispatch } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { changeIsUserLogged, changeUserName } from '@/store/userSlice';
-import { useTranslation } from 'react-i18next';
-
 import { toast } from 'react-toastify';
 
 export const useAuthListener = () => {
