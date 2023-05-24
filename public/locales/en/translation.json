@@ -17,6 +17,7 @@
   },
   "sponsored": "Sponsored by",
   "login": {
+    "haveAccount": "Already have an account?",
     "signIn": "Sign in",
     "signUp": "Sign up",
     "logout": "Log out",

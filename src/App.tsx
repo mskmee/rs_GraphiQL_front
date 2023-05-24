@@ -1,7 +1,5 @@
 import './App.css';
-import { WelcomePage } from '@/pages/WelcomePage/WelcomePage';
-import { EditorPage } from '@/pages/EditorPage/EditorPage';
-import { NotFoundPage } from '@/pages/NotFoundPage/NotFoundPage';
+import { WelcomePage, EditorPage, NotFoundPage, AuthPage } from '@/pages';
 import { Navigate, Route, Routes } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import { useAppSelector } from './hooks/useRedux';
@@ -28,6 +26,7 @@ function App() {
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<WelcomePage />} />
+        <Route path="/auth" element={isLogged ? <Navigate to="/" /> : <AuthPage />} />
         <Route path="/editor" element={isLogged ? <EditorPage /> : <Navigate to="/" />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
