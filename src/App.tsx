@@ -2,7 +2,7 @@ import './App.css';
 import { WelcomePage } from '@/pages/WelcomePage/WelcomePage';
 import { EditorPage } from '@/pages/EditorPage/EditorPage';
 import { NotFoundPage } from '@/pages/NotFoundPage/NotFoundPage';
-import { Navigate, Route, Routes } from 'react-router-dom';
+import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
 import { Layout } from '@/components/Layout/Layout';
 import { useAppSelector } from './hooks/useRedux';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -12,7 +12,7 @@ import { changeIsUserLogged, changeUserName } from './store/userSlice';
 
 function App() {
   const isLogged = useAppSelector((state) => state.userState.isUserLogged);
-
+  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     const auth = getAuth();
@@ -24,8 +24,9 @@ function App() {
       }
       dispatch(changeIsUserLogged(false));
       dispatch(changeUserName(''));
+      navigate('/');
     });
-  }, [dispatch]);
+  }, [dispatch, navigate]);
 
   return (
     <Routes>
