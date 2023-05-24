@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { Loader } from '@/components/Loader';
 import { Button, Input, Link } from '@/components/BasicComponents';
 import { auth } from '@/db';
-import loginImg from '@/assets/images/loginImg.jpg';
+import loginImg from '@/assets/images/login-img.jpg';
 import { SignInData, signInSchema } from '@/pages/Login/loginComponents/FormValidation';
 import { SingInWithGoogle } from './SingInWithGoogle';
 
