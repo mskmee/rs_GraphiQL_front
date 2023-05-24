@@ -1,5 +1,5 @@
 import { useEffect } from 'react';
-import { Navigate, Route, Routes, useNavigate } from 'react-router-dom';
+import { Navigate, Route, Routes } from 'react-router-dom';
 import { useDispatch } from 'react-redux';
 import { useAppSelector } from './hooks/useRedux';
 import { changeIsUserLogged, changeUserName } from './store/userSlice';
@@ -11,7 +11,6 @@ import './App.css';
 
 function App() {
   const isLogged = useAppSelector((state) => state.userState.isUserLogged);
-  const navigate = useNavigate();
   const dispatch = useDispatch();
   useEffect(() => {
     const auth = getAuth();
@@ -24,7 +23,7 @@ function App() {
       dispatch(changeIsUserLogged(false));
       dispatch(changeUserName(''));
     });
-  }, [dispatch, navigate]);
+  }, [dispatch]);
 
   return (
     <Routes>
