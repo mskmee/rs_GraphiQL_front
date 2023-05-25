@@ -1,12 +1,13 @@
+import { memo, useEffect, useState } from 'react';
+import { NavLink } from 'react-router-dom';
+import { useTranslation } from 'react-i18next';
+import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
+import { changeLang } from '@/store/userSlice';
+import { SingComponent, LoggedComponent } from './singModules';
+
+import logo from '@/assets/icons/graphiQL-logo.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
-import { NavLink } from 'react-router-dom';
-import { memo, useEffect, useState } from 'react';
-import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import { SingComponent, LoggedComponent } from './singModules';
-import logo from '@/assets/icons/graphiQL-logo.png';
-import { changeLang } from '@/store/userSlice';
-import { useTranslation } from 'react-i18next';
 
 export const Header = memo(function Header() {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);

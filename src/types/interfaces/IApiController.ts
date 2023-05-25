@@ -1,11 +1,8 @@
 import { GraphQLSchema } from 'graphql';
 import { IApiResponse } from './IApiResponse';
+import { IApiRequest } from './IApiRequest';
 
 export interface IApiController {
   getSchema: () => Promise<GraphQLSchema>;
-  getGraphQLResponse: (
-    query: string,
-    headersString?: string,
-    variablesString?: string
-  ) => Promise<IApiResponse>;
+  getGraphQLResponse: (data: IApiRequest) => Promise<IApiResponse>;
 }

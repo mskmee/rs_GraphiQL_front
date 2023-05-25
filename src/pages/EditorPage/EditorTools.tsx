@@ -1,13 +1,19 @@
 import { useState } from 'react';
-import styles from './EditorTools.module.css';
-import classNames from 'classnames';
-import { QueryIDE } from './QueryIDE';
 import { jsonLanguage } from '@codemirror/lang-json';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
+import { autocompletion } from '@codemirror/autocomplete';
 import { useTranslation } from 'react-i18next';
+import { QueryIDE } from './QueryIDE';
+
+import styles from './EditorTools.module.css';
+import classNames from 'classnames';
 
 const extensions = [
+  autocompletion({
+    activateOnTyping: true,
+    icons: true,
+  }),
   jsonLanguage,
   Prec.high(
     keymap.of([
