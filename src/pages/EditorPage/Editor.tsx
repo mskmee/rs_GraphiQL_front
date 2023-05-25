@@ -10,9 +10,8 @@ import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { graphql } from 'cm6-graphql';
 import { GraphQLSchema } from 'graphql';
-import { callApi } from '@/api/callApi';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
 import { apiController } from '@/api/apiController';
 import { AxiosError } from 'axios';
 import { IApiResponseError } from '@/types/interfaces/IApiResponseError';
@@ -38,8 +37,12 @@ const extensions = (schema?: GraphQLSchema) => [
   ),
 ];
 
-export const Editor = () => {
-  const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
+interface EditorProps {
+  schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
+}
+
+export const Editor = ({ schemaResponse }: EditorProps) => {
+  //const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
   const { mutate, isLoading } = useMutation<IApiResponse, AxiosError<IApiResponseError>, string>(
     (data) => apiController.getGraphQLResponse(data, variables, headers),
     {

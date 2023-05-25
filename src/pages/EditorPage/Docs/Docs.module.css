@@ -1,0 +1,120 @@
+.docsWrapper {
+  display: flex;
+  align-items: flex-start;
+  gap: 1rem;
+  width: 4rem;
+  padding: 1rem 0.5rem;
+  margin-bottom: 1rem;
+  background-color: white;
+  border-top-right-radius: 1rem;
+  border-bottom-right-radius: 1rem;
+  transition: all 0.2s ease-in-out;
+}
+
+.open {
+  width: 25rem;
+}
+
+.docsButton {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.docsButton:hover {
+  transform: scale(1.03);
+}
+
+.docs {
+  display: flex;
+  flex-direction: column;
+  padding-top: 0.1rem;
+  padding-right: 0.5rem;
+}
+
+.docsTitle {
+  margin: 0;
+  margin-bottom: 1rem;
+  padding: 0;
+  font-size: 1.6rem;
+}
+
+.typesWrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 1rem;
+}
+
+.title {
+  margin-bottom: 1rem;
+}
+
+.subtitle {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+  font-size: 0.9rem;
+  color: rgb(108, 106, 106);
+}
+
+.query,
+.types {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.button {
+  display: flex;
+  justify-content: center;
+  border: none;
+  background-color: transparent;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: rgb(158, 158, 158);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.backButton {
+  padding: 0;
+  margin-bottom: 1rem;
+}
+
+.backButton:hover {
+  opacity: 0.8;
+}
+
+.fieldButton,
+.typesButton {
+  padding: 0;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1.2rem;
+  font-weight: 400;
+  color: #0080ff;
+}
+
+.typesButton {
+  color: #e9a700;
+}
+
+.fieldButton:hover,
+.typesButton:hover {
+  text-decoration: underline;
+}
+
+.description {
+  font-size: 1rem;
+  margin-bottom: 1rem;
+}
+
+@media (max-width: 1000px) {
+  .open {
+    min-height: 85vh;
+    width: 96%;
+  }
+}
