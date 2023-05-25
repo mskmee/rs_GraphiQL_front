@@ -1,6 +1,13 @@
 .container {
   padding: 3rem;
   display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: transparent;
+  border: none;
+  transform: translateY(-100%);
+  transition: all 0.3s ease-in-out;
+  z-index: 5;
   gap: 5rem;
 }
 

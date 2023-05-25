@@ -32,7 +32,7 @@
     "tokenExpired": "Please login into your account."
   },
   "editor": {
-    "pattern": "Enter your query here",
+    "pattern": "Enter your query",
     "variables": "Variables",
     "headers": "Headers"
   }

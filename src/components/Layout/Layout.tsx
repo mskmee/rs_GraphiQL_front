@@ -1,3 +1,4 @@
+import styles from './Layout.module.css';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
 import { Header } from '@/components/Header/Header';
@@ -9,7 +10,7 @@ export const Layout = () => {
   return (
     <>
       <Header />
-      <main>
+      <main className={styles.main}>
         <Outlet />
         <ToastContainer
           position="bottom-left"

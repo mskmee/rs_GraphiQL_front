@@ -7,8 +7,8 @@ import { store } from '@/store';
 import App from './App';
 import './index.css';
 import './i18n';
-
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { Loader } from '@/components/Loader';
 
 const queryClient = new QueryClient({
   defaultOptions: {
@@ -21,7 +21,7 @@ const queryClient = new QueryClient({
 // todo add loader into Suspense
 ReactDOM.createRoot(document.getElementById('root') as HTMLElement).render(
   <React.StrictMode>
-    <Suspense fallback={<div>Loading...</div>}>
+    <Suspense fallback={<Loader />}>
       <QueryClientProvider client={queryClient}>
         <Provider store={store}>
           <BrowserRouter>

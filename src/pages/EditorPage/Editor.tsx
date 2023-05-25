@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
@@ -37,8 +37,11 @@ const extensions = (schema?: GraphQLSchema) => [
   ),
 ];
 
-export const Editor = () => {
-  const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
+interface EditorProps {
+  schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
+}
+
+export const Editor = ({ schemaResponse }: EditorProps) => {
   const { mutate, isLoading } = useMutation<
     IApiResponse,
     AxiosError<IApiResponseError>,
@@ -48,7 +51,7 @@ export const Editor = () => {
       setQueryResponse(JSON.stringify(response, null, ' '));
     },
     onError: (err) => {
-      setQueryResponse(err.response?.data.errors[0].message ?? err.toString());
+      setQueryResponse(err.response?.data.errors[0].message ?? 'error');
     },
   });
 
