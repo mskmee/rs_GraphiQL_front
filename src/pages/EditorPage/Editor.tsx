@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult, useMutation, useQuery } from '@tanstack/react-query';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
