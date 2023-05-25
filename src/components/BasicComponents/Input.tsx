@@ -1,7 +1,8 @@
 import { ChangeEvent, InputHTMLAttributes, useState } from 'react';
-import styles from './Input.module.css';
-import classNames from 'classnames';
 import { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form';
+
+import classNames from 'classnames';
+import styles from './Input.module.css';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: Path<SignInData> | Path<SignUpData> | Path<ResetData>;

@@ -53,12 +53,6 @@
   --n: 4;
 }
 
-@media (max-width: 500px) {
-  .button {
-    width: 15rem;
-  }
-}
-
 @media (max-width: 370px) {
   .button {
     width: 12rem;
