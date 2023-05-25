@@ -7,6 +7,7 @@ import './App.css';
 
 function App() {
   const isLogged = useAuthListener();
+
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
