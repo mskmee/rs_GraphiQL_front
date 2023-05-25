@@ -1,9 +1,10 @@
 import styles from './Layout.module.css';
 import { Outlet } from 'react-router-dom';
 import { ToastContainer } from 'react-toastify';
-import 'react-toastify/ReactToastify.min.css';
 import { Header } from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
+
+import 'react-toastify/ReactToastify.min.css';
 
 export const Layout = () => {
   return (

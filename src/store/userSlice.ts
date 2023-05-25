@@ -1,9 +1,8 @@
+import { UserStateLoginStatus } from '@/types/UserStateLoginStatus';
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
-type LoginStatus = '' | 'sign-in' | 'sign-up' | 'reset-password';
-
 interface userState {
-  loginStatus: LoginStatus;
+  loginStatus: UserStateLoginStatus;
   userName: string;
   isUserLogged: boolean;
   lang: string;
@@ -20,7 +19,7 @@ const userStateSlice = createSlice({
   name: 'userState',
   initialState,
   reducers: {
-    changeLoginStatus(state, action: PayloadAction<LoginStatus>) {
+    changeLoginStatus(state, action: PayloadAction<UserStateLoginStatus>) {
       state.loginStatus = action.payload;
     },
     changeUserName(state, actions: PayloadAction<string>) {

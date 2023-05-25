@@ -1,8 +1,9 @@
-import { Button } from '@/components/BasicComponents/Button';
-import styles from './NotFoundPage.module.css';
-import notFoundImage from '@/assets/images/not-found.jpg';
 import { Navigate } from 'react-router-dom';
 import { useState } from 'react';
+import { Button } from '@/components/BasicComponents/Button';
+
+import styles from './NotFoundPage.module.css';
+import notFoundImage from '@/assets/images/not-found.jpg';
 
 export const NotFoundPage = () => {
   const [redirectToMain, setRedirectToMain] = useState(false);

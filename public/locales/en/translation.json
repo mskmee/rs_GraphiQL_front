@@ -17,6 +17,7 @@
   },
   "sponsored": "Sponsored by",
   "login": {
+    "haveAccount": "Already have an account?",
     "signIn": "Sign in",
     "signUp": "Sign up",
     "logout": "Log out",
@@ -26,6 +27,9 @@
     "send": "Send me a password",
     "google": "Sign in with Google",
     "return": "Return"
+  },
+  "info": {
+    "tokenExpired": "Please login into your account."
   },
   "editor": {
     "pattern": "Enter your query",

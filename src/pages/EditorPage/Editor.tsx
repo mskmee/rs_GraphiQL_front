@@ -1,21 +1,21 @@
 import { useCallback, useState } from 'react';
-import styles from './Editor.module.css';
+import { useTranslation } from 'react-i18next';
+import { UseQueryResult, useMutation } from '@tanstack/react-query';
+import { Prec } from '@codemirror/state';
+import { keymap } from '@codemirror/view';
+import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
+import { graphql } from 'cm6-graphql';
+import { GraphQLSchema } from 'graphql';
+import { apiController } from '@/api/apiController';
 import { QueryIDE } from './QueryIDE';
 import { EditorTools } from './EditorTools';
 import { ResponseIDE } from './ResponseIDE';
+import { AxiosError } from 'axios';
+import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces';
+
 import playIcon from '@/assets/icons/play.png';
 import stopIcon from '@/assets/icons/stop.png';
-import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
-import { Prec } from '@codemirror/state';
-import { keymap } from '@codemirror/view';
-import { graphql } from 'cm6-graphql';
-import { GraphQLSchema } from 'graphql';
-import { useTranslation } from 'react-i18next';
-import { UseQueryResult, useMutation } from '@tanstack/react-query';
-import { apiController } from '@/api/apiController';
-import { AxiosError } from 'axios';
-import { IApiResponseError } from '@/types/interfaces/IApiResponseError';
-import { IApiResponse } from '@/types/interfaces/IApiResponse';
+import styles from './Editor.module.css';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -42,40 +42,44 @@ interface EditorProps {
 }
 
 export const Editor = ({ schemaResponse }: EditorProps) => {
-  //const schemaResponse = useQuery(['getSchema'], apiController.getSchema);
-  const { mutate, isLoading } = useMutation<IApiResponse, AxiosError<IApiResponseError>, string>(
-    (data) => apiController.getGraphQLResponse(data, variables, headers),
-    {
-      onSuccess: (response) => {
-        setQueryResponse(JSON.stringify(response, null, ' '));
-      },
-      onError: (err) => {
-        setQueryResponse(err.response?.data.errors[0].message ?? 'error');
-      },
-    }
-  );
+  const { mutate, isLoading } = useMutation<
+    IApiResponse,
+    AxiosError<IApiResponseError>,
+    IApiRequest
+  >((data) => apiController.getGraphQLResponse(data), {
+    onSuccess: (response) => {
+      setQueryResponse(JSON.stringify(response, null, ' '));
+    },
+    onError: (err) => {
+      setQueryResponse(err.response?.data.errors[0].message ?? 'error');
+    },
+  });
 
   const [queryResponse, setQueryResponse] = useState('');
-  const [query, setQuery] = useState('');
-  const [variables, setVariables] = useState('');
-  const [headers, setHeaders] = useState('');
+  const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
   const { t } = useTranslation();
   const placeholderValue = t('editor.pattern');
 
   const onQueryChange = useCallback((value: string) => {
-    setQuery(value);
+    setQuery((prev) => {
+      return { ...prev, query: value };
+    });
   }, []);
 
   const onVariablesChange = useCallback((value: string) => {
-    setVariables(value);
+    setQuery((prev) => {
+      return { ...prev, variables: value };
+    });
   }, []);
 
   const onHeadersChange = useCallback((value: string) => {
-    setHeaders(value);
+    setQuery((prev) => {
+      return { ...prev, headers: value };
+    });
   }, []);
 
   const handleSubmit = () => {
-    mutate(query.trim());
+    mutate(query);
   };
 
   return (

@@ -1,8 +1,9 @@
 import { useErrorBoundary } from 'react-error-boundary';
+import { useQueryErrorResetBoundary } from '@tanstack/react-query';
+import { Button } from './Button';
+
 import styles from './ErrorFallback.module.css';
 import errorImg from '@/assets/images/not-found.jpg';
-import { Button } from './Button';
-import { useQueryErrorResetBoundary } from '@tanstack/react-query';
 
 interface IErrorFallback {
   error: Error;

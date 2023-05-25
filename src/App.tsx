@@ -1,33 +1,18 @@
-import './App.css';
-import { WelcomePage } from '@/pages/WelcomePage/WelcomePage';
-import { EditorPage } from '@/pages/EditorPage/EditorPage';
-import { NotFoundPage } from '@/pages/NotFoundPage/NotFoundPage';
+import { useAuthListener } from './hooks/useAuthListener';
 import { Navigate, Route, Routes } from 'react-router-dom';
+import { WelcomePage, EditorPage, NotFoundPage, AuthPage } from '@/pages';
 import { Layout } from '@/components/Layout/Layout';
-import { useAppSelector } from './hooks/useRedux';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
-import { useEffect } from 'react';
-import { useDispatch } from 'react-redux';
-import { changeIsUserLogged, changeUserName } from './store/userSlice';
+
+import './App.css';
 
 function App() {
-  const isLogged = useAppSelector((state) => state.userState.isUserLogged);
-
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(changeIsUserLogged(true));
-        dispatch(changeUserName(user.displayName ?? 'Unknown'));
-      }
-    });
-  }, [dispatch]);
+  const isLogged = useAuthListener();
 
   return (
     <Routes>
       <Route path="/" element={<Layout />}>
         <Route index element={<WelcomePage />} />
+        <Route path="/auth" element={isLogged ? <Navigate to="/" /> : <AuthPage />} />
         <Route path="/editor" element={isLogged ? <EditorPage /> : <Navigate to="/" />} />
         <Route path="*" element={<NotFoundPage />} />
       </Route>
