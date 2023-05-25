@@ -27,16 +27,26 @@ const extensions = [
 ];
 
 interface EditorToolsProps {
+  variablesValue: string;
+  headersValue: string;
   onVariablesChange: (value: string) => void;
   onHeadersChange: (value: string) => void;
+  onToolsClose: (value: boolean) => void;
 }
 
-export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsProps) => {
+export const EditorTools = ({
+  variablesValue,
+  headersValue,
+  onVariablesChange,
+  onHeadersChange,
+  onToolsClose,
+}: EditorToolsProps) => {
   const [toolsView, setToolsView] = useState('variables');
   const [isToolsHidden, setIsToolsHidden] = useState(false);
   const { t } = useTranslation();
   const toolsToggleHandler = () => {
     setIsToolsHidden((prev) => !prev);
+    onToolsClose(isToolsHidden);
   };
 
   return (
@@ -69,12 +79,12 @@ export const EditorTools = ({ onVariablesChange, onHeadersChange }: EditorToolsP
           <div
             className={classNames(styles.toolsIDE, { [styles.opacity]: toolsView === 'variables' })}
           >
-            <QueryIDE value="" onChange={onVariablesChange} extensions={extensions} />
+            <QueryIDE value={variablesValue} onChange={onVariablesChange} extensions={extensions} />
           </div>
           <div
             className={classNames(styles.toolsIDE, { [styles.opacity]: toolsView === 'headers' })}
           >
-            <QueryIDE value="" onChange={onHeadersChange} extensions={extensions} />
+            <QueryIDE value={headersValue} onChange={onHeadersChange} extensions={extensions} />
           </div>
         </>
       )}
