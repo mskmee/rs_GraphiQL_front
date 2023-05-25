@@ -45,7 +45,9 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
       >
         <img src={docsIcon} alt="Docs" />
       </button>
-      {isDocsOpen && (!queryType || !schema) && <div className={styles.docs}>Docs not found</div>}
+      {isDocsOpen && (!queryType || !schema) && (
+        <div className={styles.docsTitle}>Docs not found</div>
+      )}
       {isDocsOpen && queryType && schema && (
         <div className={styles.docs}>
           <h2 className={styles.docsTitle}>Docs</h2>
