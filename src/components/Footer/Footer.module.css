@@ -1,6 +1,7 @@
 .footer {
   height: 3rem;
   display: flex;
+  flex: 0 0 auto;
   justify-content: space-around;
   align-items: center;
   gap: 5rem;

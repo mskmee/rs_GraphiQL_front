@@ -1,7 +1,7 @@
 .editorTools {
   position: relative;
   width: 100%;
-  height: 95%;
+  height: 40%;
 }
 
 .toolsButtons {
@@ -27,7 +27,7 @@
 
 .toolsIDE {
   overflow-y: auto;
-  height: 24%;
+  height: 55%;
   position: absolute;
   top: 3rem;
   left: 0;
@@ -53,4 +53,10 @@
   background-color: rgb(200, 200, 200);
   border-radius: 20px;
   border: 3px solid var(--purple-color);
+}
+
+@media (max-width: 850px) {
+  .toolsIDE {
+    height: 7rem;
+  }
 }

@@ -1,0 +1,16 @@
+.wrapper {
+  display: flex;
+  padding-top: 5rem;
+  background: linear-gradient(
+    145deg,
+    rgb(245, 243, 243) 0%,
+    rgb(243, 244, 246) 10%,
+    rgb(235, 238, 241) 27%
+  );
+}
+
+@media (max-width: 1000px) {
+  .wrapper {
+    flex-direction: column;
+  }
+}
