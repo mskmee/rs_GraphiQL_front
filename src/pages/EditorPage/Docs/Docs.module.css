@@ -67,6 +67,12 @@
   gap: 0.5rem;
 }
 
+.value {
+  font-size: 1.2rem;
+  margin-bottom: 0.2rem;
+  color: #1ea372;
+}
+
 .button {
   display: flex;
   justify-content: center;

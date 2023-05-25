@@ -1,5 +1,6 @@
 import styles from './Docs.module.css';
 import {
+  GraphQLEnumType,
   GraphQLField,
   GraphQLInputObjectType,
   GraphQLList,
@@ -29,7 +30,12 @@ export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
   };
 
   const getDescription = (openType: GraphQLType | GraphQLField<unknown, unknown> | null) => {
-    if (!openType || openType instanceof GraphQLList || openType instanceof GraphQLNonNull) {
+    if (
+      !openType ||
+      openType instanceof GraphQLList ||
+      openType instanceof GraphQLNonNull ||
+      openType instanceof GraphQLEnumType
+    ) {
       return null;
     }
 
@@ -43,6 +49,18 @@ export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
     <>
       <div className={styles.title}>{lastItem.element.name}</div>
       {description && <div className={styles.description}>{description}</div>}
+      {lastItem.element instanceof GraphQLEnumType && (
+        <>
+          <div className={styles.subtitle}>Enum values</div>
+          {Object.values(lastItem.element.getValues()).map((el) => {
+            return (
+              <div key={el.name} className={styles.value}>
+                {el.name}
+              </div>
+            );
+          })}
+        </>
+      )}
       {lastItem.type === 'field' && (
         <>
           <div className={styles.subtitle}>Type</div>
