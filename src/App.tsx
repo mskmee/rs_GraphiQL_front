@@ -1,29 +1,12 @@
-import { useEffect } from 'react';
+import { useAuthListener } from './hooks/useAuthListener';
 import { Navigate, Route, Routes } from 'react-router-dom';
-import { useDispatch } from 'react-redux';
-import { useAppSelector } from './hooks/useRedux';
-import { changeIsUserLogged, changeUserName } from './store/userSlice';
-import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { WelcomePage, EditorPage, NotFoundPage, AuthPage } from '@/pages';
 import { Layout } from '@/components/Layout/Layout';
 
 import './App.css';
 
 function App() {
-  const isLogged = useAppSelector((state) => state.userState.isUserLogged);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    const auth = getAuth();
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        dispatch(changeIsUserLogged(true));
-        dispatch(changeUserName(user.displayName ?? 'Unknown'));
-        return;
-      }
-      dispatch(changeIsUserLogged(false));
-      dispatch(changeUserName(''));
-    });
-  }, [dispatch]);
+  const isLogged = useAuthListener();
 
   return (
     <Routes>
