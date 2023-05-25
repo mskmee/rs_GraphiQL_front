@@ -11,6 +11,7 @@ import { useTranslation } from 'react-i18next';
 export const Header = memo(function Header() {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
   const lang = useAppSelector((state) => state.userState.lang);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -34,7 +35,20 @@ export const Header = memo(function Header() {
       <NavLink className={styles.logo} to="/">
         <img className={styles.logoImage} src={logo} alt="GraphiQL logo" />
       </NavLink>
-      <div className={styles.buttonsWrapper}>
+      <button
+        type="button"
+        className={classNames(styles.menuButton, { [styles.hidden]: isMenuOpen })}
+        onClick={() => setIsMenuOpen(true)}
+      >
+        <span className={styles.menuLine}></span>
+        <span className={styles.menuLine}></span>
+        <span className={styles.menuLine}></span>
+      </button>
+      <div className={classNames(styles.buttonsWrapper, { [styles.open]: isMenuOpen })}>
+        <button type="button" className={styles.closeButton} onClick={() => setIsMenuOpen(false)}>
+          <span className={styles.closeLine}></span>
+          <span className={styles.closeLine}></span>
+        </button>
         {isUserLogged ? <LoggedComponent /> : <SingComponent />}
         <div className={styles.langWrapper}>
           <button
