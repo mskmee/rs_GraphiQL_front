@@ -60,6 +60,11 @@
   color: rgb(108, 106, 106);
 }
 
+.category {
+  display: flex;
+  flex-direction: column;
+}
+
 .query,
 .types {
   display: flex;
@@ -69,7 +74,7 @@
 
 .value {
   font-size: 1.2rem;
-  margin-bottom: 0.2rem;
+  margin: 0.5rem 0;
   color: #1ea372;
 }
 

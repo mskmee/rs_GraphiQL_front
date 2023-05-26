@@ -35,5 +35,12 @@
     "pattern": "Enter your query",
     "variables": "Variables",
     "headers": "Headers"
+  },
+  "docs": {
+    "rootTypes": "Root types",
+    "allTypes": "All schema types",
+    "type": "Type",
+    "fields": "Fields",
+    "enum": "Enum values"
   }
 }

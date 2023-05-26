@@ -11,6 +11,7 @@ import {
 import { FieldButton } from './FieldButton';
 import { TypeButton } from './TypeButton';
 import { HistoryType } from './Docs';
+import { useTranslation } from 'react-i18next';
 
 interface TypesProps {
   lastItem: HistoryType;
@@ -18,6 +19,7 @@ interface TypesProps {
 }
 
 export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
+  const { t } = useTranslation();
   const getTypeFields = (openType: GraphQLType | null) => {
     if (
       openType &&
@@ -51,7 +53,7 @@ export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
       {description && <div className={styles.description}>{description}</div>}
       {lastItem.element instanceof GraphQLEnumType && (
         <>
-          <div className={styles.subtitle}>Enum values</div>
+          <div className={styles.subtitle}>{t('docs.enum')}</div>
           {Object.values(lastItem.element.getValues()).map((el) => {
             return (
               <div key={el.name} className={styles.value}>
@@ -63,13 +65,13 @@ export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
       )}
       {lastItem.type === 'field' && (
         <>
-          <div className={styles.subtitle}>Type</div>
+          <div className={styles.subtitle}>{t('docs.type')}</div>
           <TypeButton element={lastItem.element.type} onHistoryPush={onHistoryPush} />
         </>
       )}
       {lastItem.type === 'type' && fields && (
         <>
-          <div className={styles.subtitle}>Fields</div>
+          <div className={styles.subtitle}>{t('docs.fields')}</div>
           {Object.values(fields).map((el) => {
             return (
               <div key={el.name} className={styles.types}>
