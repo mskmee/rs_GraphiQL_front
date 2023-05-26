@@ -13,7 +13,7 @@
 
 .bgImage {
   position: absolute;
-  bottom: -4.3rem;
+  bottom: 0;
   right: 0;
   width: 60%;
 }
@@ -39,11 +39,5 @@
     top: 5rem;
     right: 5rem;
     width: 10rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .bgImage {
-    bottom: -2.3rem;
   }
 }
