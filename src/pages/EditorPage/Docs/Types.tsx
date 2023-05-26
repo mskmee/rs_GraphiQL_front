@@ -1,103 +1,80 @@
 import styles from './Docs.module.css';
-import { GraphQLInputObjectType, GraphQLObjectType, GraphQLSchema } from 'graphql';
-import { BackButton } from './BackButton';
+import {
+  GraphQLEnumType,
+  GraphQLField,
+  GraphQLInputObjectType,
+  GraphQLList,
+  GraphQLNonNull,
+  GraphQLObjectType,
+  GraphQLType,
+} from 'graphql';
 import { FieldButton } from './FieldButton';
 import { TypeButton } from './TypeButton';
 import { HistoryType } from './Docs';
 
 interface TypesProps {
-  schema: GraphQLSchema;
-  history: HistoryType;
-  onHistoryChange: (value: HistoryType) => void;
-  openField: string | null;
-  openType: string | null;
-  onFieldOpen: (el: string | null) => void;
-  onTypeOpen: (el: string | null) => void;
-  onClose: () => void;
+  lastItem: HistoryType;
+  onHistoryPush: (value: HistoryType) => void;
 }
 
-export const Types = ({
-  schema,
-  history,
-  onHistoryChange,
-  openField,
-  openType,
-  onClose,
-  onFieldOpen,
-  onTypeOpen,
-}: TypesProps) => {
-  const typeMap = schema?.getTypeMap();
-
-  const getTypeFields = (openType: string) => {
-    const type = typeMap[openType];
-
-    if (type instanceof GraphQLObjectType || type instanceof GraphQLInputObjectType) {
-      return type.getFields();
-    } else {
-      return type.description;
+export const Types = ({ lastItem, onHistoryPush }: TypesProps) => {
+  const getTypeFields = (openType: GraphQLType | null) => {
+    if (
+      openType &&
+      (openType instanceof GraphQLObjectType || openType instanceof GraphQLInputObjectType)
+    ) {
+      return openType.getFields();
     }
-  };
 
-  const getFieldType = (field: string) => {
-    if (field === 'status') {
-      debugger;
-    }
-    const fields = typeMap[openType].getFields();
-    if (fields) {
-      const type = fields[field];
-      if (typeof type === 'undefined') {
-        debugger;
-      }
-      return type;
-    }
     return null;
   };
 
+  const getDescription = (openType: GraphQLType | GraphQLField<unknown, unknown> | null) => {
+    if (
+      !openType ||
+      openType instanceof GraphQLList ||
+      openType instanceof GraphQLNonNull ||
+      openType instanceof GraphQLEnumType
+    ) {
+      return null;
+    }
+
+    return openType.description;
+  };
+
+  const description = getDescription(lastItem.element);
+  const fields = lastItem.type === 'type' ? getTypeFields(lastItem.element) : null;
+
   return (
     <>
-      <BackButton
-        history={history}
-        onTypeOpen={onTypeOpen}
-        onFieldOpen={onFieldOpen}
-        onClose={onClose}
-        onHistoryChange={onHistoryChange}
-      />
-      <div className={styles.title}>{history[history.length - 1].name}</div>
-      {openField && !openType && (
+      <div className={styles.title}>{lastItem.element.name}</div>
+      {description && <div className={styles.description}>{description}</div>}
+      {lastItem.element instanceof GraphQLEnumType && (
         <>
-          <div className={styles.subtitle}>Type</div>
-          <TypeButton
-            element={getFieldType(openField)} // todo сюда объект с типом текущего поля
-            history={history}
-            onFieldOpen={onFieldOpen}
-            onTypeOpen={onTypeOpen}
-            onHistoryChange={onHistoryChange}
-          />
+          <div className={styles.subtitle}>Enum values</div>
+          {Object.values(lastItem.element.getValues()).map((el) => {
+            return (
+              <div key={el.name} className={styles.value}>
+                {el.name}
+              </div>
+            );
+          })}
         </>
       )}
-      {openType && typeof getTypeFields(openType) === 'string' && (
-        <div className={styles.description}>{getTypeFields(openType)}</div>
+      {lastItem.type === 'field' && (
+        <>
+          <div className={styles.subtitle}>Type</div>
+          <TypeButton element={lastItem.element.type} onHistoryPush={onHistoryPush} />
+        </>
       )}
-      {openType && typeof getTypeFields(openType) !== 'string' && (
+      {lastItem.type === 'type' && fields && (
         <>
           <div className={styles.subtitle}>Fields</div>
-          {Object.values(getTypeFields(openType)).map((el) => {
+          {Object.values(fields).map((el) => {
             return (
               <div key={el.name} className={styles.types}>
-                <FieldButton
-                  element={el}
-                  history={history}
-                  onFieldOpen={onFieldOpen}
-                  onTypeOpen={onTypeOpen}
-                  onHistoryChange={onHistoryChange}
-                />
-                <TypeButton
-                  element={el.type}
-                  history={history}
-                  onFieldOpen={onFieldOpen}
-                  onTypeOpen={onTypeOpen}
-                  onHistoryChange={onHistoryChange}
-                />
+                <FieldButton field={el} onHistoryPush={onHistoryPush} />
+                <TypeButton element={el.type} onHistoryPush={onHistoryPush} />
               </div>
             );
           })}

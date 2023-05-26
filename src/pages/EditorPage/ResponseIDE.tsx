@@ -1,5 +1,6 @@
 import { jsonLanguage } from '@codemirror/lang-json';
 import { tags as t } from '@lezer/highlight';
+import { EditorView } from '@codemirror/view';
 
 import CodeMirror from '@uiw/react-codemirror';
 import createTheme from '@uiw/codemirror-themes';
@@ -46,7 +47,7 @@ export const ResponseIDE = ({ value }: QueryIDEProps) => {
     <CodeMirror
       value={value}
       height="100%"
-      extensions={[jsonLanguage]}
+      extensions={[jsonLanguage, EditorView.lineWrapping]}
       editable={false}
       theme={editorTheme}
     />

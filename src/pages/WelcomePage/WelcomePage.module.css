@@ -28,8 +28,17 @@
 
 @media (max-width: 1000px) {
   .arrowImage {
-    top: 4rem;
+    top: 5rem;
     right: 45%;
+    width: 20%;
+  }
+}
+
+@media (max-width: 730px) {
+  .arrowImage {
+    top: 5rem;
+    right: 5rem;
+    width: 10rem;
   }
 }
 

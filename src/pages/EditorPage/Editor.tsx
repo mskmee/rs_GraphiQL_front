@@ -16,7 +16,7 @@ import { IApiResponseError, IApiResponse, IApiRequest } from '@/types/interfaces
 import playIcon from '@/assets/icons/play.png';
 import stopIcon from '@/assets/icons/stop.png';
 import styles from './Editor.module.css';
-import { getApiRequestArg } from '@/utils/getApiRequestArg';
+import classNames from 'classnames';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -61,9 +61,8 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
   });
 
   const [queryResponse, setQueryResponse] = useState('');
-  const [query, setQuery] = useState('');
-  const [headers, setHeaders] = useState('');
-  const [variables, setVariables] = useState('');
+  const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
+  const [areToolsOpen, setAreToolsOpen] = useState(true);
   const { t } = useTranslation();
   const placeholderValue = t('editor.pattern');
 
@@ -80,18 +79,17 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
   }, []);
 
   const handleSubmit = () => {
-    try {
-      const validateRequest = getApiRequestArg(query, variables, headers);
-      mutate(validateRequest);
-    } catch (error) {
-      setQueryResponse((error as Error).message);
-    }
+    mutate(query);
+  };
+
+  const onToolsClose = (value: boolean) => {
+    setAreToolsOpen(value);
   };
 
   return (
     <div className={styles.wrapper}>
       <div className={styles.editor}>
-        <div className={styles.editorWrapper}>
+        <div className={classNames(styles.editorWrapper, { [styles.editorWide]: !areToolsOpen })}>
           <div className={styles.editorField}>
             <QueryIDE
               value=""
@@ -107,7 +105,13 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
             </button>
           </div>
         </div>
-        <EditorTools onVariablesChange={onVariablesChange} onHeadersChange={onHeadersChange} />
+        <EditorTools
+          variablesValue={query.variables}
+          headersValue={query.headers}
+          onVariablesChange={onVariablesChange}
+          onHeadersChange={onHeadersChange}
+          onToolsClose={onToolsClose}
+        />
       </div>
       <div className={styles.response}>
         <ResponseIDE value={queryResponse} />

@@ -4,30 +4,20 @@ import { GraphQLField } from 'graphql';
 import { HistoryType } from './Docs';
 
 interface FieldButtonProps {
-  element: GraphQLField<unknown, unknown>;
-  history: HistoryType;
-  onHistoryChange: (value: HistoryType) => void;
-  onFieldOpen: (el: string | null) => void;
-  onTypeOpen: (el: string | null) => void;
+  field: GraphQLField<unknown, unknown>;
+  onHistoryPush: (value: HistoryType) => void;
 }
 
-export const FieldButton = ({
-  element,
-  history,
-  onFieldOpen,
-  onHistoryChange,
-}: FieldButtonProps) => {
+export const FieldButton = ({ field, onHistoryPush }: FieldButtonProps) => {
   return (
     <button
       className={classNames(styles.button, styles.fieldButton)}
       type="button"
       onClick={() => {
-        onHistoryChange([...history, { element: element, type: 'field' }]);
-        onFieldOpen(element.name);
-        // onTypeOpen(null);
+        onHistoryPush({ element: field, type: 'field' });
       }}
     >
-      <div>{element.name}:</div>
+      <div>{field.name}:</div>
     </button>
   );
 };
