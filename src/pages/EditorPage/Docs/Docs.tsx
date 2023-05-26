@@ -8,6 +8,7 @@ import { RootTypesIcon, TypesIcon } from './DocsIcons';
 import { Types } from './Types';
 import { BackButton } from './BackButton';
 import { GraphQLNonNestedType } from '@/types/GraphQLNonNestedType';
+import { useTranslation } from 'react-i18next';
 
 interface DocsProps {
   schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
@@ -21,6 +22,7 @@ export type HistoryType =
   | { element: GraphQLField<unknown, unknown>; type: 'field' };
 
 export const Docs = ({ schemaResponse }: DocsProps) => {
+  const { t } = useTranslation();
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [history, setHistory] = useState<ReadonlyArray<HistoryType>>([]);
 
@@ -56,7 +58,7 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
               <div className={styles.typesWrapper}>
                 <div className={styles.subtitle}>
                   <RootTypesIcon />
-                  Root types
+                  {t('docs.rootTypes')}
                 </div>
                 <div className={styles.query}>
                   query:
@@ -72,7 +74,7 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
                 </div>
                 <div className={styles.subtitle}>
                   <TypesIcon />
-                  All schema types
+                  {t('docs.allTypes')}
                 </div>
                 <div>
                   {Object.values(typeMap)
