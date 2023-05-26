@@ -60,6 +60,11 @@
   color: rgb(108, 106, 106);
 }
 
+.category {
+  display: flex;
+  flex-direction: column;
+}
+
 .query,
 .types {
   display: flex;
