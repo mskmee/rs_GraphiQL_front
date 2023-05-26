@@ -1,7 +1,8 @@
-import CodeMirror from '@uiw/react-codemirror';
 import { jsonLanguage } from '@codemirror/lang-json';
-import createTheme from '@uiw/codemirror-themes';
 import { tags as t } from '@lezer/highlight';
+
+import CodeMirror from '@uiw/react-codemirror';
+import createTheme from '@uiw/codemirror-themes';
 
 const editorTheme = createTheme({
   theme: 'light',

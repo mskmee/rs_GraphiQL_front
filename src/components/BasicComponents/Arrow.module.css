@@ -1,0 +1,15 @@
+.btn {
+  background: none;
+  border: none;
+  cursor: pointer;
+  transform: rotate(0);
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: rgb(235, 238, 241);
+}
+
+.toggle {
+  transform: rotate(180deg);
+}
