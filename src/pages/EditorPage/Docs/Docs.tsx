@@ -40,6 +40,7 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
     <div className={classNames(styles.docsWrapper, { [styles.open]: isDocsOpen })}>
       <button
         type="button"
+        title="Docs"
         className={styles.docsButton}
         onClick={() => setIsDocsOpen(!isDocsOpen)}
       >
