@@ -3,40 +3,37 @@ import styles from './Docs.module.css';
 import classNames from 'classnames';
 import docsIcon from '@/assets/icons/archive.svg';
 import { UseQueryResult } from '@tanstack/react-query';
-import { GraphQLField, GraphQLSchema, GraphQLType } from 'graphql';
+import { GraphQLField, GraphQLSchema } from 'graphql';
 import { RootTypesIcon, TypesIcon } from './DocsIcons';
-import { Query } from './Query';
 import { Types } from './Types';
+import { BackButton } from './BackButton';
+import { GraphQLNonNestedType } from '@/types/GraphQLNonNestedType';
 
 interface DocsProps {
   schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
 }
 
-export type HistoryType = (
-  | { element: GraphQLType; type: 'type' }
-  | { element: GraphQLField<unknown, unknown>; type: 'field' }
-)[];
+export type HistoryType =
+  | {
+      element: GraphQLNonNestedType;
+      type: 'type';
+    }
+  | { element: GraphQLField<unknown, unknown>; type: 'field' };
 
 export const Docs = ({ schemaResponse }: DocsProps) => {
   const [isDocsOpen, setIsDocsOpen] = useState(false);
-  const [isQueryOpen, setIsQueryOpen] = useState(false);
-  const [isTypesOpen, setIsTypesOpen] = useState(false);
-  const [openQuery, setOpenQuery] = useState<string | null>('Query');
-  const [openType, setOpenType] = useState<string | null>(null);
-  const [openField, setOpenField] = useState<string | null>(null);
-  const [queryDescription, setQueryDescription] = useState<string | null>(null);
-  const [history, setHistory] = useState<HistoryType>([]);
+  const [history, setHistory] = useState<ReadonlyArray<HistoryType>>([]);
 
-  //console.log(schemaResponse.data);
   const schema = schemaResponse.data;
-
-  const queryTypeName = schema?.getQueryType()?.name;
-  //const types = schema?.getQueryType()?.getFields() as object;
+  const queryType = schema?.getQueryType() || null;
   const typeMap = schema?.getTypeMap() as object;
 
-  const onHistoryChange = (value: HistoryType) => {
-    setHistory(value);
-    console.log('HISTORY:', history);
+  const onHistoryPush = (el: HistoryType) => {
+    setHistory([...history, el]);
+  };
+
+  const onHistoryBack = () => {
+    setHistory(history.slice(0, -1));
   };
 
   return (
@@ -48,11 +45,14 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
       >
         <img src={docsIcon} alt="Docs" />
       </button>
-      {isDocsOpen && (
+      {isDocsOpen && (!queryType || !schema) && (
+        <div className={styles.docsTitle}>Docs not found</div>
+      )}
+      {isDocsOpen && queryType && schema && (
         <div className={styles.docs}>
           <h2 className={styles.docsTitle}>Docs</h2>
           <div className={styles.docsInfo}>
-            {!isQueryOpen && !isTypesOpen && (
+            {history.length === 0 && (
               <div className={styles.typesWrapper}>
                 <div className={styles.subtitle}>
                   <RootTypesIcon />
@@ -64,15 +64,12 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
                     className={classNames(styles.button, styles.fieldButton)}
                     type="button"
                     onClick={() => {
-                      setIsQueryOpen(true);
-                      setOpenType('Query');
-                      setHistory([...history, typeMap['Query']]); // todo тут объект типа Query
+                      setHistory([...history, { element: queryType, type: 'type' }]);
                     }}
                   >
-                    {queryTypeName}
+                    {queryType.name}
                   </button>
                 </div>
-
                 <div className={styles.subtitle}>
                   <TypesIcon />
                   All schema types
@@ -87,9 +84,7 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
                           className={classNames(styles.button, styles.fieldButton)}
                           type="button"
                           onClick={() => {
-                            setIsQueryOpen(true);
-                            setOpenType(el.name);
-                            setHistory([...history, el]);
+                            setHistory([...history, { element: el, type: 'type' }]);
                           }}
                         >
                           {el.name}
@@ -99,17 +94,13 @@ export const Docs = ({ schemaResponse }: DocsProps) => {
                 </div>
               </div>
             )}
-            {isQueryOpen && (
-              <Types
-                schema={schema}
-                history={history}
-                onHistoryChange={onHistoryChange}
-                openField={openField}
-                openType={openType}
-                onTypeOpen={(typeName) => setOpenType(typeName)}
-                onFieldOpen={(fieldName) => setOpenField(fieldName)}
-                onClose={() => setIsQueryOpen(false)}
-              />
+            {history.length > 0 && (
+              <>
+                <BackButton onHistoryBack={onHistoryBack}>
+                  {history[history.length - 2]?.element.name || 'Docs'}
+                </BackButton>
+                <Types lastItem={history[history.length - 1]} onHistoryPush={onHistoryPush} />
+              </>
             )}
           </div>
         </div>

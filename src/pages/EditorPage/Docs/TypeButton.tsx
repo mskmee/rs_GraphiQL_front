@@ -2,33 +2,21 @@ import styles from './Docs.module.css';
 import classNames from 'classnames';
 import { GraphQLList, GraphQLNonNull, GraphQLType } from 'graphql';
 import { HistoryType } from './Docs';
+import { GraphQLNonNestedType } from '@/types/GraphQLNonNestedType';
 
 interface TypeButtonProps {
   element: GraphQLType;
-  history: HistoryType;
-  onHistoryChange: (value: HistoryType) => void;
-  onFieldOpen: (el: string | null) => void;
-  onTypeOpen: (el: string | null) => void;
+  onHistoryPush: (value: HistoryType) => void;
 }
 
-export const TypeButton = ({
-  element,
-  history,
-  onTypeOpen,
-  onFieldOpen,
-  onHistoryChange,
-}: TypeButtonProps) => {
-  const getFieldType = (type: GraphQLType) => {
-    if (type instanceof GraphQLNonNull) {
-      // todo рекурсия
-      return { type: 'NonNull', displayName: 'NonNull' };
+export const TypeButton = ({ element, onHistoryPush }: TypeButtonProps) => {
+  const getFieldType = (type: GraphQLType): GraphQLNonNestedType => {
+    if (type instanceof GraphQLNonNull || type instanceof GraphQLList) {
+      const innerType = getFieldType(type.ofType);
+      return innerType;
     }
 
-    if (type instanceof GraphQLList) {
-      return { type: 'List', displayName: `[List]` };
-    }
-
-    return { type: type.name, displayName: type.name };
+    return type;
   };
 
   return (
@@ -36,12 +24,10 @@ export const TypeButton = ({
       className={classNames(styles.button, styles.typesButton)}
       type="button"
       onClick={() => {
-        onHistoryChange([...history, { element: element, type: 'type' }]);
-        onFieldOpen(null);
-        onTypeOpen(getFieldType(element).type); // todo сюда функцию с типом
+        onHistoryPush({ element: getFieldType(element), type: 'type' });
       }}
     >
-      <div>{getFieldType(element).displayName}</div>
+      <div>{element.toString()}</div>
     </button>
   );
 };
