@@ -16,7 +16,11 @@ export const WelcomePage = () => {
         src={arrowImage}
         alt="Arrow"
         draggable="false"
-        style={isLogged ? { transform: 'rotate(30deg)' } : { transform: 'rotate(210deg)' }}
+        style={
+          isLogged
+            ? { transform: 'rotate(30deg)   translateY(1rem)' }
+            : { transform: 'rotate(210deg)' }
+        }
       />
       <Info />
     </div>

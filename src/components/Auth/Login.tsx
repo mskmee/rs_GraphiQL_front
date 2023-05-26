@@ -12,7 +12,7 @@ import { SingInWithGoogle } from './SingInWithGoogle';
 import { SignInData, signInSchema } from '@/utils/authFormSchema';
 import { auth } from '@/db';
 
-import loginImg from '@/assets/images/login-img.jpg';
+import loginImg from '@/assets/images/login-bg.jpg';
 import styles from './Styles.module.css';
 
 export const Login = () => {

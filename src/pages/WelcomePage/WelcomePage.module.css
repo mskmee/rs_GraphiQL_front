@@ -28,16 +28,22 @@
 
 @media (max-width: 1000px) {
   .arrowImage {
-    top: 5rem;
-    right: 45%;
+    top: 3rem;
+    right: 30%;
     width: 20%;
   }
 }
 
-@media (max-width: 730px) {
+@media (max-width: 830px) {
   .arrowImage {
-    top: 5rem;
+    top: 3rem;
     right: 5rem;
-    width: 10rem;
+    width: 8rem;
+  }
+}
+
+@media (max-width: 400px) {
+  .bgImage {
+    width: 50%;
   }
 }
