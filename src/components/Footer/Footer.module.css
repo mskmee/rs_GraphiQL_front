@@ -4,10 +4,10 @@
   flex: 0 0 auto;
   justify-content: space-around;
   align-items: center;
-  gap: 5rem;
   background-color: #e3d4ff;
   color: var(--white-color);
   font-size: 1rem;
+  overflow: hidden;
 }
 
 .github__wrapper {
