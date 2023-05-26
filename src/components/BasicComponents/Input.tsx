@@ -3,6 +3,7 @@ import { FieldErrors, FieldValues, Path, UseFormRegister } from 'react-hook-form
 
 import classNames from 'classnames';
 import styles from './Input.module.css';
+import { useTranslation } from 'react-i18next';
 
 interface InputProps extends InputHTMLAttributes<HTMLInputElement> {
   label: Path<SignInData> | Path<SignUpData> | Path<ResetData>;
@@ -33,6 +34,7 @@ interface ResetData extends FieldValues {
 
 export const Input = ({ label, register, errors, className, onChange }: InputProps) => {
   const [isEmpty, setIsEmpty] = useState(true);
+  const { t } = useTranslation();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { value } = e.target;
@@ -41,6 +43,10 @@ export const Input = ({ label, register, errors, className, onChange }: InputPro
     } else {
       setIsEmpty(true);
     }
+  };
+
+  const getLabel = (label: string) => {
+    return label === 'repeatPassword' ? t('login.repeatPassword') : t(`login.${label}`);
   };
 
   return (
@@ -63,9 +69,7 @@ export const Input = ({ label, register, errors, className, onChange }: InputPro
         })}
         htmlFor={label}
       >
-        {label === 'repeatPassword'
-          ? 'Repeat password'
-          : label.charAt(0).toUpperCase() + label.slice(1)}
+        {getLabel(label)}
       </label>
       {label === 'name' && errors?.name && (
         <div className={styles.error}>{`${errors?.name?.message}` || `Invalid ${label}`}</div>
