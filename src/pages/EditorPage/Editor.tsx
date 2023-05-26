@@ -17,6 +17,7 @@ import playIcon from '@/assets/icons/play.png';
 import stopIcon from '@/assets/icons/stop.png';
 import styles from './Editor.module.css';
 import classNames from 'classnames';
+import { getApiRequestArg } from '@/utils/getApiRequestArg';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -61,7 +62,9 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
   });
 
   const [queryResponse, setQueryResponse] = useState('');
-  const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
+  const [query, setQuery] = useState('');
+  const [variables, setVariables] = useState('');
+  const [headers, setHeaders] = useState('');
   const [areToolsOpen, setAreToolsOpen] = useState(true);
   const { t } = useTranslation();
   const placeholderValue = t('editor.pattern');
@@ -79,7 +82,12 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
   }, []);
 
   const handleSubmit = () => {
-    mutate(query);
+    try {
+      const validateRequest = getApiRequestArg(query, variables, headers);
+      mutate(validateRequest);
+    } catch (error) {
+      setQueryResponse((error as Error).message);
+    }
   };
 
   const onToolsClose = (value: boolean) => {
@@ -106,8 +114,8 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
           </div>
         </div>
         <EditorTools
-          variablesValue={query.variables}
-          headersValue={query.headers}
+          variablesValue={variables}
+          headersValue={headers}
           onVariablesChange={onVariablesChange}
           onHeadersChange={onHeadersChange}
           onToolsClose={onToolsClose}
