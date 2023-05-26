@@ -1,8 +1,12 @@
-import axios, { AxiosHeaders } from 'axios';
+import axios from 'axios';
 
 const endPointApi = 'https://rickandmortyapi.com/graphql';
 
-export async function api<T>(query: string, headers?: AxiosHeaders, variables?: object) {
+export async function api<T>(
+  query: string,
+  headers?: Record<string, string>,
+  variables?: Record<string, unknown>
+) {
   const response = await axios.post<T>(
     endPointApi,
     {

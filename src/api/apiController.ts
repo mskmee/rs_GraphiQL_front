@@ -2,7 +2,6 @@ import { getIntrospectionQuery } from 'graphql';
 import { api } from './api';
 import { IApiController, IApiResponse } from '@/types/interfaces';
 import { getSchemaFromResponse } from '@/utils/getSchemaFromResponse';
-import { getObjectFromString } from '@/utils/getObjectFromString';
 
 export const apiController: IApiController = {
   getSchema: async () => {
@@ -10,8 +9,6 @@ export const apiController: IApiController = {
     return getSchemaFromResponse(response);
   },
   getGraphQLResponse: function (data) {
-    const variables = getObjectFromString(data.variables) as object;
-    const headers = getObjectFromString(data.headers) as object;
-    return api(data.query, headers, variables);
+    return api(data.query, data.headers, data.variables);
   },
 };

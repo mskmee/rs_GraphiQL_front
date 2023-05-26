@@ -17,6 +17,7 @@ import playIcon from '@/assets/icons/play.png';
 import stopIcon from '@/assets/icons/stop.png';
 import styles from './Editor.module.css';
 import classNames from 'classnames';
+import { getApiRequestArg } from '@/utils/getApiRequestArg';
 
 const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
@@ -45,43 +46,48 @@ interface EditorProps {
 export const Editor = ({ schemaResponse }: EditorProps) => {
   const { mutate, isLoading } = useMutation<
     IApiResponse,
-    AxiosError<IApiResponseError>,
+    AxiosError<IApiResponseError | string>,
     IApiRequest
   >((data) => apiController.getGraphQLResponse(data), {
     onSuccess: (response) => {
       setQueryResponse(JSON.stringify(response, null, ' '));
     },
     onError: (err) => {
-      setQueryResponse(err.response?.data.errors[0].message ?? 'error');
+      if (typeof err.response?.data === 'string') {
+        return setQueryResponse(err.response.data);
+      }
+
+      setQueryResponse(err.response?.data.errors[0].message ?? (err as Error).message);
     },
   });
 
   const [queryResponse, setQueryResponse] = useState('');
-  const [query, setQuery] = useState<IApiRequest>({ headers: '', query: '', variables: '' });
+  const [query, setQuery] = useState('');
+  const [variables, setVariables] = useState('');
+  const [headers, setHeaders] = useState('');
   const [areToolsOpen, setAreToolsOpen] = useState(true);
   const { t } = useTranslation();
   const placeholderValue = t('editor.pattern');
 
   const onQueryChange = useCallback((value: string) => {
-    setQuery((prev) => {
-      return { ...prev, query: value };
-    });
+    setQuery(value);
   }, []);
 
   const onVariablesChange = useCallback((value: string) => {
-    setQuery((prev) => {
-      return { ...prev, variables: value };
-    });
+    setVariables(value);
   }, []);
 
   const onHeadersChange = useCallback((value: string) => {
-    setQuery((prev) => {
-      return { ...prev, headers: value };
-    });
+    setHeaders(value);
   }, []);
 
   const handleSubmit = () => {
-    mutate(query);
+    try {
+      const validateRequest = getApiRequestArg(query, variables, headers);
+      mutate(validateRequest);
+    } catch (error) {
+      setQueryResponse((error as Error).message);
+    }
   };
 
   const onToolsClose = (value: boolean) => {
@@ -108,8 +114,8 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
           </div>
         </div>
         <EditorTools
-          variablesValue={query.variables}
-          headersValue={query.headers}
+          variablesValue={variables}
+          headersValue={headers}
           onVariablesChange={onVariablesChange}
           onHeadersChange={onHeadersChange}
           onToolsClose={onToolsClose}
