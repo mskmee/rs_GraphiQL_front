@@ -10,7 +10,7 @@ import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
-import registrationImg from '@/assets/images/registration-bg.jpg';
+import registrationImg from '@/assets/images/registration.webp';
 import { SignUpData, signUpSchema } from '@/utils/authFormSchema';
 
 export const Registration = () => {
