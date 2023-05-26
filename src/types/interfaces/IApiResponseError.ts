@@ -3,5 +3,6 @@ interface IError {
 }
 
 export interface IApiResponseError {
+  data: string;
   errors: IError[];
 }

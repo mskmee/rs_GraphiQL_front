@@ -1,6 +1,6 @@
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import { changeLoginStatus } from '@/store/userSlice';
-import { getComponentFromStatus } from '@/utils/getComponentFromStatus';
+import { getAuthComponentFromStatus } from '@/utils/getAuthComponentFromStatus';
 import { useTranslation } from 'react-i18next';
 
 import styles from './AuthPage.module.css';
@@ -22,7 +22,7 @@ export const AuthPage = () => {
     >
       <div className={styles.loginWrapper} onClick={(e) => e.stopPropagation()}>
         <div className={styles.title}>{t('login.welcome')}</div>
-        {getComponentFromStatus[status]}
+        {getAuthComponentFromStatus[status]}
       </div>
     </div>
   );
