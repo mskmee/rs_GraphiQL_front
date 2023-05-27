@@ -1,16 +1,14 @@
 import { memo, useEffect, useRef, useState } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SingComponent, LoggedComponent } from './singModules';
 
 import logo from '@/assets/icons/graphiQL-logo.png';
-import arrowImage from '@/assets/images/arrow.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
 import { useAppSelector } from '@/hooks/useRedux';
 
 export const Header = memo(function Header() {
-  const location = useLocation();
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const lang = localStorage.getItem('i18nextLng');
@@ -76,19 +74,6 @@ export const Header = memo(function Header() {
           </button>
         </div>
       </div>
-      {location.pathname === '/' && (
-        <img
-          className={styles.arrowImage}
-          src={arrowImage}
-          alt="Arrow"
-          draggable="false"
-          style={
-            isUserLogged
-              ? { transform: 'rotate(30deg)   translateY(1rem)' }
-              : { transform: 'rotate(210deg)' }
-          }
-        />
-      )}
     </header>
   );
 });
