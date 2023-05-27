@@ -1,21 +1,20 @@
 import { memo, useEffect, useRef, useState } from 'react';
 import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
-import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
-import { changeLang } from '@/store/userSlice';
 import { SingComponent, LoggedComponent } from './singModules';
 
 import logo from '@/assets/icons/graphiQL-logo.png';
 import arrowImage from '@/assets/images/arrow.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
+import { useAppSelector } from '@/hooks/useRedux';
 
 export const Header = memo(function Header() {
   const location = useLocation();
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const lang = useAppSelector((state) => state.userState.lang);
-  const dispatch = useAppDispatch();
+  const lang = localStorage.getItem('i18nextLng');
+
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 
@@ -61,7 +60,6 @@ export const Header = memo(function Header() {
             type="button"
             className={classNames(styles.langButton, { [styles.active]: lang === 'en' })}
             onClick={() => {
-              dispatch(changeLang('en'));
               i18n.changeLanguage('en');
             }}
           >
@@ -71,7 +69,6 @@ export const Header = memo(function Header() {
             type="button"
             className={classNames(styles.langButton, { [styles.active]: lang === 'ru' })}
             onClick={() => {
-              dispatch(changeLang('ru'));
               i18n.changeLanguage('ru');
             }}
           >
