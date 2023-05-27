@@ -1,38 +1,43 @@
-import { memo, useEffect, useState } from 'react';
-import { NavLink } from 'react-router-dom';
+import { memo, useEffect, useRef, useState } from 'react';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 import { changeLang } from '@/store/userSlice';
 import { SingComponent, LoggedComponent } from './singModules';
 
 import logo from '@/assets/icons/graphiQL-logo.png';
+import arrowImage from '@/assets/images/arrow.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
 
 export const Header = memo(function Header() {
+  const location = useLocation();
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
-  const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const lang = useAppSelector((state) => state.userState.lang);
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
   const { i18n } = useTranslation();
 
+  const headerRef = useRef<HTMLElement | null>(null);
+
   useEffect(() => {
     const handleScroll = () => {
       const scrollPosition = window.scrollY;
-      setIsScrolled(scrollPosition > 0);
+      if (headerRef.current) {
+        headerRef.current.classList.toggle(styles.headerScroll, scrollPosition > 0);
+      }
     };
 
-    window.onscroll = handleScroll;
+    window.addEventListener('scroll', handleScroll, { passive: true });
 
     return () => {
-      window.onscroll = null;
+      window.removeEventListener('scroll', handleScroll);
     };
   }, []);
 
   return (
-    <header className={classNames(styles.wrapper, { [styles.headerScroll]: isScrolled })}>
+    <header ref={headerRef} className={styles.wrapper}>
       <NavLink className={styles.logo} to="/">
         <img className={styles.logoImage} src={logo} alt="GraphiQL logo" />
       </NavLink>
@@ -74,6 +79,19 @@ export const Header = memo(function Header() {
           </button>
         </div>
       </div>
+      {location.pathname === '/' && (
+        <img
+          className={styles.arrowImage}
+          src={arrowImage}
+          alt="Arrow"
+          draggable="false"
+          style={
+            isUserLogged
+              ? { transform: 'rotate(30deg)   translateY(1rem)' }
+              : { transform: 'rotate(210deg)' }
+          }
+        />
+      )}
     </header>
   );
 });

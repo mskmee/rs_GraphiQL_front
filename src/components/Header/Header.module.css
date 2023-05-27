@@ -5,7 +5,7 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  z-index: 4;
+  z-index: 7;
   transition: all 0.2s ease-in-out;
 }
 
@@ -83,7 +83,7 @@
   display: none;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 830px) {
   .menuButton {
     display: flex;
     flex-direction: column;
@@ -107,10 +107,14 @@
 
   .closeButton {
     display: flex;
+    align-items: center;
+    justify-content: center;
     position: absolute;
     top: 1rem;
     right: 1rem;
     border: none;
+    width: 30px;
+    height: 30px;
     background-color: transparent;
     cursor: pointer;
     transition: all 0.2s ease-in-out;
@@ -124,10 +128,7 @@
     width: 1.5rem;
     height: 0.2rem;
     position: absolute;
-    top: 50%;
-    left: -50%;
-    transform: translate(-50%, -50%);
-    background-color: white;
+    background-color: var(--violet-color);
     border-radius: 1rem;
   }
 
@@ -145,12 +146,10 @@
     top: 0;
     right: 0;
     flex-direction: column;
-    background-color: rgba(225, 207, 255, 0.4);
-    width: 15rem;
-    height: 15rem;
-    border-radius: 1rem;
-    padding-top: 3rem;
-    margin: 0.5rem;
+    background-color: var(--lilac-color);
+    padding-top: 5rem;
+    width: 100%;
+    min-height: 100vh;
   }
 
   .open {
@@ -166,5 +165,29 @@
     flex-direction: column;
     gap: 0.5rem;
     margin-bottom: 2rem;
+  }
+}
+
+.arrowImage {
+  position: absolute;
+  top: 50px;
+  right: 31rem;
+  width: 17%;
+  transform: rotate(210deg);
+}
+
+@media (max-width: 1250px) {
+  .arrowImage {
+    top: 3rem;
+    right: 30%;
+    width: 18%;
+  }
+}
+
+@media (max-width: 830px) {
+  .arrowImage {
+    top: 3rem;
+    right: 5rem;
+    width: 8rem;
   }
 }
