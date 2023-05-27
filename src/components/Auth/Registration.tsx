@@ -12,38 +12,46 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import registrationImg from '@/assets/images/registration-img.jpg';
 import { SignUpData, signUpSchema } from '@/utils/authFormSchema';
+import { useNavigate } from 'react-router-dom';
 
 export const Registration = () => {
   const { t } = useTranslation();
   const signUpButtonValue = t('login.signUp');
+  const navigate = useNavigate();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm<SignUpData>({
     resolver: yupResolver(signUpSchema),
   });
 
   const dispatch = useAppDispatch();
-  const [createUser, _, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
+  const [createUser, userCredential, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
 
   useEffect(() => {
+    if (userCredential) {
+    }
     if (error) {
+      userCredential?.user;
       toast(error.message, { type: 'error' });
     }
-  }, [error]);
+  }, [error, userCredential]);
 
   const onSubmit = async (data: SignUpData) => {
-    const user = await createUser(data.email, data.password);
-    if (user?.user) {
-      await checkUserData(user?.user, data.name);
-      dispatch(changeUserName(data.name));
-      dispatch(changeLoginStatus(''));
-      dispatch(changeIsUserLogged(true));
+    try {
+      const userCredential = await createUser(data.email, data.password);
+      if (userCredential?.user) {
+        await checkUserData(userCredential.user, data.name);
+        dispatch(changeUserName(data.name));
+        dispatch(changeLoginStatus(''));
+        dispatch(changeIsUserLogged(true));
+        navigate('/');
+      }
+    } catch (err) {
+      toast((err as Error).message, { type: 'error' });
     }
-    reset();
   };
 
   return (

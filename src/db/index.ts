@@ -17,6 +17,12 @@ const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
 const db = getFirestore(app);
 
+const getUserName = async (user: User) => {
+  const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+  const docs = await getDocs(q);
+  return docs.docs[0].data().name as string;
+};
+
 const checkUserData = async (user: User, name?: string) => {
   const q = query(collection(db, 'users'), where('uid', '==', user.uid));
   const docs = await getDocs(q);
@@ -31,4 +37,4 @@ const checkUserData = async (user: User, name?: string) => {
   return true;
 };
 
-export { auth, checkUserData };
+export { auth, checkUserData, getUserName };

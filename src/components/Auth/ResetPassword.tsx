@@ -40,7 +40,6 @@ export const ResetPassword = () => {
     const isResetSuccess = await resetPassword(data.email);
     if (isResetSuccess) {
       toast('Check instructions in you email.', { type: 'success' });
-      dispatch(changeLoginStatus(''));
     }
     reset();
   };
