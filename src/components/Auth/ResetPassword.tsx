@@ -24,6 +24,7 @@ export const ResetPassword = () => {
     handleSubmit,
     reset,
   } = useForm<ResetData>({
+    mode: 'onSubmit',
     resolver: yupResolver(resetSchema),
   });
 

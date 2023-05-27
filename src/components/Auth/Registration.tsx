@@ -24,6 +24,7 @@ export const Registration = () => {
     formState: { errors },
     handleSubmit,
   } = useForm<SignUpData>({
+    mode: 'onSubmit',
     resolver: yupResolver(signUpSchema),
   });
 

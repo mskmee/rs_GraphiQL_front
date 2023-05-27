@@ -28,6 +28,7 @@ export const Login = () => {
     handleSubmit,
     reset,
   } = useForm<SignInData>({
+    mode: 'onSubmit',
     resolver: yupResolver(signInSchema),
   });
 
