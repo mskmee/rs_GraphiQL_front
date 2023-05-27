@@ -23,20 +23,20 @@ const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
   autocompletion({
     activateOnTyping: true,
-    icons: true,
+    icons: true
   }),
   Prec.high(
     keymap.of([
       {
         key: 'Tab',
-        run: acceptCompletion,
+        run: acceptCompletion
       },
       {
         key: 'Mod-Enter',
-        run: () => true,
-      },
+        run: () => true
+      }
     ])
-  ),
+  )
 ];
 
 interface EditorProps {
@@ -58,7 +58,7 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
       }
 
       setQueryResponse(err.response?.data.errors[0].message ?? (err as Error).message);
-    },
+    }
   });
 
   const [queryResponse, setQueryResponse] = useState('');
@@ -107,7 +107,12 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
             />
           </div>
           <div className={styles.editorButtons}>
-            <button type="button" className={styles.runButton} onClick={handleSubmit}>
+            <button
+              title="Run query"
+              type="button"
+              className={styles.runButton}
+              onClick={handleSubmit}
+            >
               {!isLoading && <img className={styles.buttonIcon} src={playIcon} alt="Run" />}
               {isLoading && <img className={styles.buttonIcon} src={stopIcon} alt="Stop" />}
             </button>

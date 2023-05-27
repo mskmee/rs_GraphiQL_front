@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import { yupResolver } from '@hookform/resolvers/yup';
 import { ResetData, resetSchema } from '@/utils/authFormSchema';
 
-import emailImg from '@/assets/images/forgot-password-img.jpg';
+import emailImg from '@/assets/images/searching.webp';
 import styles from './Styles.module.css';
 
 export const ResetPassword = () => {

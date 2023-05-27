@@ -2,48 +2,15 @@
   position: relative;
   width: 100%;
   min-height: 100vh;
-  background: linear-gradient(
-    145deg,
-    rgba(255, 248, 245, 1) 0%,
-    rgba(255, 243, 249, 1) 10%,
-    rgba(239, 231, 255, 1) 27%
-  );
-  overflow: hidden;
-}
+  background: url('../../assets/images/graphiQL-bg.jpg') right bottom / 55% no-repeat,
+    linear-gradient(
+      145deg,
+      rgba(255, 248, 245, 1) 0%,
+      rgba(255, 243, 249, 1) 10%,
+      rgba(239, 231, 255, 1) 27%
+    );
 
-.bgImage {
-  position: absolute;
-  bottom: -4.3rem;
-  right: 0;
-  width: 60%;
-}
-
-.arrowImage {
-  position: absolute;
-  top: 2rem;
-  right: 31rem;
-  width: 17%;
-  transform: rotate(210deg);
-}
-
-@media (max-width: 1000px) {
-  .arrowImage {
-    top: 5rem;
-    right: 45%;
-    width: 20%;
-  }
-}
-
-@media (max-width: 730px) {
-  .arrowImage {
-    top: 5rem;
-    right: 5rem;
-    width: 10rem;
-  }
-}
-
-@media (max-width: 600px) {
-  .bgImage {
-    bottom: -2.3rem;
-  }
+  display: flex;
+  justify-content: flex-start;
+  padding: 150px 0 40px;
 }

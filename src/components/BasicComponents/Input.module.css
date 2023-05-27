@@ -67,14 +67,8 @@
   margin-right: auto;
 }
 
-@media (max-width: 500px) {
+@media (max-width: 400px) {
   .inputWrapper {
     width: 15rem;
-  }
-}
-
-@media (max-width: 370px) {
-  .inputWrapper {
-    width: 12rem;
   }
 }
