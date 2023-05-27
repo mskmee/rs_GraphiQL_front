@@ -11,7 +11,7 @@ import { useAppSelector } from '@/hooks/useRedux';
 export const Header = memo(function Header() {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-  const lang = localStorage.getItem('i18nextLng');
+  const lang = localStorage.getItem('i18nextLng') || 'en';
 
   const { t } = useTranslation();
   const { i18n } = useTranslation();
