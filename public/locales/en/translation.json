@@ -15,6 +15,10 @@
     "Pavel": "Pavel Pristupa",
     "Maria": "Maria Koroleva"
   },
+  "notFound": {
+    "wrong": "Something went wrong",
+    "return": "Return to main page"
+  },
   "sponsored": "Sponsored by",
   "login": {
     "haveAccount": "Already have an account?",
