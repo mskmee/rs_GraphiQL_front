@@ -1,5 +1,6 @@
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
+import { query, collection, getDocs, where, getFirestore, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB1DdGJNwMqUhNw1LZqMEq97l07kV_SRvY',
@@ -14,5 +15,20 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth };
+const checkUserData = async (user: User, name?: string) => {
+  const q = query(collection(db, 'users'), where('uid', '==', user.uid));
+  const docs = await getDocs(q);
+  if (docs.docs.length === 0) {
+    await addDoc(collection(db, 'users'), {
+      uid: user.uid,
+      name: name ?? user.displayName,
+      authProvider: 'local',
+      email: user.email,
+    });
+  }
+  return true;
+};
+
+export { auth, checkUserData };

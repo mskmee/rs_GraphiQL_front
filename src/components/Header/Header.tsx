@@ -1,4 +1,4 @@
-import { memo, useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
@@ -9,7 +9,7 @@ import logo from '@/assets/icons/graphiQL-logo.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
 
-export const Header = memo(function Header() {
+export const Header = () => {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isScrolled, setIsScrolled] = useState(false);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
@@ -76,4 +76,4 @@ export const Header = memo(function Header() {
       </div>
     </header>
   );
-});
+};

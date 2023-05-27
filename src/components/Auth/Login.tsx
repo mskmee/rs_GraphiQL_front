@@ -18,7 +18,7 @@ import styles from './Styles.module.css';
 export const Login = () => {
   const { t } = useTranslation();
   const signInButtonValue = t('login.signIn');
-
+  const dispatch = useAppDispatch();
   const {
     register,
     formState: { errors },
@@ -29,21 +29,25 @@ export const Login = () => {
   });
 
   const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
-  const dispatch = useAppDispatch();
 
   useEffect(() => {
     if (user) {
-      dispatch(changeUserName(user.user.displayName ?? 'no name'));
+      console.log(user.user.toJSON());
       dispatch(changeIsUserLogged(true));
+      // dispatch(changeUserName(user.user 'unknown'));
     }
     if (error) {
       toast(error.message, { type: 'error' });
     }
-  }, [user, dispatch, error]);
+  }, [error, user, dispatch]);
 
-  const onSubmit = (data: SignInData) => {
-    signInWithEmailAndPassword(data.email, data.password);
-    reset();
+  const onSubmit = async (data: SignInData) => {
+    try {
+      const isLogin = await signInWithEmailAndPassword(data.email, data.password);
+      if (isLogin) {
+        reset();
+      }
+    } catch (err) {}
   };
 
   return (
