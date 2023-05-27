@@ -57,7 +57,12 @@ export const Registration = () => {
 
   return (
     <div className={styles.container}>
-      <img className={styles.img} src={registrationImg} alt="registration image" />
+      <img
+        className={styles.img}
+        src={registrationImg}
+        alt="registration image"
+        draggable="false"
+      />
       {isLoading && <Loader />}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input label="name" register={register} errors={errors} />

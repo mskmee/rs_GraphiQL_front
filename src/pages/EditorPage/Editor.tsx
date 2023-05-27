@@ -113,8 +113,12 @@ export const Editor = ({ schema }: EditorProps) => {
               className={styles.runButton}
               onClick={handleSubmit}
             >
-              {!isLoading && <img className={styles.buttonIcon} src={playIcon} alt="Run" />}
-              {isLoading && <img className={styles.buttonIcon} src={stopIcon} alt="Stop" />}
+              {!isLoading && (
+                <img className={styles.buttonIcon} src={playIcon} alt="Run" draggable="false" />
+              )}
+              {isLoading && (
+                <img className={styles.buttonIcon} src={stopIcon} alt="Stop" draggable="false" />
+              )}
             </button>
           </div>
         </div>

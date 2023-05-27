@@ -64,7 +64,7 @@ export const Login = () => {
     <>
       {isLoading && <Loader />}
       <div className={styles.container}>
-        <img className={styles.img} src={loginImg} alt="login image" />
+        <img className={styles.img} src={loginImg} alt="login image" draggable="false" />
         <div className={styles.formContainer}>
           <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
             <Input label="email" register={register} errors={errors} />
