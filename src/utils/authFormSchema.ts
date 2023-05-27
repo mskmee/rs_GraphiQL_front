@@ -1,14 +1,14 @@
 import * as yup from 'yup';
 
 export const signInSchema = yup.object().shape({
-  email: yup.string().required('Email is required').email('Invalid email format'),
+  email: yup.string().required('errors.email.required').email('errors.email.invalid'),
   password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters long')
+    .required('errors.password.required')
+    .min(8, 'errors.password.min')
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
-      'Password must contain at least one letter, one digit, and one special character'
+      'errors.password.matches'
     ),
 });
 
@@ -17,21 +17,21 @@ export type SignInData = yup.InferType<typeof signInSchema>;
 export const signUpSchema = yup.object().shape({
   name: yup
     .string()
-    .required('Name is required')
-    .matches(/^[A-Z][a-zA-Z]*$/, 'Name must start with a capital letter and contain only letters'),
-  email: yup.string().required('Email is required').email('Invalid email format'),
+    .required('errors.name.required')
+    .matches(/^[A-ZА-Я][a-zA-Zа-яА-Я]*$/, 'errors.name.matches'),
+  email: yup.string().required('errors.email.required').email('errors.email.invalid'),
   password: yup
     .string()
-    .required('Password is required')
-    .min(8, 'Password must be at least 8 characters long')
+    .required('errors.password.required')
+    .min(8, 'errors.password.min')
     .matches(
       /^(?=.*[A-Za-z])(?=.*\d)(?=.*[!@#$%^&*])[A-Za-z\d!@#$%^&*]{8,}$/,
-      'Password must contain at least one letter, one digit, and one special character'
+      'errors.password.matches'
     ),
   repeatPassword: yup
     .string()
-    .required('Repeat password is required')
-    .test('password-match', 'Passwords must match', function (value) {
+    .required('errors.repeatPassword.required')
+    .test('password-match', 'errors.repeatPassword.test', function (value) {
       return value === this.parent.password;
     }),
 });
@@ -39,7 +39,7 @@ export const signUpSchema = yup.object().shape({
 export type SignUpData = yup.InferType<typeof signUpSchema>;
 
 export const resetSchema = yup.object().shape({
-  email: yup.string().required('Email is required').email('Invalid email format'),
+  email: yup.string().required('errors.email.required').email('errors.email.invalid'),
 });
 
 export type ResetData = yup.InferType<typeof resetSchema>;
