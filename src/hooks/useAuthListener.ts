@@ -1,7 +1,6 @@
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './useRedux';
-import { useTranslation } from 'react-i18next';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
 import { changeIsUserLogged, changeUserName } from '@/store/userSlice';
 
@@ -11,8 +10,6 @@ export const useAuthListener = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
-  const { t } = useTranslation();
-  const notificationValue = t('info.tokenExpired');
   const isUserWillNavigate = wasUserLogged && location.pathname === '/editor';
 
   useEffect(() => {
@@ -29,7 +26,7 @@ export const useAuthListener = () => {
         dispatch(changeUserName(''));
       }
     });
-  }, [dispatch, isUserWillNavigate, navigate, notificationValue]);
+  }, [dispatch, isUserWillNavigate, navigate]);
 
   return isLogged;
 };
