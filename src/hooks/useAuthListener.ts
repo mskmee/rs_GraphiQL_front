@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useRef } from 'react';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { useAppDispatch, useAppSelector } from './useRedux';
 import { getAuth, onAuthStateChanged } from 'firebase/auth';
@@ -9,6 +9,7 @@ export const useAuthListener = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const dispatch = useAppDispatch();
+  const isUserAuth = useRef(false);
   const isUserWillNavigate = isLogged && location.pathname === '/editor';
 
   useEffect(() => {
@@ -16,16 +17,18 @@ export const useAuthListener = () => {
     const unsubscribe = onAuthStateChanged(auth, (user) => {
       if (user) {
         dispatch(changeIsUserLogged(true));
-        return;
+        dispatch(changeUserName(user.displayName ?? 'name'));
+        return (isUserAuth.current = true);
       }
       if (isUserWillNavigate) {
         navigate('/');
         dispatch(changeIsUserLogged(false));
         dispatch(changeUserName(''));
       }
+      return (isUserAuth.current = false);
     });
     return unsubscribe;
   }, [dispatch, isUserWillNavigate, navigate]);
 
-  return isLogged;
+  return isUserAuth.current;
 };
