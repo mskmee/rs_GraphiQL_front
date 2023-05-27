@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
@@ -23,27 +23,27 @@ const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
   autocompletion({
     activateOnTyping: true,
-    icons: true
+    icons: true,
   }),
   Prec.high(
     keymap.of([
       {
         key: 'Tab',
-        run: acceptCompletion
+        run: acceptCompletion,
       },
       {
         key: 'Mod-Enter',
-        run: () => true
-      }
+        run: () => true,
+      },
     ])
-  )
+  ),
 ];
 
 interface EditorProps {
-  schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
+  schema: GraphQLSchema | undefined;
 }
 
-export const Editor = ({ schemaResponse }: EditorProps) => {
+export const Editor = ({ schema }: EditorProps) => {
   const { mutate, isLoading } = useMutation<
     IApiResponse,
     AxiosError<IApiResponseError | string>,
@@ -58,7 +58,7 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
       }
 
       setQueryResponse(err.response?.data.errors[0].message ?? (err as Error).message);
-    }
+    },
   });
 
   const [queryResponse, setQueryResponse] = useState('');
@@ -103,7 +103,7 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
               value=""
               placeholder={placeholderValue}
               onChange={onQueryChange}
-              extensions={extensions(schemaResponse.data)}
+              extensions={extensions(schema)}
             />
           </div>
           <div className={styles.editorButtons}>
