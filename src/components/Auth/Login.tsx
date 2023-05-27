@@ -1,8 +1,10 @@
 import { useEffect } from 'react';
 import { useTranslation } from 'react-i18next';
 import { useForm } from 'react-hook-form';
+import { useNavigate } from 'react-router-dom';
 import { useSignInWithEmailAndPassword } from 'react-firebase-hooks/auth';
 import { useAppDispatch } from '@/hooks/useRedux';
+import { User } from 'firebase/auth';
 import { Loader } from '@/components/Loader';
 import { Button, Input, Link } from '@/components/BasicComponents';
 import { yupResolver } from '@hookform/resolvers/yup';
@@ -10,15 +12,16 @@ import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/u
 import { toast } from 'react-toastify';
 import { SingInWithGoogle } from './SingInWithGoogle';
 import { SignInData, signInSchema } from '@/utils/authFormSchema';
-import { auth } from '@/db';
+import { auth, getUserName } from '@/db';
 
 import loginImg from '@/assets/images/login-bg.jpg';
 import styles from './Styles.module.css';
 
 export const Login = () => {
   const { t } = useTranslation();
+  const navigate = useNavigate();
   const signInButtonValue = t('login.signIn');
-
+  const dispatch = useAppDispatch();
   const {
     register,
     formState: { errors },
@@ -28,22 +31,32 @@ export const Login = () => {
     resolver: yupResolver(signInSchema),
   });
 
-  const [signInWithEmailAndPassword, user, isLoading, error] = useSignInWithEmailAndPassword(auth);
-  const dispatch = useAppDispatch();
+  const [signInWithEmailAndPassword, userCredential, isLoading, error] =
+    useSignInWithEmailAndPassword(auth);
 
   useEffect(() => {
-    if (user) {
-      dispatch(changeUserName(user.user.displayName ?? 'no name'));
-      dispatch(changeIsUserLogged(true));
+    if (userCredential) {
+      const getUserData = async (user: User) => {
+        const name = await getUserName(user);
+
+        dispatch(changeUserName(name ?? 'unknown'));
+        dispatch(changeIsUserLogged(true));
+        navigate('/');
+      };
+      getUserData(userCredential.user);
+      reset();
     }
     if (error) {
       toast(error.message, { type: 'error' });
     }
-  }, [user, dispatch, error]);
+  }, [error, userCredential, dispatch, reset, navigate]);
 
-  const onSubmit = (data: SignInData) => {
-    signInWithEmailAndPassword(data.email, data.password);
-    reset();
+  const onSubmit = async (data: SignInData) => {
+    try {
+      await signInWithEmailAndPassword(data.email, data.password);
+    } catch (err) {
+      toast((err as Error).message, { type: 'error' });
+    }
   };
 
   return (

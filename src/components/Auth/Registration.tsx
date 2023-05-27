@@ -1,10 +1,10 @@
-import { useEffect, useRef } from 'react';
+import { useEffect } from 'react';
 import { changeIsUserLogged, changeLoginStatus, changeUserName } from '@/store/userSlice';
 import { useAppDispatch } from '@/hooks/useRedux';
 import styles from './Styles.module.css';
 import { Input, Link, Button } from '@/components/BasicComponents';
-import { useCreateUserWithEmailAndPassword, useUpdateProfile } from 'react-firebase-hooks/auth';
-import { auth } from '@/db';
+import { useCreateUserWithEmailAndPassword } from 'react-firebase-hooks/auth';
+import { auth, checkUserData } from '@/db';
 import { Loader } from '@/components/Loader';
 import { toast } from 'react-toastify';
 import { useForm } from 'react-hook-form';
@@ -12,57 +12,52 @@ import { yupResolver } from '@hookform/resolvers/yup';
 import { useTranslation } from 'react-i18next';
 import registrationImg from '@/assets/images/registration.webp';
 import { SignUpData, signUpSchema } from '@/utils/authFormSchema';
+import { useNavigate } from 'react-router-dom';
 
 export const Registration = () => {
   const { t } = useTranslation();
   const signUpButtonValue = t('login.signUp');
+  const navigate = useNavigate();
 
   const {
     register,
     formState: { errors },
     handleSubmit,
-    reset,
   } = useForm<SignUpData>({
     resolver: yupResolver(signUpSchema),
   });
 
   const dispatch = useAppDispatch();
-  const nameRef = useRef<string | null>(null);
-  const name = nameRef.current;
-  const [createUser, user, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
-  const [updateProfile, isUpdateLoading, updateError] = useUpdateProfile(auth);
+  const [createUser, userCredential, isLoading, error] = useCreateUserWithEmailAndPassword(auth);
 
   useEffect(() => {
-    const updateUserInBD = async (name: string) => {
-      const isUpdate = await updateProfile({ displayName: name });
-      if (isUpdate) {
-        dispatch(changeIsUserLogged(true));
-        dispatch(changeUserName(name));
-        dispatch(changeLoginStatus(''));
-      }
-    };
+    if (userCredential) {
+    }
     if (error) {
+      userCredential?.user;
       toast(error.message, { type: 'error' });
     }
-    if (updateError) {
-      toast(updateError.message, { type: 'error' });
-    }
-    if (user && name) {
-      updateUserInBD(name).catch((err) => toast(err.message, { type: 'error' }));
-    }
-  }, [error, updateError, updateProfile, dispatch, name, user]);
+  }, [error, userCredential]);
 
   const onSubmit = async (data: SignUpData) => {
-    nameRef.current = data.name;
-    await createUser(data.email, data.password);
-    reset();
+    try {
+      const userCredential = await createUser(data.email, data.password);
+      if (userCredential?.user) {
+        await checkUserData(userCredential.user, data.name);
+        dispatch(changeUserName(data.name));
+        dispatch(changeLoginStatus(''));
+        dispatch(changeIsUserLogged(true));
+        navigate('/');
+      }
+    } catch (err) {
+      toast((err as Error).message, { type: 'error' });
+    }
   };
 
   return (
     <div className={styles.container}>
       <img className={styles.img} src={registrationImg} alt="registration image" />
-
-      {(isLoading || isUpdateLoading) && <Loader />}
+      {isLoading && <Loader />}
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         <Input label="name" register={register} errors={errors} />
         <Input label="email" register={register} errors={errors} />
