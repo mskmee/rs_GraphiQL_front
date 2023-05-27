@@ -1,5 +1,7 @@
+import { getDbDocument } from '@/utils/getDbDocument';
 import { initializeApp } from 'firebase/app';
-import { getAuth } from 'firebase/auth';
+import { User, getAuth } from 'firebase/auth';
+import { collection, getFirestore, addDoc } from 'firebase/firestore';
 
 const firebaseConfig = {
   apiKey: 'AIzaSyB1DdGJNwMqUhNw1LZqMEq97l07kV_SRvY',
@@ -14,5 +16,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const auth = getAuth(app);
+const db = getFirestore(app);
 
-export { auth };
+const getUserName = async (user: User) => {
+  const { docs } = await getDbDocument(user, db);
+  return docs[0].data().name as string;
+};
+
+const checkUserData = async (user: User, name?: string) => {
+  const { docs } = await getDbDocument(user, db);
+  if (docs.length === 0) {
+    await addDoc(collection(db, 'users'), {
+      uid: user.uid,
+      name: name ?? user.displayName,
+      authProvider: 'local',
+      email: user.email,
+    });
+  }
+  return true;
+};
+
+export { auth, checkUserData, getUserName };

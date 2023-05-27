@@ -23,20 +23,20 @@ const extensions = (schema?: GraphQLSchema) => [
   graphql(schema),
   autocompletion({
     activateOnTyping: true,
-    icons: true
+    icons: true,
   }),
   Prec.high(
     keymap.of([
       {
         key: 'Tab',
-        run: acceptCompletion
+        run: acceptCompletion,
       },
       {
         key: 'Mod-Enter',
-        run: () => true
-      }
+        run: () => true,
+      },
     ])
-  )
+  ),
 ];
 
 interface EditorProps {
@@ -58,7 +58,7 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
       }
 
       setQueryResponse(err.response?.data.errors[0].message ?? (err as Error).message);
-    }
+    },
   });
 
   const [queryResponse, setQueryResponse] = useState('');
