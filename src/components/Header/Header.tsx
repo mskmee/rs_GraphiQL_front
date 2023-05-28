@@ -6,12 +6,13 @@ import { SingComponent, LoggedComponent } from './singModules';
 import logo from '@/assets/icons/graphiQL-logo.png';
 import styles from './Header.module.css';
 import classNames from 'classnames';
-import { useAppSelector } from '@/hooks/useRedux';
 
-export const Header = memo(function Header() {
-  const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
+interface HeaderProps {
+  isUserLogged: boolean;
+}
+
+export const Header = memo(function Header({ isUserLogged }: HeaderProps) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const lang = localStorage.getItem('i18nextLng') || 'en';
   const { t } = useTranslation();
   const { i18n } = useTranslation();

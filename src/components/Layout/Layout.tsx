@@ -5,11 +5,14 @@ import { Header } from '@/components/Header/Header';
 import { Footer } from '@/components/Footer/Footer';
 
 import 'react-toastify/ReactToastify.min.css';
+import { useAppSelector } from '@/hooks/useRedux';
 
 export const Layout = () => {
+  const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
+
   return (
     <>
-      <Header />
+      <Header isUserLogged={isUserLogged} />
       <main className={styles.main}>
         <Outlet />
         <ToastContainer
