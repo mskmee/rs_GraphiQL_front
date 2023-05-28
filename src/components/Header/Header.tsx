@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SingComponent, LoggedComponent } from './singModules';
@@ -8,7 +8,7 @@ import styles from './Header.module.css';
 import classNames from 'classnames';
 import { useAppSelector } from '@/hooks/useRedux';
 
-export const Header = memo(function Header() {
+export const Header = () => {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -76,4 +76,4 @@ export const Header = memo(function Header() {
       </div>
     </header>
   );
-});
+};
