@@ -1,4 +1,4 @@
-import { memo, useEffect, useRef, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import { NavLink } from 'react-router-dom';
 import { useTranslation } from 'react-i18next';
 import { SingComponent, LoggedComponent } from './singModules';
@@ -8,10 +8,9 @@ import styles from './Header.module.css';
 import classNames from 'classnames';
 import { useAppSelector } from '@/hooks/useRedux';
 
-export const Header = memo(function Header() {
+export const Header = () => {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const lang = localStorage.getItem('i18nextLng') || 'en';
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -52,7 +51,11 @@ export const Header = memo(function Header() {
           <span className={styles.closeLine}></span>
           <span className={styles.closeLine}></span>
         </button>
-        {isUserLogged ? <LoggedComponent /> : <SingComponent />}
+        {isUserLogged ? (
+          <LoggedComponent onMenuClose={() => setIsMenuOpen(false)} />
+        ) : (
+          <SingComponent onMenuClose={() => setIsMenuOpen(false)} />
+        )}
         <div className={styles.langWrapper}>
           <button
             type="button"
@@ -76,4 +79,4 @@ export const Header = memo(function Header() {
       </div>
     </header>
   );
-});
+};

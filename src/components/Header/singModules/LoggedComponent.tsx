@@ -11,7 +11,11 @@ import { useAppDispatch, useAppSelector } from '@/hooks/useRedux';
 
 import styles from '../Header.module.css';
 
-export const LoggedComponent = () => {
+interface LoggedComponentProps {
+  onMenuClose: () => void;
+}
+
+export const LoggedComponent = ({ onMenuClose }: LoggedComponentProps) => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
@@ -39,7 +43,13 @@ export const LoggedComponent = () => {
       {isLoading && <Loader />}
       <div className={styles.nav}>
         <div>{userName}</div>
-        <Button type="button" onClick={onSingOut}>
+        <Button
+          type="button"
+          onClick={() => {
+            onSingOut();
+            onMenuClose();
+          }}
+        >
           {t('login.logout')}
         </Button>
       </div>

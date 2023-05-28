@@ -1,7 +1,7 @@
 .wrapper {
   position: relative;
   width: 100%;
-  min-height: 100vh;
+  min-height: calc(100vh - 3rem);
   background: url('../../assets/images/graphiQL-bg.jpg') right bottom / 55% no-repeat,
     linear-gradient(
       145deg,
