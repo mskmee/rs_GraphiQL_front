@@ -11,7 +11,6 @@ import { useAppSelector } from '@/hooks/useRedux';
 export const Header = () => {
   const isUserLogged = useAppSelector((state) => state.userState.isUserLogged);
   const [isMenuOpen, setIsMenuOpen] = useState(false);
-
   const lang = localStorage.getItem('i18nextLng') || 'en';
   const { t } = useTranslation();
   const { i18n } = useTranslation();
@@ -52,7 +51,11 @@ export const Header = () => {
           <span className={styles.closeLine}></span>
           <span className={styles.closeLine}></span>
         </button>
-        {isUserLogged ? <LoggedComponent /> : <SingComponent />}
+        {isUserLogged ? (
+          <LoggedComponent onMenuClose={() => setIsMenuOpen(false)} />
+        ) : (
+          <SingComponent onMenuClose={() => setIsMenuOpen(false)} />
+        )}
         <div className={styles.langWrapper}>
           <button
             type="button"
