@@ -1,0 +1,35 @@
+.linkWrapper {
+  position: relative;
+  overflow: hidden;
+  width: fit-content;
+}
+
+.link {
+  border: none;
+  background-color: transparent;
+  color: var(--violet-color);
+  cursor: pointer;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  font-weight: 300;
+}
+
+.underline {
+  width: 100%;
+  height: 1px;
+  background-color: var(--violet-color);
+  transform: translateX(-105%);
+  transition: all 0.3s ease-in-out;
+}
+
+.linkWrapper:hover .underline {
+  transform: translateX(0);
+}
+
+.boldLink {
+  font-weight: 700;
+}
+
+.boldUnderline {
+  height: 2px;
+}

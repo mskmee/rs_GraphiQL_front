@@ -1,0 +1,169 @@
+.wrapper {
+  position: fixed;
+  width: 100%;
+  height: 6rem;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 7;
+  transition: all 0.3s ease-in-out;
+}
+
+.logo {
+  display: flex;
+  align-items: center;
+  padding: 1rem 3rem;
+}
+
+.logoImage {
+  height: 2rem;
+}
+
+.buttonsWrapper {
+  display: flex;
+  align-items: center;
+  padding: 1rem 3rem;
+  gap: 1rem;
+  transition: all 0.3s ease-in-out;
+}
+
+.signUpButton {
+  background-color: var(--purple-color);
+}
+
+.nav {
+  display: flex;
+  align-items: center;
+  gap: 2rem;
+}
+
+.headerScroll {
+  background-color: rgb(227 212 255 / 70%);
+}
+
+.langWrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  width: 6rem;
+  height: 2rem;
+}
+
+.langButton {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 50%;
+  height: 100%;
+  border: none;
+  color: white;
+  font-family: 'Nunito', sans-serif;
+  font-size: 1rem;
+  background-color: var(--purple-color);
+  cursor: pointer;
+  transition: all 0.2s ease-in-out;
+}
+
+.langButton:hover {
+  opacity: 0.8;
+}
+
+.langButton.active:hover {
+  opacity: 1;
+}
+
+.active {
+  background-color: var(--violet-color);
+}
+
+.menuButton,
+.closeButton {
+  display: none;
+}
+
+@media (max-width: 850px) {
+  .menuButton {
+    display: flex;
+    flex-direction: column;
+    gap: 0.2rem;
+    position: absolute;
+    top: 50%;
+    right: 1rem;
+    transform: translateY(-50%);
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .menuLine {
+    width: 1.5rem;
+    height: 0.2rem;
+    background-color: var(--purple-color);
+    border-radius: 1rem;
+  }
+
+  .closeButton {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    border: none;
+    width: 30px;
+    height: 30px;
+    background-color: transparent;
+    cursor: pointer;
+    transition: all 0.2s ease-in-out;
+  }
+
+  .closeButton:hover {
+    transform: scale(1.1);
+  }
+
+  .closeLine {
+    width: 1.5rem;
+    height: 0.2rem;
+    position: absolute;
+    background-color: var(--violet-color);
+    border-radius: 1rem;
+  }
+
+  .closeLine:nth-of-type(1) {
+    transform: rotate(45deg);
+  }
+
+  .closeLine:nth-of-type(2) {
+    transform: rotate(-45deg);
+  }
+
+  .buttonsWrapper {
+    transform: translateX(200%);
+    position: absolute;
+    top: 0;
+    right: 0;
+    flex-direction: column;
+    background-color: var(--lilac-color);
+    padding-top: 5rem;
+    width: 100%;
+    min-height: 100vh;
+  }
+
+  .open {
+    transform: translateX(0);
+  }
+
+  .hidden {
+    opacity: 0;
+  }
+
+  .nav {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+    margin-bottom: 2rem;
+  }
+}

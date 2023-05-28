@@ -1,0 +1,19 @@
+.btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background: none;
+  border: none;
+  border-radius: 0.5rem;
+  cursor: pointer;
+  transform: rotate(0);
+  transition: all 0.3s ease;
+}
+
+.btn:hover {
+  background-color: rgb(235, 238, 241);
+}
+
+.toggle {
+  transform: rotate(180deg);
+}

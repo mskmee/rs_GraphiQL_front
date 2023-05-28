@@ -1,0 +1,91 @@
+@font-face {
+  font-display: swap;
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 300;
+  src: url('../src/assets/fonts/Nunito-Light.woff2') format('woff2'),
+    url('../src/assets/fonts/Nunito-Light.woff') format('woff');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 400;
+  src: url('../src/assets/fonts/Nunito-Regular.woff2') format('woff2'),
+    url('../src/assets/fonts/Nunito-Regular.woff') format('woff');
+}
+
+@font-face {
+  font-display: swap;
+  font-family: 'Nunito';
+  font-style: normal;
+  font-weight: 700;
+  src: url('../src/assets/fonts/Nunito-Bold.woff2') format('woff2'),
+    url('../src/assets/fonts/Nunito-Bold.woff') format('woff');
+}
+
+* {
+  box-sizing: border-box;
+}
+
+:root {
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+
+  --text-color: #48424d;
+  --white-color: #ffffff;
+  --violet-color: #6957c7;
+  --purple-color: #bba9ff;
+  --yellow-color: #ffd336;
+  --orange-color: #fd8524;
+  --lilac-color: #efe7ff;
+}
+
+body {
+  box-sizing: border-box;
+  margin: 0;
+  place-items: center;
+  min-height: 100vh;
+  height: 100%;
+
+  font-family: 'Nunito', sans-serif;
+  font-style: normal;
+  font-weight: 400;
+  font-size: 1.4rem;
+  color: var(--text-color);
+}
+
+body::-webkit-scrollbar {
+  width: 5px;
+}
+
+body::-webkit-scrollbar-track {
+  background: rgb(235, 238, 241);
+}
+
+body::-webkit-scrollbar-thumb {
+  background-color: rgb(200, 200, 200);
+  border-radius: 20px;
+  border: 3px solid var(--purple-color);
+}
+
+a {
+  margin: 0;
+  text-decoration: none;
+}
+
+h1 {
+  font-size: 3.2em;
+  line-height: 1.1;
+}
+
+#root {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  min-height: 100vh;
+}
