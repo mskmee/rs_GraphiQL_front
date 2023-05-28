@@ -24,6 +24,7 @@ export const ResetPassword = () => {
     handleSubmit,
     reset,
   } = useForm<ResetData>({
+    mode: 'onSubmit',
     resolver: yupResolver(resetSchema),
   });
 
@@ -46,7 +47,7 @@ export const ResetPassword = () => {
 
   return (
     <div className={styles.container}>
-      <img className={styles.img} src={emailImg} alt="login image" />
+      <img className={styles.img} src={emailImg} alt="login image" draggable="false" />
       <form className={styles.form} onSubmit={handleSubmit(onSubmit)}>
         {isLoading && <Loader />}
         <Input required label="email" register={register} errors={errors} />

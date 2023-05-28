@@ -1,6 +1,6 @@
 import { useCallback, useState } from 'react';
 import { useTranslation } from 'react-i18next';
-import { UseQueryResult, useMutation } from '@tanstack/react-query';
+import { useMutation } from '@tanstack/react-query';
 import { Prec } from '@codemirror/state';
 import { keymap } from '@codemirror/view';
 import { acceptCompletion, autocompletion } from '@codemirror/autocomplete';
@@ -40,10 +40,10 @@ const extensions = (schema?: GraphQLSchema) => [
 ];
 
 interface EditorProps {
-  schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
+  schema: GraphQLSchema | undefined;
 }
 
-export const Editor = ({ schemaResponse }: EditorProps) => {
+export const Editor = ({ schema }: EditorProps) => {
   const { mutate, isLoading } = useMutation<
     IApiResponse,
     AxiosError<IApiResponseError | string>,
@@ -103,7 +103,7 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
               value=""
               placeholder={placeholderValue}
               onChange={onQueryChange}
-              extensions={extensions(schemaResponse.data)}
+              extensions={extensions(schema)}
             />
           </div>
           <div className={styles.editorButtons}>
@@ -113,8 +113,12 @@ export const Editor = ({ schemaResponse }: EditorProps) => {
               className={styles.runButton}
               onClick={handleSubmit}
             >
-              {!isLoading && <img className={styles.buttonIcon} src={playIcon} alt="Run" />}
-              {isLoading && <img className={styles.buttonIcon} src={stopIcon} alt="Stop" />}
+              {!isLoading && (
+                <img className={styles.buttonIcon} src={playIcon} alt="Run" draggable="false" />
+              )}
+              {isLoading && (
+                <img className={styles.buttonIcon} src={stopIcon} alt="Stop" draggable="false" />
+              )}
             </button>
           </div>
         </div>

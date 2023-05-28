@@ -72,17 +72,19 @@ export const Input = ({ label, register, errors, className, onChange }: InputPro
         {getLabel(label)}
       </label>
       {label === 'name' && errors?.name && (
-        <div className={styles.error}>{`${errors?.name?.message}` || `Invalid ${label}`}</div>
+        <div className={styles.error}>{t(`${errors?.name?.message}`) || `Invalid ${label}`}</div>
       )}
       {label === 'email' && errors?.email && (
-        <div className={styles.error}>{`${errors?.email?.message}` || `Invalid ${label}`}</div>
+        <div className={styles.error}>{t(`${errors?.email?.message}`) || `Invalid ${label}`}</div>
       )}
       {label === 'password' && errors?.password && (
-        <div className={styles.error}>{`${errors?.password?.message}` || `Invalid ${label}`}</div>
+        <div className={styles.error}>
+          {t(`${errors?.password?.message}`) || `Invalid ${label}`}
+        </div>
       )}
       {label === 'repeatPassword' && errors?.repeatPassword && (
         <div className={styles.error}>
-          {`${errors?.repeatPassword?.message}` || `Invalid ${label}`}
+          {t(`${errors?.repeatPassword?.message}`) || `Invalid ${label}`}
         </div>
       )}
     </div>

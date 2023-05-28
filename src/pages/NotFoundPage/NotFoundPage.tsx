@@ -3,10 +3,11 @@ import { useState } from 'react';
 import { Button } from '@/components/BasicComponents/Button';
 
 import styles from './NotFoundPage.module.css';
-import notFoundImage from '@/assets/images/not-found.jpg';
+import { useTranslation } from 'react-i18next';
 
 export const NotFoundPage = () => {
   const [redirectToMain, setRedirectToMain] = useState(false);
+  const { t } = useTranslation();
 
   if (redirectToMain) {
     return <Navigate to="/" />;
@@ -15,16 +16,10 @@ export const NotFoundPage = () => {
   return (
     <div className={styles.wrapper}>
       <h1 className={styles.title}>404</h1>
-      <div className={styles.message}>Something went wrong</div>
+      <div className={styles.message}>{t('notFound.wrong')}</div>
       <Button type="button" onClick={() => setRedirectToMain(true)}>
-        Return to main page
+        {t('notFound.return')}
       </Button>
-      <img
-        className={styles.notFoundImage}
-        src={notFoundImage}
-        alt="Page not found"
-        draggable="false"
-      ></img>
     </div>
   );
 };

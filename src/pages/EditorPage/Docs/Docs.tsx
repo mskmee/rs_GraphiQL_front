@@ -2,7 +2,6 @@ import { useState } from 'react';
 import styles from './Docs.module.css';
 import classNames from 'classnames';
 import docsIcon from '@/assets/icons/archive.svg';
-import { UseQueryResult } from '@tanstack/react-query';
 import { GraphQLField, GraphQLSchema } from 'graphql';
 import { Types } from './Types';
 import { BackButton } from './BackButton';
@@ -11,7 +10,7 @@ import { RootTypes } from './RootTypes';
 import { AllRootTypes } from './AllRootTypes';
 
 interface DocsProps {
-  schemaResponse: UseQueryResult<GraphQLSchema, unknown>;
+  schema: GraphQLSchema | undefined;
 }
 
 export type HistoryType =
@@ -21,11 +20,10 @@ export type HistoryType =
     }
   | { element: GraphQLField<unknown, unknown>; type: 'field' };
 
-export const Docs = ({ schemaResponse }: DocsProps) => {
+export const Docs = ({ schema }: DocsProps) => {
   const [isDocsOpen, setIsDocsOpen] = useState(false);
   const [history, setHistory] = useState<ReadonlyArray<HistoryType>>([]);
 
-  const schema = schemaResponse.data;
   const queryType = schema?.getQueryType() || null;
 
   const onHistoryPush = (el: HistoryType) => {

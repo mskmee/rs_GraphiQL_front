@@ -16,7 +16,7 @@ export const BackButton = ({ children, onHistoryBack }: BackButtonProps) => {
         onHistoryBack();
       }}
     >
-      <img src={leftIcon} alt="Back" />
+      <img src={leftIcon} alt="Back" draggable="false" />
       {children}
     </button>
   );

@@ -37,7 +37,7 @@ export const SingInWithGoogle = () => {
     <>
       {isLoading && <Loader />}
       <Button type="button" className={styles.googleButton} onClick={loginHandler}>
-        <img width="20px" src={googleLogo} alt="Google" />
+        <img width="20px" src={googleLogo} alt="Google" draggable="false" />
         {t('login.google')}
       </Button>
     </>
