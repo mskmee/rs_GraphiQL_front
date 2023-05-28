@@ -6,7 +6,11 @@ import { changeLoginStatus } from '@/store/userSlice';
 
 import styles from '../Header.module.css';
 
-export const SingComponent = () => {
+interface SingComponentProps {
+  onMenuClose: () => void;
+}
+
+export const SingComponent = ({ onMenuClose }: SingComponentProps) => {
   const dispatch = useAppDispatch();
   const { t } = useTranslation();
 
@@ -17,6 +21,7 @@ export const SingComponent = () => {
           type="button"
           onClick={() => {
             dispatch(changeLoginStatus('sign-in'));
+            onMenuClose();
           }}
         >
           {t('login.signIn')}
@@ -28,6 +33,7 @@ export const SingComponent = () => {
           type="button"
           onClick={() => {
             dispatch(changeLoginStatus('sign-up'));
+            onMenuClose();
           }}
         >
           {t('login.signUp')}

@@ -53,7 +53,11 @@ export const Header = memo(function Header({ isUserLogged }: HeaderProps) {
           <span className={styles.closeLine}></span>
           <span className={styles.closeLine}></span>
         </button>
-        {isUserLogged ? <LoggedComponent /> : <SingComponent />}
+        {isUserLogged ? (
+          <LoggedComponent onMenuClose={() => setIsMenuOpen(false)} />
+        ) : (
+          <SingComponent onMenuClose={() => setIsMenuOpen(false)} />
+        )}
         <div className={styles.langWrapper}>
           <button
             type="button"
