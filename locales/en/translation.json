@@ -26,7 +26,11 @@
     "forgot": "Forgot password?",
     "send": "Send me a password",
     "google": "Sign in with Google",
-    "return": "Return"
+    "return": "Return",
+    "name": "Name",
+    "email": "Email",
+    "password": "Password",
+    "repeatPassword": "Repeat password"
   },
   "info": {
     "tokenExpired": "Please login into your account."
